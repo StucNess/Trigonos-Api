@@ -8,7 +8,7 @@ namespace TrigonosEnergy.DTO
         public MappingProfile()
         {
             CreateMap<CEN_Participants, ParticipantesDTO>()
-                .ForMember(p => p.BanksName, x => x.MapFrom(a => a.CEN_banks));
+                .ForMember(p => p.BanksName, x => x.MapFrom(a => a.CEN_banks.Name));
         }
     }
 }

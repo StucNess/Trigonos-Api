@@ -10,7 +10,9 @@ namespace Core.Entities
     {
         public int Payment_matrix { get; set; }
         public int Creditor { get; set; }
+        public CEN_Participants Participants_creditor { get; set; }
         public int Debtor { get; set; }
+        public CEN_Participants Participants_debtor { get; set; }
         public Int64 Amount { get; set; }
         public Int64 Amount_Gross { get; set; }
         public bool Closed { get; set; }

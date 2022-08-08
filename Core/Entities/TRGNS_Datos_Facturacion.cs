@@ -8,6 +8,8 @@ namespace Core.Entities
 {
     public class TRGNS_Datos_Facturacion : TRGNS_base
     {
+        public int id_instruccions { get; set; }
+        public CEN_instructions cEN_Instructions { get; set; }
         public int Estado_emision_id { get; set; }
         public CEN_billing_status_type billing_name { get; set; }
         public int Estado_recepcion_id { get; set; }
