@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TrigonosEnergy.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+
     public class ParticipantesController : BaseApiController
     {
         private readonly IGenericRepository<CEN_Participants> _participantesRepository;

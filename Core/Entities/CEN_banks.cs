@@ -8,10 +8,11 @@ namespace Core.Entities
 {
     public class CEN_banks : TRGNS_base
     {
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public int Sbif { get; set; }
-        public int Type { get; set; }
+
+        public string? Code { get; set; }
+        public string? Name { get; set; }
+        public int? Sbif { get; set; }
+        public int? Type { get; set; }
 
 
     }

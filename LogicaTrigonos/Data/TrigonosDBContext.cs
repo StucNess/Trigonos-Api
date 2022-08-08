@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,5 +26,10 @@ namespace LogicaTrigonos.Data
         public DbSet<TRGNS_Datos_Facturacion> TRGNS_DatosFacturacion { get; set; }
         public DbSet<TRGNS_dte_reception_status> TRGNS_DteReceptionstatus { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
     }
 }

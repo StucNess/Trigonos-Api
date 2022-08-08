@@ -11,12 +11,12 @@ namespace Core.Specifications
     {
         public ParticipantsWithRelationSpecification()
         {
-            AddInclude(p => p.CEN_Banks);
+            AddInclude(p => p.CEN_banks);
         }
 
         public ParticipantsWithRelationSpecification(int id) : base(x => x.ID == id)
         {
-            AddInclude(p => p.CEN_Banks);
+            AddInclude(p => p.CEN_banks);
         }
     }
 }
