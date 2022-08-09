@@ -13,7 +13,9 @@ namespace Core.Interface
         Task<T> GetByClienteIDAsync(ISpecifications<T> spec);
         //Debe obtener todo con la especificacion
         Task<IReadOnlyList<T>> GetAllAsync(ISpecifications<T> spec);
-        
-        
+
+        Task<IReadOnlyList<T>> GetAllInstrucctionByIdAsync(ISpecifications<T> spec);
+
+
     }
 }

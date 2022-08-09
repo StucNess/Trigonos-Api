@@ -22,13 +22,14 @@ namespace TrigonosEnergyWebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<InstruccionesDTO>> GetInstrucciones(int id)
+        public async Task<ActionResult<List<InstruccionesDTO>>> GetInstrucciones(int id)
         {
             var spec = new InstruccionesRelationSpecification(id);
-            var producto = await _instruccionesRepository.GetByClienteIDAsync(spec);
+            var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
 
-            return _mapper.Map<TRGNS_Datos_Facturacion, InstruccionesDTO>(producto);
+            return Ok(_mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<InstruccionesDTO>>(producto));
         }
+
 
     }
 }

@@ -23,6 +23,12 @@ namespace LogicaTrigonos.Logic
         {
             return await ApplySpecification(spec).ToListAsync();
         }
+
+        public async Task<IReadOnlyList<T>> GetAllInstrucctionByIdAsync(ISpecifications<T> spec)
+        {
+            return await ApplySpecification(spec).ToListAsync();
+        }
+
         //Desde el objeto SPEC vienen las relaciones 
         public async Task<T> GetByClienteIDAsync(ISpecifications<T> spec)
         {
