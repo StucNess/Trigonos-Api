@@ -7,7 +7,7 @@
         public int PageSize { get; set; }
         public IReadOnlyList<T> Data { get; set; }
         public int PageCount { get; set; } 
-        //public string prueba { get; set; }
+        //public DateTime prueba { get; set; }
     }
     
 

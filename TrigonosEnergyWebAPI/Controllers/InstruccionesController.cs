@@ -51,6 +51,8 @@ namespace TrigonosEnergyWebAPI.Controllers
                     PageCount = totalPages,
                     PageIndex = parametros.PageIndex,
                     PageSize = parametros.PageSize,
+                    
+
 
                 }
                 );

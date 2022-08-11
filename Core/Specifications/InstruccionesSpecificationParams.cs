@@ -9,10 +9,19 @@ namespace Core.Specifications
     public class InstruccionesSpecificationParams
     {
         public int participant;
+        public DateTime? FechaEmision { get; set; }
+        public DateTime? FechaRecepcion { get; set; }
+        public DateTime? FechaPago { get; set; }
+        public DateTime? FechaAceptacion { get; set; }
+        public string? Concepto {get; set; }
         public string? EstadoAceptacion { get; set; }
         public string? EstadoRecepcion { get; set; }
+        public int? MontoNeto { get; set; }
+        public int? MontoBruto { get; set; }
         public string? EstadoEmision { get; set; }
         public string? EstadoPago { get; set; }
+        public string? RutAcreedor { get; set; }
+        public string? RutDeudor { get; set; }
         public int? Folio { get; set; }
         public string? NombreAcreedor { get; set; }
         public string? NombreDeudor { get; set; }
