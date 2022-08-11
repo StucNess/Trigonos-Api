@@ -10,10 +10,10 @@ namespace Core.Entities
     {
         public string Natural_Key { get; set; }
         public string Title { get; set; }
-        public string Systen_prefix { get; set; }
+        public string System_prefix { get; set; }
         public string Description_prefix { get; set; }
         public int Payment_window { get; set; }
         public int Department { get; set; }
-        public bool Enable { get; set; }
+        public bool Enabled { get; set; }
     }
 }

@@ -9,6 +9,13 @@ namespace Core.Specifications
     public class InstruccionesSpecificationParams
     {
         public int participant;
+        public string? EstadoAceptacion { get; set; }
+        public string? EstadoRecepcion { get; set; }
+        public string? EstadoEmision { get; set; }
+        public string? EstadoPago { get; set; }
+        public int? Folio { get; set; }
+        public string? NombreAcreedor { get; set; }
+        public string? NombreDeudor { get; set; }
         public int PageIndex { get; set; } = 1;
         private const int MaxPageSize = 100;
         private int _pageSize = 100;
