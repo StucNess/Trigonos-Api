@@ -30,7 +30,7 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.NombreDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Business_Name))
                 .ForMember(p => p.Deudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.ID))
                 .ForMember(p => p.RutDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Rut))
-                .ForMember(p => p.Concepto, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_concept))
+                .ForMember(p => p.Concepto, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key))
                 .ForMember(p => p.MontoNeto, x => x.MapFrom(a => a.CEN_instruction.Amount))
                 .ForMember(p => p.MontoBruto, x => x.MapFrom(a => a.CEN_instruction.Amount_Gross));
 

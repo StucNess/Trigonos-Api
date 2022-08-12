@@ -24,7 +24,7 @@ namespace Core.Specifications
             (!productoParams.FechaAceptacion.HasValue || x.Fecha_recepcion == productoParams.FechaAceptacion) &&
             (!productoParams.FechaPago.HasValue || x.Fecha_recepcion == productoParams.FechaPago) &&
             (!productoParams.FechaEmision.HasValue || x.Fecha_recepcion == productoParams.FechaEmision) &&
-             (string.IsNullOrEmpty(productoParams.Concepto) || x.CEN_instruction.Payment_matrix_concept.Contains(productoParams.Concepto)) &&
+             (string.IsNullOrEmpty(productoParams.Concepto) || x.CEN_instruction.Payment_matrix_natural_key.Contains(productoParams.Concepto)) &&
             (!productoParams.MontoNeto.HasValue || x.CEN_instruction.Amount == productoParams.MontoNeto) &&
             (!productoParams.MontoBruto.HasValue || x.CEN_instruction.Amount_Gross == productoParams.MontoBruto) &&
             (!productoParams.Folio.HasValue || x.Folio == productoParams.Folio)
