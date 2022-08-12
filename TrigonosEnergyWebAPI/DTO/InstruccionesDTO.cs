@@ -2,6 +2,7 @@
 {
     public class InstruccionesDTO
     {
+        public int ID { get; set; }
         public int id_instruccions { get; set; }
         public int Estado_emision { get; set; }
         public string CEN_billing_status_type_name { get; set; }
@@ -23,6 +24,7 @@
         public string NombreDeudor { get; set; }
         public int Deudor { get; set; }
         public string RutDeudor { get; set; }
+        public string Glosa { get; set; }
         public string Concepto { get; set; }
         public int MontoNeto { get; set; }
         public int MontoBruto { get; set; }

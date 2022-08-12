@@ -12,6 +12,7 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.BanksName, x => x.MapFrom(a => a.CEN_banks.Name));
 
             CreateMap<TRGNS_Datos_Facturacion, InstruccionesDTO>()
+                .ForMember(p => p.ID, x => x.MapFrom(a => a.ID))
                 .ForMember(p => p.id_instruccions, x => x.MapFrom(a => a.id_instructions))
                 .ForMember(p => p.Estado_emision, x => x.MapFrom(a => a.Estado_emision))
                 .ForMember(p => p.CEN_billing_status_type_name, x => x.MapFrom(a => a.CEN_billing_status_type.Name))
@@ -30,13 +31,16 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.NombreDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Business_Name))
                 .ForMember(p => p.Deudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.ID))
                 .ForMember(p => p.RutDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Rut))
-                .ForMember(p => p.Concepto, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key))
+                .ForMember(p => p.Concepto, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_concept))
+                .ForMember(p => p.Glosa, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key))
                 .ForMember(p => p.MontoNeto, x => x.MapFrom(a => a.CEN_instruction.Amount))
                 .ForMember(p => p.MontoBruto, x => x.MapFrom(a => a.CEN_instruction.Amount_Gross));
 
             CreateMap<CEN_billing_types, Concepto>()
                 .ForMember(p => p.nombre, x => x.MapFrom(a => a.Title));
 
+            CreateMap<TRGNS_Datos_Facturacion, Datos_Facturacion_DTO>();
+                
         }
     }
 }

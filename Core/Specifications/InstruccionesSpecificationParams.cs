@@ -13,9 +13,12 @@ namespace Core.Specifications
         public DateTime? FechaRecepcion { get; set; }
         public DateTime? FechaPago { get; set; }
         public DateTime? FechaAceptacion { get; set; }
-        public string? Concepto {get; set; }
+        public string? Glosa {get; set; }
+        public string? Concepto { get; set; }
         public string? EstadoAceptacion { get; set; }
         public string? EstadoRecepcion { get; set; }
+        public int? Acreedor { get; set; }
+        public int? Deudor { get; set; }
         public int? MontoNeto { get; set; }
         public int? MontoBruto { get; set; }
         public string? EstadoEmision { get; set; }

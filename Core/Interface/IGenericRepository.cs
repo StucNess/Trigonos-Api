@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.EntitiesPatch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,13 @@ namespace Core.Interface
     {
         //Debe obtener el id con la especificacion
         Task<T> GetByClienteIDAsync(ISpecifications<T> spec);
+        Task<T> GetByClienteIDAsync(int id);
         //Debe obtener todo con la especificacion
         Task<IReadOnlyList<T>> GetAllAsync(ISpecifications<T> spec);
         Task<IReadOnlyList<T>> GetAllAsync();
-
+        Task<bool> UpdateeAsync(T BD);
+        //Task<T> GetIDAsync(int id);
         Task<IReadOnlyList<T>> GetAllInstrucctionByIdAsync(ISpecifications<T> spec);
         Task<int> CountAsync(ISpecifications<T> spec);
-
-
     }
 }
