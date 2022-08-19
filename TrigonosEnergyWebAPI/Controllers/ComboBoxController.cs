@@ -9,6 +9,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName ="APIComboBox")]
     public class ComboBoxController : ControllerBase
     {
         private readonly IGenericRepository<CEN_dte_acceptance_status> _acceptanceRepository;
@@ -33,52 +34,14 @@ namespace TrigonosEnergyWebAPI.Controllers
             _billingtypesRepository = billingtypesRepository;
         }
 
-        //[HttpGet]
-        //[Route("api/AcceptanceTypes")]
-        //public async Task<ActionResult<List<ComboBox<CEN_dte_acceptance_status>>>> GetAceptacion()
-        //{
-        //    var producto = await _acceptanceRepository.GetAllAsync();
-        //    return Ok(
-        //        new ComboBox<CEN_dte_acceptance_status>
-        //        {
-        //            EstadoAceptacion = producto,
-
-        //        }
-        //        );
-        //}
-        //[HttpGet]
-        //[Route("api/PaymentTypes")]
-        //public async Task<ActionResult<List<ComboBox<CEN_payment_status_type>>>> GetPayment()
-        //{
-        //    var producto = await _paymentRepository.GetAllAsync();
-        //    return Ok(
-        //        new ComboBox<CEN_payment_status_type>
-        //        {
-        //            EstadoPago = producto,
-
-        //        }
-        //        );
-        //}
-        //[HttpGet]
-        //[Route("api/BillingTypes")]
-        //public async Task<ActionResult<List<ComboBox<CEN_billing_status_type>>>> GetBilling()
-        //{
-        //    var billing = await _billingRepository.GetAllAsync();
-
-        //    return Ok(
-        //        new ComboBox<CEN_billing_status_type>
-        //        {
-        //            EstadoFacturacion = billing,
-
-        //        }
-        //        );
-        //}
-        //public class ProductsCategory
-        //{
-        //    public IReadOnlyList<ComboBox<TRGNS_dte_reception_status>> Categories { get; set; }
-        //    public IReadOnlyList<ComboBox<CEN_billing_status_type>> HOLA { get; set; }
-        //}
+       
+        /// <summary>
+        /// Api para llenar datos de los ComboBox
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(200,Type =typeof(List<ComboBoxAPI>))]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<List<ComboBoxAPI>>> GetReception()
         {
             var reception = await _receptionRepository.GetAllAsync();
@@ -102,18 +65,5 @@ namespace TrigonosEnergyWebAPI.Controllers
                 }
                 );
         }
-        //[HttpGet]
-        //[Route("api/ReceptionTypes")]
-        //public async Task<ActionResult<List<ComboBox<TRGNS_dte_reception_status>>>> GetReception()
-        //{
-        //    var producto = await _receptionRepository.GetAllAsync();
-        //    return Ok(
-        //        new ComboBox<TRGNS_dte_reception_status>
-        //        {
-        //            EstadoRecepcion = producto,
-
-        //        }
-        //        );
-        //}
     }
 }

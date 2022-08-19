@@ -8,7 +8,7 @@ using TrigonosEnergy.DTO;
 
 namespace TrigonosEnergy.Controllers
 {
-
+    [ApiExplorerSettings(GroupName = "APIParticipantes")]
     public class ParticipantesController : BaseApiController
     {
         private readonly IGenericRepository<CEN_Participants> _participantesRepository;
@@ -18,6 +18,10 @@ namespace TrigonosEnergy.Controllers
             _participantesRepository = participantesRepository;
             _mapper = mapper;
         }
+        /// <summary>
+        /// Obtener a todos los participantes
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<List<ParticipantesDTO>>> GetParticipantes()
         {
@@ -25,6 +29,11 @@ namespace TrigonosEnergy.Controllers
             var producto = await _participantesRepository.GetAllAsync(spec);
             return Ok(_mapper.Map<IReadOnlyList<CEN_Participants>, IReadOnlyList<ParticipantesDTO>>(producto));
         }
+        /// <summary>
+        /// Obtener un participante especifico
+        /// </summary>
+        /// <param name="id"> ID del participante</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<ParticipantesDTO>> GetParticipante(int id)
         {

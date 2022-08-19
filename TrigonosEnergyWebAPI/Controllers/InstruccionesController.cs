@@ -10,6 +10,7 @@ using TrigonosEnergyWebAPI.DTO;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
+    [ApiExplorerSettings(GroupName = "APIInstrucciones")]
 
     public class InstruccionesController : BaseApiController
     {
@@ -25,36 +26,17 @@ namespace TrigonosEnergyWebAPI.Controllers
         }
 
 
-        //[HttpGet]
-        //public async Task<ActionResult<List<Patch_TRGNS_Datos_Facturacion>>> GetParticipantes(/*[FromQuery] InstruccionesSpecificationParams parametros*/)
-        //{
-        //    //var spec = new InstruccionesRelationSpecification(parametros);
-        //    var producto = await _instruccionessRepository.GetAllAsync();
-        //    //return Ok(_mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<Datos_Facturacion_DTO>>(producto));
-        //    return Ok(producto);
-        //}
-        //[HttpGet("{id}")]
-
-        //public async Task<ActionResult<TRGNS_Datos_Facturacion>> GetParticipante(int id, [FromQuery] InstruccionesSpecificationParams parametros)
-        //{
-
-        //    var spec = new PruebaParams(id/*, parametros*/);
-        //    var prueba = await _instruccionesRepository.GetByClienteIDAsync(spec);
-        //    prueba.Estado_emision = parametros.Folio;
-        //    prueba.Estado_pago = facturacion.Estado_pago;
-        //    prueba.Estado_aceptacion = facturacion.Estado_aceptacion;
-        //    prueba.Estado_recepcion = facturacion.Estado_recepcion;
-        //    prueba.Fecha_recepcion = facturacion.Fecha_recepcion;
-        //    prueba.Fecha_emision = facturacion.Fecha_emision;
-        //    prueba.Fecha_pago = facturacion.Fecha_pago;
-        //    prueba.Fecha_aceptacion = facturacion.Fecha_aceptacion;
-        //    prueba.tipo_instructions = facturacion.tipo_instructions;
-        //    prueba.Folio = facturacion.Folio;
-        //    //return _mapper.Map<CEN_Participants, ParticipantesDTO>(producto);
-        //    return prueba;
-        //}
-
+        /// <summary>
+        /// Obtener todas las instrucciones de un participante
+        /// </summary>
+        /// <param name="id"> ID del participante</param>
+        /// <param name="parametros.FechaEmision"> gola</param>
+        /// 
+        /// <returns></returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(Pagination<InstruccionesDTO>))]
+        [ProducesResponseType(400)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Pagination<InstruccionesDTO>>> GetInstrucciones(int id, [FromQuery] InstruccionesSpecificationParams parametros)
         {
             var spec = new InstruccionesRelationSpecification(id, parametros);
@@ -81,16 +63,20 @@ namespace TrigonosEnergyWebAPI.Controllers
                 }
                 );
         }
+        /// <summary>
+        /// Modificar datos de una instruccion especifica
+        /// </summary>
+        /// <param name="id">ID de la instruccion</param>
+        /// <param name="parametros"> hola </param>
+        /// <returns></returns>
         [HttpPatch]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Updatee(int id, [FromQuery] PatchInstruccionesParams parametros)
         {
-            //if (facturacion == null || id != facturacion.id_instructions)
-            //{
-            //    return BadRequest(ModelState);
-            //}
-            //var spec = new InstruccionesRelationSpecification(id, parametros);
-            //var prueba = _instruccionesRepository.GetByClienteIDAsync(spec);
-            var spec = new PruebaParams(id/*, parametros*/);
+          
+            var spec = new PruebaParams(id);
             var prueba = await _instruccionesRepository.GetByClienteIDAsync(spec);
             if (parametros.EstadoEmision != null)
             {
@@ -137,33 +123,13 @@ namespace TrigonosEnergyWebAPI.Controllers
             {
                 prueba.Folio = parametros.Folio;
             }
-            
-            
-            
-            
-            
 
-            //prueba. = id;
-            //prueba.Estado_emision = facturacion.Estado_emision;
-            //prueba.Estado_pago = facturacion.Estado_pago;
-            //prueba.Estado_aceptacion = facturacion.Estado_aceptacion;
-            //prueba.Estado_recepcion = facturacion.Estado_recepcion;
-            //prueba.Fecha_recepcion = facturacion.Fecha_recepcion;
-            //prueba.Fecha_emision = facturacion.Fecha_emision;
-            //prueba.Fecha_pago = facturacion.Fecha_pago;
-            //prueba.Fecha_aceptacion = facturacion.Fecha_aceptacion;
-            //prueba.tipo_instructions = facturacion.tipo_instructions;
-            //prueba.Folio = facturacion.Folio;
-            //var pro = _mapper.Map<Patch_TRGNS_Datos_Facturacion>(facturacion);
             if (!await _instruccionesRepository.UpdateeAsync(prueba))
             {
                 return StatusCode(500);
             }
             return NoContent();
         }
-        //private decimal ConvertToDecimal(int v)
-        //{
-        //    throw new NotImplementedException();
-        //}
+
     }
 }
