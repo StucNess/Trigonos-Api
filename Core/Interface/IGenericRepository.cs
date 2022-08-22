@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Core.EntitiesPatch;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +20,6 @@ namespace Core.Interface
         //Task<T> GetIDAsync(int id);
         Task<IReadOnlyList<T>> GetAllInstrucctionByIdAsync(ISpecifications<T> spec);
         Task<int> CountAsync(ISpecifications<T> spec);
+        Task SaveBD();
     }
 }

@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Core.Entities;
-using Core.EntitiesPatch;
+
 using Core.Interface;
 using Core.Specifications;
+using Core.Specifications.Counting;
+using Core.Specifications.Params;
+using Core.Specifications.Relations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrigonosEnergy.Controllers;

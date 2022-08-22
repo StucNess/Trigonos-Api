@@ -1,11 +1,12 @@
 ﻿using Core.Entities;
+using Core.Specifications.Params;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Specifications
+namespace Core.Specifications.Relations
 {
     public class InstruccionesRelationSpecification : BaseSpecification<TRGNS_Datos_Facturacion>
     {
@@ -28,10 +29,10 @@ namespace Core.Specifications
             (!productoParams.FechaEmision.HasValue || x.Fecha_recepcion == productoParams.FechaEmision) &&
             (!productoParams.Acreedor.HasValue || x.CEN_instruction.Creditor == productoParams.Acreedor) &&
             (!productoParams.Deudor.HasValue || x.CEN_instruction.Debtor == productoParams.Deudor) &&
-            
-            (!productoParams.MontoNeto.HasValue||x.CEN_instruction.Amount >= productoParams.MontoNeto)&&
+
+            (!productoParams.MontoNeto.HasValue || x.CEN_instruction.Amount >= productoParams.MontoNeto) &&
             (!productoParams.MontoBruto.HasValue || x.CEN_instruction.Amount_Gross >= productoParams.MontoBruto) &&
-            (! productoParams.Folio.HasValue || x.Folio == productoParams.Folio)
+            (!productoParams.Folio.HasValue || x.Folio == productoParams.Folio)
 
             )
         {
@@ -44,7 +45,7 @@ namespace Core.Specifications
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
             AddInclude(p => p.CEN_instruction.Participants_creditor);
             AddInclude(p => p.CEN_instruction.Participants_debtor);
-            
+
             ApplyPaging(productoParams.PageSize * (productoParams.PageIndex - 1), productoParams.PageSize);
 
 
