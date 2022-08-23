@@ -19,6 +19,7 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddDbContext<TrigonosDBContext>(Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("TrigonosConnection")));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+builder.Services.AddScoped<IRepositoryUsuario,UsuarioRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddCors(opt =>

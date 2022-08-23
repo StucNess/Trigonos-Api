@@ -29,7 +29,7 @@ namespace LogicaTrigonos.Data
 
     
         public DbSet<TRGNS_dte_reception_status> TRGNS_dte_reception_status { get; set; }
-
+        public DbSet<Usuario> Usuario { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
