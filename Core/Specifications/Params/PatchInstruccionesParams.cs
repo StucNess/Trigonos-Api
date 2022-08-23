@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Specifications
+namespace Core.Specifications.Params
 {
     public class PatchInstruccionesParams
     {

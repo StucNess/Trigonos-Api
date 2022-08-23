@@ -1,5 +1,4 @@
 ﻿using Core.Entities;
-using Core.EntitiesPatch;
 using Core.Interface;
 using LogicaTrigonos.Data;
 using Microsoft.EntityFrameworkCore;
@@ -45,18 +44,6 @@ namespace LogicaTrigonos.Logic
             return await ApplySpecification(spec).CountAsync();
         }
 
-        //public async Task<IReadOnlyList<T>> GetAllAsyncc()
-        //{
-
-        //}
-        //public async Task<T> GetIDAsync(int id)
-        //{
-        //    return await _context.Set<T>().FirstOrDefault(p=> p.ID == id);
-        //}
-        //public bool Updatee(T BD)
-        //{
-
-        //}
 
         public async Task<bool> UpdateeAsync(T BD)
         {
@@ -75,10 +62,6 @@ namespace LogicaTrigonos.Logic
 
         }
 
-        //public bool UpdateeAsync(Patch_TRGNS_Datos_Facturacion pro)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
@@ -88,6 +71,12 @@ namespace LogicaTrigonos.Logic
         public async Task<T> GetByClienteIDAsync(int id)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(p => p.ID == id);
+        }
+
+        public async Task SaveBD()
+        {
+            _context.SaveChangesAsync();
+  
         }
     }
 }

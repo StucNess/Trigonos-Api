@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Specifications
+namespace Core.Specifications.Params
 {
     public class InstruccionesSpecificationParams
     {
@@ -13,7 +13,7 @@ namespace Core.Specifications
         public DateTime? FechaRecepcion { get; set; }
         public DateTime? FechaPago { get; set; }
         public DateTime? FechaAceptacion { get; set; }
-        public string? Glosa {get; set; }
+        public string? Glosa { get; set; }
         public string? Concepto { get; set; }
         public string? EstadoAceptacion { get; set; }
         public string? EstadoRecepcion { get; set; }
@@ -34,7 +34,7 @@ namespace Core.Specifications
         public int PageSize
         {
             get => _pageSize;
-            set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
+            set => _pageSize = value > MaxPageSize ? MaxPageSize : value;
         }
     }
 }
