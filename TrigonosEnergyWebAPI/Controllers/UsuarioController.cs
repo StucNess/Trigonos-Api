@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Core.Entities;
 using Core.Interface;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -9,10 +11,12 @@ using System.Security.Claims;
 using System.Text;
 using TrigonosEnergy.Controllers;
 using TrigonosEnergyWebAPI.DTO;
+using TrigonosEnergyWebAPI.Errors;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
-
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ApiExplorerSettings(GroupName = "APIUsuarios")]
     public class UsuarioController : BaseApiController
     {
         private readonly IRepositoryUsuario _repo;
@@ -25,6 +29,10 @@ namespace TrigonosEnergyWebAPI.Controllers
             _mapper = mapper;
             _config = config;
         }
+        /// <summary>
+        /// Obtener a los usuarios
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetUsuarios()
         {
@@ -35,18 +43,30 @@ namespace TrigonosEnergyWebAPI.Controllers
                 listaUsuariosDto.Add(_mapper.Map<UsuarioDto>(lista));
             }
             return Ok(listaUsuariosDto);
+
         }
+        /// <summary>
+        /// Obtener a un usuario en especifico
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        
         [HttpGet("{Id:int}", Name = "GetUsuario")]
         public IActionResult GetUsuario(int Id)
         {
             var itemUsuario = _repo.GetUsuario(Id);
             if (itemUsuario == null)
             {
-                return NotFound();
+                return NotFound(new CodeErrorResponse(404));
             }
             var itemUsuarioDto = _mapper.Map<UsuarioDto>(itemUsuario);
             return Ok(itemUsuarioDto);
         }
+        /// <summary>
+        /// Registrar a un usuario
+        /// </summary>
+        /// <param name="usuarioAuthDto"></param>
+        /// <returns></returns>
         [HttpPost("Registro")]
         public IActionResult Registro(UsuarioAuthDto usuarioAuthDto)
         {
@@ -62,7 +82,12 @@ namespace TrigonosEnergyWebAPI.Controllers
             var usuarioCreado = _repo.Registro(usuarioACrear,usuarioAuthDto.Password);
             return Ok(usuarioCreado);
         }
-
+        /// <summary>
+        /// Logearse como usuario
+        /// </summary>
+        /// <param name="usuarioAuthLoginDto"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult Login(UsuarioAuthLoginDto usuarioAuthLoginDto)
         {
@@ -77,13 +102,14 @@ namespace TrigonosEnergyWebAPI.Controllers
                 new Claim(ClaimTypes.NameIdentifier, usuario.UsuarioA.ToString())
         };
             // Generacion de token
+            //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
-            //
             var credenciales = new SigningCredentials(key,SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(200),
+                Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = credenciales,
             };
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -91,7 +117,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
             return Ok(new
             {
-                token = tokenHandler.WriteToken(token),
+                token = tokenHandler.WriteToken(token)
             });
         }
             

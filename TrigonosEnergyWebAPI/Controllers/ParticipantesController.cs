@@ -25,10 +25,11 @@ namespace TrigonosEnergy.Controllers
             _proyectosRepository = proyectosRepository;
             _pruebaRepo = pruebaRepo;
         }
-        /// <summary>
-        /// Obtener a todos los participantes
-        /// </summary>
-        /// <returns></returns>
+       /// <summary>
+       /// Obtener a los participantes de TRGNS o a todos los del CEN
+       /// </summary>
+       /// <param name="parametros"></param>
+       /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<List<ParticipantesDTO>>> GetParticipantes([FromQuery] ParticipantsParams parametros)
         {
@@ -77,13 +78,13 @@ namespace TrigonosEnergy.Controllers
             }
             
         }
-        [HttpGet]
-        [Route("/prueba")]
-        public async Task<ActionResult<IReadOnlyList<TRGNS_H_CEN_participants>>> PRUEBA()
-        {
-            var datos = await _pruebaRepo.GetAllAsync();
-            return Ok(datos);
-        }
+        //[HttpGet]
+        //[Route("/prueba")]
+        //public async Task<ActionResult<IReadOnlyList<TRGNS_H_CEN_participants>>> PRUEBA()
+        //{
+        //    var datos = await _pruebaRepo.GetAllAsync();
+        //    return Ok(datos);
+        //}
         /// <summary>
         /// Obtener un participante especifico
         /// </summary>
@@ -98,7 +99,12 @@ namespace TrigonosEnergy.Controllers
 
             return _mapper.Map<CEN_Participants, ParticipantesDTO>(producto);
         }
-
+        /// <summary>
+        /// Actualizar datos de un participante
+        /// </summary>
+        /// <param name="id">ID del participante</param>
+        /// <param name="parametros"></param>
+        /// <returns></returns>
         [HttpPatch]
 
         public async Task<IActionResult> Update(int id, [FromQuery] PatchParticipantsParams parametros)
