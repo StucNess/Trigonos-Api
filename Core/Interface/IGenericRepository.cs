@@ -20,6 +20,6 @@ namespace Core.Interface
         //Task<T> GetIDAsync(int id);
         Task<IReadOnlyList<T>> GetAllInstrucctionByIdAsync(ISpecifications<T> spec);
         Task<int> CountAsync(ISpecifications<T> spec);
-        Task SaveBD();
+        Task<bool> SaveBD(T BD);
     }
 }

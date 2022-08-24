@@ -73,10 +73,11 @@ namespace LogicaTrigonos.Logic
             return await _context.Set<T>().FirstOrDefaultAsync(p => p.ID == id);
         }
 
-        public async Task SaveBD()
+        public async Task<bool> SaveBD(T BD)
         {
-            _context.SaveChangesAsync();
-  
+            _context.Set<T>().Add(BD);
+            _context.SaveChanges();
+            return true;
         }
     }
 }
