@@ -33,7 +33,7 @@ namespace LogicaTrigonos.Logic
 
         public Usuario GetUsuario(int Id)
         {
-            return _bd.Usuario.FirstOrDefault(c => c.Id == Id);
+            return _bd.Usuario.FirstOrDefault(c => c.ID == Id);
         }
 
        

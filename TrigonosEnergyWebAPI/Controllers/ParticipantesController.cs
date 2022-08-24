@@ -246,6 +246,9 @@ namespace TrigonosEnergy.Controllers
                     bd.Bills_contact_email = parametros.Bills_contact_email;
                     bdh.bills_contact_email_new = parametros.Bills_contact_email;
                 }
+                bdh.updated_ts_old = bd.Updated_ts;
+                bd.Updated_ts = DateTime.Now.ToString();
+                bdh.updated_ts_new = DateTime.Now.ToString();
             }
             catch (Exception)
             {

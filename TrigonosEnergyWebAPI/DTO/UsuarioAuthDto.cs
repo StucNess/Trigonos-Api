@@ -4,6 +4,7 @@ namespace TrigonosEnergyWebAPI.DTO
 {
     public class UsuarioAuthDto
     {
+        [Key]
         public int Id { get; set; }
         [Required(ErrorMessage = "El usuario es obligatorio")]
         public string? Usuario { get; set; }
