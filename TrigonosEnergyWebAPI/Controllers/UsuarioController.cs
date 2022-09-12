@@ -15,7 +15,7 @@ using TrigonosEnergyWebAPI.Errors;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiExplorerSettings(GroupName = "APIUsuarios")]
     public class UsuarioController : BaseApiController
     {

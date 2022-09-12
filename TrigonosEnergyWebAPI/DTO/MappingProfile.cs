@@ -62,8 +62,8 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.MontoNeto, x => x.MapFrom(a => a.CEN_instruction.Amount))
                 .ForMember(p => p.MontoBruto, x => x.MapFrom(a => a.CEN_instruction.Amount_Gross));
 
-            CreateMap<CEN_billing_types, Concepto>()
-                .ForMember(p => p.nombre, x => x.MapFrom(a => a.Title));
+            CreateMap<CEN_billing_windows, Concepto>()
+                .ForMember(p => p.nombre, x => x.MapFrom(a => a.Natural_key));
 
             CreateMap<TRGNS_Datos_Facturacion, Datos_Facturacion_DTO>();
 

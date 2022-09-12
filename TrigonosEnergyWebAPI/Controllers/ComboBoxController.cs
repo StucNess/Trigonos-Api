@@ -14,7 +14,7 @@ namespace TrigonosEnergyWebAPI.Controllers
     {
         private readonly IGenericRepository<CEN_dte_acceptance_status> _acceptanceRepository;
         private readonly IGenericRepository<CEN_payment_status_type> _paymentRepository;
-        private readonly IGenericRepository<CEN_billing_types> _billingtypesRepository;
+        private readonly IGenericRepository<CEN_billing_windows> _billingwindowsRepository;
         
         private readonly IGenericRepository<CEN_billing_status_type> _billingRepository;
         private readonly IGenericRepository<TRGNS_dte_reception_status> _receptionRepository;
@@ -23,7 +23,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
         public ComboBoxController(IGenericRepository<CEN_dte_acceptance_status> acceptanceRepository, IMapper mapper,IGenericRepository<CEN_payment_status_type> paymentRepository,
             IGenericRepository<CEN_billing_status_type> billingRepository, IGenericRepository<TRGNS_dte_reception_status> receptionRepository, IGenericRepository<TRGNS_Datos_Facturacion> instruccionesRepository
-            , IGenericRepository<CEN_billing_types> billingtypesRepository)
+            , IGenericRepository<CEN_billing_windows> billingwindowsRepository)
         {
             _acceptanceRepository = acceptanceRepository;
             _mapper = mapper;
@@ -31,7 +31,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             _billingRepository = billingRepository;
             _receptionRepository = receptionRepository;
             _instruccionesRepository = instruccionesRepository;
-            _billingtypesRepository = billingtypesRepository;
+            _billingwindowsRepository = billingwindowsRepository;
         }
 
        
@@ -49,8 +49,8 @@ namespace TrigonosEnergyWebAPI.Controllers
             var acceptance = await _acceptanceRepository.GetAllAsync();
             var billing = await _billingRepository.GetAllAsync();
             var instruccion = await _instruccionesRepository.GetAllAsync();
-            var billingtypes = await _billingtypesRepository.GetAllAsync();
-            var instruccionDto = _mapper.Map<IReadOnlyList<CEN_billing_types>, IReadOnlyList<Concepto>>(billingtypes);
+            var billingtypes = await _billingwindowsRepository.GetAllAsync();
+            var instruccionDto = _mapper.Map<IReadOnlyList<CEN_billing_windows>, IReadOnlyList<Concepto>>(billingtypes);
             return Ok(
                 new ComboBoxAPI
                 {
