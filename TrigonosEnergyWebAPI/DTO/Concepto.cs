@@ -2,6 +2,6 @@
 {
     public class Concepto
     {
-        public string? nombre { get; set; }
+        public string? label { get; set; }
     }
 }
