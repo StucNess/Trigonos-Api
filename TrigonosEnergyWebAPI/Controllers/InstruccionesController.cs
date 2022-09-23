@@ -18,16 +18,29 @@ namespace TrigonosEnergyWebAPI.Controllers
     public class InstruccionesController : BaseApiController
     {
         private readonly IGenericRepository<TRGNS_Datos_Facturacion> _instruccionesRepository;
+        private readonly IGenericRepository<CEN_payment_matrices> _matricesRepository;
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
 
-        public InstruccionesController(IGenericRepository<TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper)
+        public InstruccionesController(IGenericRepository<TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
             _mapper = mapper;
+            _matricesRepository = matricesRepository;
             //_instruccionessRepository = instruccionessRepository;
         }
-
+        /// <summary>
+        /// Obtener la glosa de todas las instrucciones
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/Glosa")]
+        public async Task<ActionResult<IReadOnlyList<CEN_Participants>>> PRUEBA1()
+        {
+            var datos = await _matricesRepository.GetAllAsync();
+            var maping = _mapper.Map<IReadOnlyList<CEN_payment_matrices>, IReadOnlyList<FolioDto>>(datos);
+            return Ok(maping);
+        }
 
         /// <summary>
         /// Obtener todas las instrucciones de un participante

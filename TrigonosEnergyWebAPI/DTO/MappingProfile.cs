@@ -8,6 +8,12 @@ namespace TrigonosEnergy.DTO
     {
         public MappingProfile()
         {
+            CreateMap<CEN_payment_matrices, FolioDto>()
+                .ForMember(p => p.Glosa, x => x.MapFrom(a => a.Natural_key));
+            CreateMap<CEN_Participants, RutDto>()
+                .ForMember(p => p.rut, x => x.MapFrom(a => String.Concat(a.Rut, '-', a.Verification_Code)));
+            CreateMap<CEN_Participants, BusinessNameDto>()
+                .ForMember(p => p.BusinessName, x => x.MapFrom(a => a.Business_Name));
             CreateMap<CEN_Participants, ParticipantesDTO>()
                 .ForMember(p => p.BanksName, x => x.MapFrom(a => a.CEN_banks.Name));
             CreateMap<TRGNS_PROYECTOS, ParticipantesDTO>()

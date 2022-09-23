@@ -78,13 +78,30 @@ namespace TrigonosEnergy.Controllers
             }
             
         }
-        //[HttpGet]
-        //[Route("/prueba")]
-        //public async Task<ActionResult<IReadOnlyList<TRGNS_H_CEN_participants>>> PRUEBA()
-        //{
-        //    var datos = await _pruebaRepo.GetAllAsync();
-        //    return Ok(datos);
-        //}
+        /// <summary>
+        /// Obtener el nombre comercial de todos los participantes
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/BusinessName")]
+        public async Task<ActionResult<IReadOnlyList<CEN_Participants>>> PRUEBA()
+        {
+            var datos = await _participantesRepository.GetAllAsync();
+            var maping = _mapper.Map <IReadOnlyList<CEN_Participants>, IReadOnlyList<BusinessNameDto>>(datos);
+            return Ok(maping);
+        }
+        /// <summary>
+        /// Obtener el rut de todos los participantes
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/Rut")]
+        public async Task<ActionResult<IReadOnlyList<CEN_Participants>>> PRUEBA1()
+        {
+            var datos = await _participantesRepository.GetAllAsync();
+            var maping = _mapper.Map<IReadOnlyList<CEN_Participants>, IReadOnlyList<RutDto>>(datos);
+            return Ok(maping);
+        }
         /// <summary>
         /// Obtener un participante especifico
         /// </summary>
