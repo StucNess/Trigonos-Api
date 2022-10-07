@@ -8,6 +8,6 @@ namespace Core.Entities
 {
     public class TRGNS_base
     {
-        public int? ID { get; set; }
+        public int ID { get; set; }
     }
 }
