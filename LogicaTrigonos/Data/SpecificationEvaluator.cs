@@ -19,11 +19,11 @@ namespace LogicaTrigonos.Data
             }
             if (spec.OrderBy != null)
             {
-                inputQuery.OrderBy(spec.OrderBy);
+                inputQuery = inputQuery.OrderBy(spec.OrderBy);
             }
             if (spec.OrderByDescending != null)
             {
-                inputQuery.OrderByDescending(spec.OrderByDescending);
+                inputQuery = inputQuery.OrderByDescending(spec.OrderByDescending);
             }
 
             if (spec.IsPagingEnabled)

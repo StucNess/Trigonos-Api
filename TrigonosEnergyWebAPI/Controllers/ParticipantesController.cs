@@ -4,6 +4,7 @@ using Core.Interface;
 using Core.Specifications;
 using Core.Specifications.Params;
 using Core.Specifications.Relations;
+using Core.Specifications.Counting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrigonosEnergy.DTO;
@@ -31,6 +32,9 @@ namespace TrigonosEnergy.Controllers
        /// <param name="parametros"></param>
        /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(Pagination<ParticipantesDTO>))]
+        [ProducesResponseType(400)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<List<ParticipantesDTO>>> GetParticipantes([FromQuery] ParticipantsParams parametros)
         {
             if (string.IsNullOrEmpty(parametros.All))
@@ -49,7 +53,7 @@ namespace TrigonosEnergy.Controllers
                     {
                         count = totalparticipantes,
                         Data = data,
-                        PageCount = totalPages,
+                        PageCount = totalPages+1,
                         PageIndex = parametros.PageIndex,
                         PageSize = parametros.PageSize,
                     }
@@ -58,8 +62,9 @@ namespace TrigonosEnergy.Controllers
             else
             {
                 var spec = new ParticipantsWithRelationSpecification(parametros);
+                var specCount = new ParticipantsForCountingSpecification();
                 var participantes = await _participantesRepository.GetAllAsync(spec);
-                var totalparticipantes = await _participantesRepository.CountAsync(spec);
+                var totalparticipantes = await _participantesRepository.CountAsync(specCount);
                 var rounded = Math.Ceiling(Convert.ToDecimal(totalparticipantes / parametros.PageSize));
                 var totalPages = Convert.ToInt32(rounded);
 
@@ -70,7 +75,7 @@ namespace TrigonosEnergy.Controllers
                     {
                         count = totalparticipantes,
                         Data = data,
-                        PageCount = totalPages,
+                        PageCount = totalPages+1,
                         PageIndex = parametros.PageIndex,
                         PageSize = parametros.PageSize,
                     }
@@ -128,6 +133,17 @@ namespace TrigonosEnergy.Controllers
 
             return _mapper.Map<CEN_Participants, ParticipantesDTO>(producto);
         }
+
+        [HttpGet]
+        [Route("/Historificacion")]
+        public async Task<ActionResult<TRGNS_H_CEN_participants>> GetParticipanteHistorico(int id)
+        {
+
+            var spec = new HistorificacionParticipantesSpecification(id);
+            var producto = await _pruebaRepo.GetAllAsync(spec);
+            return Ok(producto);
+            //return _mapper.Map<CEN_Participants, ParticipantesDTO>(producto);
+        }
         /// <summary>
         /// Actualizar datos de un participante
         /// </summary>
@@ -142,6 +158,51 @@ namespace TrigonosEnergy.Controllers
             var bdc = await _participantesRepository.GetByClienteIDAsync(spec);
             var bd= await _participantesRepository.GetByClienteIDAsync(spec);
             var bdh = new TRGNS_H_CEN_participants();
+            bdh.name_old = "0";
+            bdh.name_new = "0";
+            bdh.rut_old = "0";
+            bdh.rut_new = "0";
+            bdh.verification_code_old = "0";
+            bdh.verification_code_new = "0";
+            bdh.business_name_old = "0";
+            bdh.business_name_new = "0";
+            bdh.commercial_business_old = "0";
+            bdh.commercial_business_new = "0";
+            bdh.dte_reception_email_new = "0";
+            bdh.dte_reception_email_old = "0";
+            bdh.bank_account_old = "0";
+            bdh.bank_account_new = "0";
+            bdh.bank_old = 0;
+            bdh.bank_new = 0;
+            bdh.commercial_address_old = "0";
+            bdh.commercial_address_new = "0";
+            bdh.postal_address_old = "0";
+            bdh.postal_address_new = "0";
+            bdh.manager_old = "0";
+            bdh.manager_new = "0";
+            bdh.pay_contact_first_name_old = "0";
+            bdh.pay_contact_first_name_new = "0";
+            bdh.pay_contact_last_name_old = "0";
+            bdh.pay_contact_last_name_new = "0";
+            bdh.pay_contact_address_old = "0";
+            bdh.pay_contact_address_new = "0";
+            bdh.pay_contact_phones_old = "0";
+            bdh.pay_contact_phones_new = "0";
+            bdh.pay_contact_email_old = "0";
+            bdh.pay_contact_email_new = "0";
+            bdh.bills_contact_first_name_old = "0";
+            bdh.bills_contact_first_name_new = "0";
+            bdh.bills_contact_last_name_old = "0";
+            bdh.bills_contact_last_name_new = "0";
+            bdh.bills_contact_address_old = "0";
+            bdh.bills_contact_address_new = "0";
+            bdh.bills_contact_phones_old = "0";
+            bdh.bills_contact_phones_new = "0";
+            bdh.bills_contact_email_old = "0";
+            bdh.bills_contact_email_new = "0";
+            bdh.created_ts_old = "0";
+            bdh.created_ts_new = "0";
+
             //
 
             try
@@ -151,131 +212,133 @@ namespace TrigonosEnergy.Controllers
                 bdh.id_definir = id;
                 bdh.editor = "USUARIO TRGNS";
                 bdh.date = DateTime.Now;
-                if (parametros.Name != null)
-                {
 
+                if (parametros.Name != bd.Name && parametros.Name != null)
+                {
                     bdh.name_old = bd.Name;
-                    bd.Name = parametros.Name;
+                    bd.Name =parametros.Name;
                     bdh.name_new = parametros.Name;
 
 
-                };
-                if (parametros.Rut != null)
+                }
+  
+                if (parametros.Rut != bd.Rut && parametros.Rut != null)
                 {
                     bdh.rut_old = bd.Rut;
                     bd.Rut = parametros.Rut;
                     bdh.rut_new = parametros.Rut;
                 }
-                if (parametros.Verification_Code != null)
+                if (parametros.Verification_Code != bd.Verification_Code && parametros.Verification_Code != null)
                 {
                     bdh.verification_code_old = bd.Verification_Code;
                     bd.Verification_Code = parametros.Verification_Code;
                     bdh.verification_code_new = parametros.Verification_Code;
                 }
-                if (parametros.Business_Name != null)
+                if (parametros.Business_Name != bd.Business_Name && parametros.Business_Name != null)
                 {
                     bdh.business_name_old = bd.Business_Name;
                     bd.Business_Name = parametros.Business_Name;
                     bdh.business_name_new = parametros.Business_Name;
                 }
-                if (parametros.Commercial_Business != null)
+
+                if (parametros.Commercial_Business != bd.Commercial_Business && parametros.Commercial_Business != null)
                 {
                     bdh.commercial_business_old = bd.Commercial_Business;
                     bd.Commercial_Business = parametros.Commercial_Business;
                     bdh.commercial_business_new = parametros.Commercial_Business;
                 }
-                if (parametros.Dte_Reception_Email != null)
+                if (parametros.Dte_Reception_Email != bd.Dte_Reception_Email && parametros.Dte_Reception_Email != null)
                 {
                     bdh.dte_reception_email_old = bd.Dte_Reception_Email;
                     bd.Dte_Reception_Email = parametros.Dte_Reception_Email;
                     bdh.dte_reception_email_new = parametros.Dte_Reception_Email;
                 }
-                if (parametros.Bank_Account != null)
+                if (parametros.Bank_Account != bd.Bank_Account && parametros.Bank_Account != null)
                 {
                     bdh.bank_account_old = bd.Bank_Account;
                     bd.Bank_Account = parametros.Bank_Account;
                     bdh.bank_account_new = parametros.Bank_Account;
                 }
-                if (parametros.bank != null)
+                if (parametros.bank != bd.bank && parametros.bank != null)
                 {
                     bdh.bank_old = bd.bank;
                     bd.bank = parametros.bank;
                     bdh.bank_new = parametros.bank;
                 }
-                if (parametros.Commercial_address != null)
+                if (parametros.Commercial_address != bd.Commercial_address && parametros.Commercial_address != null)
                 {
                     bdh.commercial_address_old = bd.Commercial_address;
                     bd.Commercial_address = parametros.Commercial_address;
                     bdh.commercial_address_new = parametros.Commercial_address;
                 }
-                if (parametros.Postal_address != null)
+                if (parametros.Postal_address != bd.Postal_address && parametros.Postal_address != null)
                 {
                     bdh.postal_address_old = bd.Postal_address;
                     bd.Postal_address = parametros.Postal_address;
                     bdh.postal_address_new = parametros.Postal_address;
                 }
-                if (parametros.Manager != null)
+                if (parametros.Manager != bd.Manager && parametros.Manager != null)
                 {
                     bdh.manager_old = bd.Manager;
                     bd.Manager = parametros.Manager;
                     bdh.manager_new = parametros.Manager;
                 }
-                if (parametros.Pay_Contact_First_Name != null)
+                if (parametros.Pay_Contact_First_Name != bd.Pay_Contact_First_Name && parametros.Pay_Contact_First_Name != null)
                 {
                     bdh.pay_contact_first_name_old = bd.Pay_Contact_First_Name;
                     bd.Pay_Contact_First_Name = parametros.Pay_Contact_First_Name;
                     bdh.pay_contact_first_name_new = parametros.Pay_Contact_First_Name;
                 }
-                if (parametros.Pay_contact_last_name != null)
+                if (parametros.Pay_contact_last_name != bd.Pay_contact_last_name && parametros.Pay_contact_last_name != null)
                 {
                     bdh.pay_contact_last_name_old = bd.Pay_contact_last_name;
                     bd.Pay_contact_last_name = parametros.Pay_contact_last_name;
                     bdh.pay_contact_last_name_new = parametros.Pay_contact_last_name;
                 }
-                if (parametros.Pay_contact_address != null)
+                if (parametros.Pay_contact_address != bd.Pay_contact_address && parametros.Pay_contact_address != null)
                 {
                     bdh.pay_contact_address_old = bd.Pay_contact_address;
                     bd.Pay_contact_address = parametros.Pay_contact_address;
                     bdh.pay_contact_address_new = parametros.Pay_contact_address;
                 }
-                if (parametros.Pay_contact_phones != null)
+                if (parametros.Pay_contact_phones != bd.Pay_contact_phones && parametros.Pay_contact_phones != null)
                 {
                     bdh.pay_contact_phones_old = bd.Pay_contact_phones;
                     bd.Pay_contact_phones = parametros.Pay_contact_phones;
                     bdh.pay_contact_phones_new = parametros.Pay_contact_phones;
                 }
-                if (parametros.Pay_contact_email != null)
+                if (parametros.Pay_contact_email != bd.Pay_contact_email && parametros.Pay_contact_email != null)
                 {
                     bdh.pay_contact_email_old = bd.Pay_contact_email;
                     bd.Pay_contact_email = parametros.Pay_contact_email;
                     bdh.pay_contact_email_new = parametros.Pay_contact_email;
                 }
-                if (parametros.Bills_contact_last_name != null)
+                if (parametros.Bills_contact_last_name != bd.Bills_contact_last_name && parametros.Bills_contact_last_name != null)
                 {
                     bdh.bills_contact_last_name_old = bd.Bills_contact_last_name;
                     bd.Bills_contact_last_name = parametros.Bills_contact_last_name;
                     bdh.bills_contact_last_name_new = parametros.Bills_contact_last_name;
                 }
-                if (parametros.Bills_contact_first_name != null)
+                if (parametros.Bills_contact_first_name != bd.Bills_contact_first_name && parametros.Bills_contact_first_name != null)
                 {
                     bdh.bills_contact_first_name_old = bd.Bills_contact_first_name;
                     bd.Bills_contact_first_name = parametros.Bills_contact_first_name;
                     bdh.bills_contact_first_name_new = parametros.Bills_contact_first_name;
                 }
-                if (parametros.Bills_contact_address != null)
+                if (parametros.Bills_contact_address != bd.Bills_contact_address && parametros.Bills_contact_address != null)
                 {
                     bdh.bills_contact_address_old = bd.Bills_contact_address;
                     bd.Bills_contact_address = parametros.Bills_contact_address;
                     bdh.bills_contact_address_new = parametros.Bills_contact_address;
                 }
 
-                if (parametros.Bills_contact_phones != null)
+                if (parametros.Bills_contact_phones != bd.Bills_contact_phones && parametros.Bills_contact_phones != null)
                 {
                     bdh.bills_contact_phones_old = bd.Bills_contact_phones;
                     bd.Bills_contact_phones = parametros.Bills_contact_phones;
                     bdh.bills_contact_phones_new = parametros.Bills_contact_phones;
                 }
-                if (parametros.Bills_contact_email != null)
+                if (parametros.Bills_contact_email != bd.Bills_contact_email && parametros.Bills_contact_email != null)
                 {
                     bdh.bills_contact_email_old = bd.Bills_contact_email;
                     bd.Bills_contact_email = parametros.Bills_contact_email;
