@@ -2,6 +2,6 @@
 {
     public class RutDto
     {
-        public string? rut { get; set; }
+        public string? label { get; set; }
     }
 }

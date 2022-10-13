@@ -2,6 +2,6 @@
 {
     public class FolioDto
     {
-        public string Glosa { get; set; }
+        public string label { get; set; }
     }
 }

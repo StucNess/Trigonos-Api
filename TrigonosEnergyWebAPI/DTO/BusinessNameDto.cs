@@ -2,6 +2,6 @@
 {
     public class BusinessNameDto
     {
-        public string? BusinessName { get; set; }
+        public string? label { get; set; }
     }
 }

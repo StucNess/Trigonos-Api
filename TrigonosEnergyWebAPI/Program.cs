@@ -189,10 +189,10 @@ app.UseCors("CorsRule");
 
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("swagger/APIInstrucciones/swagger.json", "API Instrucciones");
-    options.SwaggerEndpoint("swagger/APIComboBox/swagger.json", "API ComboBox");
-    options.SwaggerEndpoint("swagger/APIParticipantes/swagger.json", "API Participantes");
-    options.SwaggerEndpoint("swagger/APIUsuarios/swagger.json", "API Usuarios");
+    options.SwaggerEndpoint("/swagger/APIInstrucciones/swagger.json", "API Instrucciones");
+    options.SwaggerEndpoint("/swagger/APIComboBox/swagger.json", "API ComboBox");
+    options.SwaggerEndpoint("/swagger/APIParticipantes/swagger.json", "API Participantes");
+    options.SwaggerEndpoint("/swagger/APIUsuarios/swagger.json", "API Usuarios");
     options.RoutePrefix = string.Empty;
 });
 app.UseMiddleware<ExceptionMiddleware>();
