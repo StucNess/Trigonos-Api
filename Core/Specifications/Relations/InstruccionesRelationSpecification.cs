@@ -13,10 +13,10 @@ namespace Core.Specifications.Relations
         public InstruccionesRelationSpecification(int id, InstruccionesSpecificationParams productoParams)
 
             : base(x => (x.CEN_instruction.Creditor == id || x.CEN_instruction.Debtor == id) &&
-            (string.IsNullOrEmpty(productoParams.EstadoAceptacion) || x.CEN_dte_acceptance_status.Name.Contains(productoParams.EstadoAceptacion)) &&
-             (string.IsNullOrEmpty(productoParams.EstadoRecepcion) || x.TRGNS_dte_reception_status.Name.Contains(productoParams.EstadoRecepcion)) &&
-             (string.IsNullOrEmpty(productoParams.EstadoEmision) || x.CEN_billing_status_type.Name.Contains(productoParams.EstadoEmision)) &&
-             (string.IsNullOrEmpty(productoParams.EstadoPago) || x.CEN_payment_status_type.Name.Contains(productoParams.EstadoPago)) &&
+            (string.IsNullOrEmpty(productoParams.EstadoAceptacion) || x.CEN_dte_acceptance_status.Name == productoParams.EstadoAceptacion) &&
+             (string.IsNullOrEmpty(productoParams.EstadoRecepcion) || x.TRGNS_dte_reception_status.Name == productoParams.EstadoRecepcion) &&
+             (string.IsNullOrEmpty(productoParams.EstadoEmision) || x.CEN_billing_status_type.Name == productoParams.EstadoEmision) &&
+             (string.IsNullOrEmpty(productoParams.EstadoPago) || x.CEN_payment_status_type.Name==productoParams.EstadoPago) &&
             (string.IsNullOrEmpty(productoParams.NombreAcreedor) || x.CEN_instruction.Participants_creditor.Business_Name.Contains(productoParams.NombreAcreedor)) &&
             (string.IsNullOrEmpty(productoParams.NombreDeudor) || x.CEN_instruction.Participants_debtor.Business_Name.Contains(productoParams.NombreDeudor)) &&
             (string.IsNullOrEmpty(productoParams.RutAcreedor) || x.CEN_instruction.Participants_creditor.Rut.Contains(productoParams.RutAcreedor)) &&
