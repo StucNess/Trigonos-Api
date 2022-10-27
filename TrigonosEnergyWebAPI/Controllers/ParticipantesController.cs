@@ -83,18 +83,6 @@ namespace TrigonosEnergy.Controllers
             }
             
         }
-
-        //[HttpGet]
-        //[Route("/Historificacion")]
-        //public async Task<ActionResult<IReadOnlyList<CEN_Participants>>> GetParticipantesHistorificacion()
-        //{
-
-        //        var datos = await _pruebaRepo.GetAllAsync();
-        //        var maping = _mapper.Map<IReadOnlyList<TRGNS_H_CEN_participants>, IReadOnlyList<TRGNS_H_CEN_participants>>(datos);
-        //        return Ok(maping);
-            
-
-        //}
         /// <summary>
         /// Obtener el nombre comercial de todos los participantes
         /// </summary>

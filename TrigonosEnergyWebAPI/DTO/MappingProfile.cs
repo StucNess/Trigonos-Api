@@ -52,6 +52,7 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.TRGNS_dte_reception_status_name, x => x.MapFrom(a => a.TRGNS_dte_reception_status.Name))
                 .ForMember(p => p.Estado_pago, x => x.MapFrom(a => a.Estado_pago))
                 .ForMember(p => p.CEN_payment_status_type_name, x => x.MapFrom(a => a.CEN_payment_status_type.Name))
+                .ForMember(p => p.Estado_aceptacion, x => x.MapFrom(a => a.Estado_aceptacion))
                 .ForMember(p => p.CEN_dte_acceptance_status_name, x => x.MapFrom(a => a.CEN_dte_acceptance_status.Name))
                 .ForMember(p => p.Fecha_emision, x => x.MapFrom(a => a.Fecha_emision))
                 .ForMember(p => p.Fecha_recepcion, x => x.MapFrom(a => a.Fecha_recepcion))
