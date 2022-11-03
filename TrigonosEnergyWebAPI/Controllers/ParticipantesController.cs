@@ -113,10 +113,10 @@ namespace TrigonosEnergy.Controllers
         /// <param name="id"> ID del participante</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<ParticipantesDTO>> GetParticipante(int id)
+        public async Task<ActionResult<ParticipantesDTO>> GetParticipante(int id,[FromQuery] ParticipantsParamsID parametros)
         {
 
-            var spec = new ParticipantsWithRelationSpecification(id);
+            var spec = new ParticipantsWithRelationSpecification(id, parametros);
             var producto = await _participantesRepository.GetByClienteIDAsync(spec);
 
             return _mapper.Map<CEN_Participants, ParticipantesDTO>(producto);
