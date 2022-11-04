@@ -6,7 +6,7 @@
         //public string? NombreDeudor { get; set; }
         //public string? RutAcreedor { get; set; }
         //public string? RutDeudor { get; set; }
-        public string? Concepto { get; set; }
+        public string? label { get; set; }
 
     }
 }

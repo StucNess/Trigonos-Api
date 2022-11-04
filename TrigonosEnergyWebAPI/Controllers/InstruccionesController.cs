@@ -148,28 +148,78 @@ namespace TrigonosEnergyWebAPI.Controllers
         }
         [HttpGet]
         [Route("/sFiltros")]
-        public async Task<ActionResult<Pagination<sFiltros>>> sFiltros(int id, int pa,[FromQuery] InstruccionesSpecificationParams parametros)
+        public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltros(int id, int pa, [FromQuery] InstruccionesSpecificationParams parametros)
         {
-            var spec = new InstruccionesRelationSpecification(id, parametros);
+            var spec = new InstruccionesRelationSpecification(id,pa, parametros);
             var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
-            var specCount = new InstruccionesForCountingSpecification(id, parametros);
-            var totalinstrucciones = await _instruccionesRepository.CountAsync(specCount);
-            var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
-            var totalPages = Convert.ToInt32(rounded);
-            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltros>>(producto);
+            //var specCount = new InstruccionesForCountingSpecification(id, parametros);
+            //var totalinstrucciones = await _instruccionesRepository.CountAsync(specCount);
+            //var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
+            //var totalPages = Convert.ToInt32(rounded);
+            var producto1 = producto.DistinctBy(p => p.CEN_instruction.Payment_matrix_natural_key).ToList();
+            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltros>>(producto1);
             //var probando = data
+            return Ok(data);
+            //return Ok(
+            //    new Pagination<sFiltros>
+            //    {
+            //        count = totalinstrucciones,
+            //        Data = data,
 
-            return Ok(
-                new Pagination<sFiltros>
-                {
-                    count = totalinstrucciones,
-                    Data = datazaz,
-                    PageCount = totalPages,
-                    PageIndex = parametros.PageIndex,
-                    PageSize = parametros.PageSize,
-                }
-                );
+            //    }
+            //    );
+
+
+    }
+        [HttpGet]
+        [Route("/sFiltrosRutCreditor")]
+        public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosRutCreditor(int id, int pa, [FromQuery] InstruccionesSpecificationParams parametros)
+        {
+            var spec = new InstruccionesRelationSpecification(id, pa, parametros);
+            var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
+            var producto1 = producto.DistinctBy(a => a.CEN_instruction.Participants_creditor.Rut).ToList();
+            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosRutCreditor>>(producto1);
+
+            return Ok(data);
 
         }
-    }
-}
+        [HttpGet]
+        [Route("/sFiltrosRutDeudor")]
+        public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosRutDeudor(int id, int pa, [FromQuery] InstruccionesSpecificationParams parametros)
+        {
+            var spec = new InstruccionesRelationSpecification(id, pa, parametros);
+            var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
+            var producto1 = producto.DistinctBy(a => a.CEN_instruction.Participants_debtor.Rut).ToList();
+            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosRutDeudor>>(producto1);
+            return Ok(data);
+
+
+
+        }
+        [HttpGet]
+        [Route("/sFiltrosNameCreditor")]
+        public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosNameCreditor(int id, int pa, [FromQuery] InstruccionesSpecificationParams parametros)
+        {
+            var spec = new InstruccionesRelationSpecification(id, pa, parametros);
+            var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
+            var producto1 = producto.DistinctBy(a => a.CEN_instruction.Participants_creditor.Business_Name).ToList();
+            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosNameCreditor>>(producto1);
+            return Ok(data);
+
+
+
+        }
+        [HttpGet]
+        [Route("/sFiltrosNameDebtor")]
+        public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosNameDebtor(int id, int pa, [FromQuery] InstruccionesSpecificationParams parametros)
+        {
+            var spec = new InstruccionesRelationSpecification(id, pa, parametros);
+            var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
+            var producto1 = producto.DistinctBy(a => a.CEN_instruction.Participants_debtor.Business_Name).ToList();
+            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosNameDebtor>>(producto1);
+            return Ok(data);
+
+
+
+        }
+    } }

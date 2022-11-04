@@ -215,6 +215,7 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = string.Empty;
 });
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<DeChunkerMiddleware>();
 app.UseStatusCodePagesWithReExecute("/errors", "?code={0}");
 app.MapControllers();
 app.Run();

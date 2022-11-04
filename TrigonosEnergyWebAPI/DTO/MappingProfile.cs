@@ -72,9 +72,20 @@ namespace TrigonosEnergy.DTO
             CreateMap<TRGNS_Datos_Facturacion, sFiltros>()
                 //.ForMember(p => p.RutAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Rut))
                 //.ForMember(p => p.RutDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Rut))
-                .ForMember(p => p.Concepto, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key));
-                //.ForMember(p => p.NombreAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Business_Name))
-                //.ForMember(p => p.NombreDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Business_Name));
+                .ForMember(p => p.label, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key));
+            //.ForMember(p => p.NombreAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Business_Name))
+            //.ForMember(p => p.NombreDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Business_Name));
+            CreateMap<TRGNS_Datos_Facturacion, sFiltrosRutCreditor>()       
+                .ForMember(p => p.label, x => x.MapFrom(a => String.Concat(a.CEN_instruction.Participants_creditor.Rut,'-', a.CEN_instruction.Participants_creditor.Verification_Code)));
+
+            CreateMap<TRGNS_Datos_Facturacion, sFiltrosRutDeudor>()
+                .ForMember(p => p.label, x => x.MapFrom(a => String.Concat(a.CEN_instruction.Participants_debtor.Rut, '-', a.CEN_instruction.Participants_debtor.Verification_Code)));
+            CreateMap<TRGNS_Datos_Facturacion, sFiltrosNameCreditor>()
+                .ForMember(p => p.label, x => x.MapFrom(a =>  a.CEN_instruction.Participants_creditor.Business_Name));
+            CreateMap<TRGNS_Datos_Facturacion, sFiltrosNameDebtor>()
+                .ForMember(p => p.label, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Business_Name));
+
+
 
 
 
