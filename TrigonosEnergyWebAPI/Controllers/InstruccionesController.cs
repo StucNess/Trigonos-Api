@@ -91,7 +91,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Updatee(int id, [FromQuery] PatchInstruccionesParams parametros)
         {
-          
+
             var spec = new PruebaParams(id);
             var prueba = await _instruccionesRepository.GetByClienteIDAsync(spec);
             if (parametros.EstadoEmision != null)
@@ -146,6 +146,30 @@ namespace TrigonosEnergyWebAPI.Controllers
             }
             return NoContent();
         }
+        [HttpGet]
+        [Route("/sFiltros")]
+        public async Task<ActionResult<Pagination<sFiltros>>> sFiltros(int id, int pa,[FromQuery] InstruccionesSpecificationParams parametros)
+        {
+            var spec = new InstruccionesRelationSpecification(id, parametros);
+            var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
+            var specCount = new InstruccionesForCountingSpecification(id, parametros);
+            var totalinstrucciones = await _instruccionesRepository.CountAsync(specCount);
+            var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltros>>(producto);
+            //var probando = data
 
+            return Ok(
+                new Pagination<sFiltros>
+                {
+                    count = totalinstrucciones,
+                    Data = datazaz,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+                }
+                );
+
+        }
     }
 }

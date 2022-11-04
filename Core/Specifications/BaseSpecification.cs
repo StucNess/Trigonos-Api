@@ -46,6 +46,12 @@ namespace Core.Specifications
 
         public bool IsPagingEnabled { get; private set; }
 
+        public Expression<Func<T, object>> GroupBy { get; private set; }
+
+        protected void AddGroupBy(Expression<Func<T, object>> GroupByExpression)
+        {
+            GroupBy = GroupByExpression;
+        }
 
         protected void ApplyPaging(int skip, int take)
         {

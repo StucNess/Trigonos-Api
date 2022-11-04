@@ -64,5 +64,12 @@ namespace Core.Specifications.Relations
 
             ApplyPaging(productoParams.PageSize * (productoParams.PageIndex - 1), productoParams.PageSize);
         }
+        public InstruccionesRelationSpecification(int id,int pa, InstruccionesSpecificationParams productoParams)
+
+            : base(x => (x.CEN_instruction.Creditor == id || x.CEN_instruction.Debtor == id)){
+
+
+
+        }
     }
 }
