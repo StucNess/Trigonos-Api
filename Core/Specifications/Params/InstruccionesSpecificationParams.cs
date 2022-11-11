@@ -13,6 +13,8 @@ namespace Core.Specifications.Params
         public DateTime? FechaRecepcion { get; set; }
         public DateTime? FechaPago { get; set; }
         public DateTime? FechaAceptacion { get; set; }
+        public DateTime? InicioPeriodo { get; set; }
+        public DateTime? TerminoPeriodo { get; set; }
         public string? Glosa { get; set; }
         public string? Concepto { get; set; }
         public string? EstadoAceptacion { get; set; }

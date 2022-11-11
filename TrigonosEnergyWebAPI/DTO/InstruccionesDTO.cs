@@ -28,6 +28,7 @@
         public string Concepto { get; set; }
         public int MontoNeto { get; set; }
         public int MontoBruto { get; set; }
+        public string period { get; set; }
 
     }
 }

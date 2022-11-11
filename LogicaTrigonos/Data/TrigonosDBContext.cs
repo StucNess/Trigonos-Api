@@ -27,14 +27,12 @@ namespace LogicaTrigonos.Data
         public DbSet<TRGNS_PROYECTOS> TRGNS_PROYECTOS { get; set; }
         public DbSet<TRGNS_H_CEN_participants> TRGNS_H_CEN_participants { get; set; }
 
-
-
         public DbSet<TRGNS_dte_reception_status> TRGNS_dte_reception_status { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Patch_TRGNS_Datos_Facturacion>().ToTable("TRGNS_Datos_Facturacion");
+            //modelBuilder.Entity<CEN_billing_windows>().ToTable("CEN_billing_windows");
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             
         }

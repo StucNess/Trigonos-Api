@@ -27,6 +27,8 @@ namespace Core.Specifications.Counting
             (!productoParams.FechaAceptacion.HasValue || x.Fecha_recepcion == productoParams.FechaAceptacion) &&
             (!productoParams.FechaPago.HasValue || x.Fecha_recepcion == productoParams.FechaPago) &&
             (!productoParams.FechaEmision.HasValue || x.Fecha_recepcion == productoParams.FechaEmision) &&
+              (!productoParams.InicioPeriodo.HasValue || x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period >= productoParams.InicioPeriodo) &&
+            (!productoParams.TerminoPeriodo.HasValue || x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period <= productoParams.TerminoPeriodo) &&
              (!productoParams.Acreedor.HasValue || x.CEN_instruction.Creditor == productoParams.Acreedor) &&
             (!productoParams.Deudor.HasValue || x.CEN_instruction.Debtor == productoParams.Deudor) &&
             (!productoParams.MontoNeto.HasValue || x.CEN_instruction.Amount >= productoParams.MontoNeto) &&

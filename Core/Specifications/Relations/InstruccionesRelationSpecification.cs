@@ -28,6 +28,8 @@ namespace Core.Specifications.Relations
             (!productoParams.FechaPago.HasValue || x.Fecha_recepcion == productoParams.FechaPago) &&
             (!productoParams.FechaEmision.HasValue || x.Fecha_recepcion == productoParams.FechaEmision) &&
             (!productoParams.Acreedor.HasValue || x.CEN_instruction.Creditor == productoParams.Acreedor) &&
+            (!productoParams.InicioPeriodo.HasValue || x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period >= productoParams.InicioPeriodo) &&
+            (!productoParams.TerminoPeriodo.HasValue || x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period <= productoParams.TerminoPeriodo) &&
             (!productoParams.Deudor.HasValue || x.CEN_instruction.Debtor == productoParams.Deudor) &&
 
             (!productoParams.MontoNeto.HasValue || x.CEN_instruction.Amount >= productoParams.MontoNeto) &&
@@ -43,6 +45,7 @@ namespace Core.Specifications.Relations
 
             AddInclude(p => p.CEN_instruction);
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
+            AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows);
             AddInclude(p => p.CEN_instruction.Participants_creditor);
             AddInclude(p => p.CEN_instruction.Participants_debtor);
 
@@ -56,7 +59,7 @@ namespace Core.Specifications.Relations
             AddInclude(p => p.TRGNS_dte_reception_status);
             AddInclude(p => p.CEN_payment_status_type);
             AddInclude(p => p.CEN_billing_status_type);
-
+            AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows);
             AddInclude(p => p.CEN_instruction);
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
             AddInclude(p => p.CEN_instruction.Participants_creditor);
@@ -96,7 +99,7 @@ namespace Core.Specifications.Relations
             AddInclude(p => p.TRGNS_dte_reception_status);
             AddInclude(p => p.CEN_payment_status_type);
             AddInclude(p => p.CEN_billing_status_type);
-
+            AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows);
             AddInclude(p => p.CEN_instruction);
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
             AddInclude(p => p.CEN_instruction.Participants_creditor);
