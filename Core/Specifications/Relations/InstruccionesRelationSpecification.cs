@@ -29,7 +29,10 @@ namespace Core.Specifications.Relations
             (!productoParams.FechaEmision.HasValue || x.Fecha_recepcion == productoParams.FechaEmision) &&
             (!productoParams.Acreedor.HasValue || x.CEN_instruction.Creditor == productoParams.Acreedor) &&
             (!productoParams.InicioPeriodo.HasValue || x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period >= productoParams.InicioPeriodo) &&
-            (!productoParams.TerminoPeriodo.HasValue || x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period <= productoParams.TerminoPeriodo) &&
+            (!productoParams.TerminoPeriodo.HasValue || (x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period <= productoParams.TerminoPeriodo && x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period_end.HasValue &&
+            x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period_end <= productoParams.TerminoPeriodo )|| (x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period <= productoParams.TerminoPeriodo && !x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period_end.HasValue &&
+            x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period_end <= productoParams.TerminoPeriodo)) &&
+            //(!productoParams.TerminoPeriodo.HasValue ||  ()) &&
             (!productoParams.Deudor.HasValue || x.CEN_instruction.Debtor == productoParams.Deudor) &&
 
             (!productoParams.MontoNeto.HasValue || x.CEN_instruction.Amount >= productoParams.MontoNeto) &&

@@ -65,14 +65,14 @@ namespace TrigonosEnergyWebAPI.Controllers
                 }
                 );
         }
-        //[HttpGet]
-        //[Route("/windows")]
-        //public async Task<ActionResult<IReadOnlyList<CEN_billing_windows>>> PRUEBA()
-        //{
+        [HttpGet]
+        [Route("/windows")]
+        public async Task<ActionResult<IReadOnlyList<CEN_billing_windows>>> PRUEBA()
+        {
 
-        //    var billingtypes = await _billingwindowsRepository.GetAllAsync();
-        //    var instruccionDto = _mapper.Map<IReadOnlyList<CEN_billing_windows>, IReadOnlyList<BillingWindowsDto>>(billingtypes);
-        //    return Ok(instruccionDto);
-        //}
+            var billingtypes = await _billingwindowsRepository.GetAllAsync();
+            //var instruccionDto = _mapper.Map<IReadOnlyList<CEN_billing_windows>, IReadOnlyList<BillingWindowsDto>>(billingtypes);
+            return Ok(billingtypes);
+        }
     } 
 }

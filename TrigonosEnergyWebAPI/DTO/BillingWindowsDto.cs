@@ -9,5 +9,6 @@
         public string created_ts { get; set; }
         public string updated_ts { get; set; }
         public DateTime period { get; set; }
+        public DateTime? period_end { get; set; }
     }
 }
