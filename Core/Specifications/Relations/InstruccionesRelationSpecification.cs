@@ -54,6 +54,7 @@ namespace Core.Specifications.Relations
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows);
             AddInclude(p => p.CEN_instruction.Participants_creditor);
+            AddOrderByDescending(p => p.id_instructions);
             AddInclude(p => p.CEN_instruction.Participants_debtor);
 
             ApplyPaging(productoParams.PageSize * (productoParams.PageIndex - 1), productoParams.PageSize);
@@ -107,6 +108,7 @@ namespace Core.Specifications.Relations
             AddInclude(p => p.CEN_billing_status_type);
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows);
             AddInclude(p => p.CEN_instruction);
+            AddOrderByDescending(p => p.id_instructions);
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
             AddInclude(p => p.CEN_instruction.Participants_creditor);
             AddInclude(p => p.CEN_instruction.Participants_debtor);
