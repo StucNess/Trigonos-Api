@@ -11,7 +11,7 @@ namespace Core.Specifications.Relations
     public class InstruccionesRelationSpecification : BaseSpecification<TRGNS_Datos_Facturacion>
     {
         public InstruccionesRelationSpecification(int id, InstruccionesSpecificationParams productoParams)
-
+            //
              : base(x => (x.CEN_instruction.Creditor == id || x.CEN_instruction.Debtor == id) &&
              (!productoParams.Acreedor.HasValue || x.CEN_instruction.Creditor == productoParams.Acreedor) &&
             (string.IsNullOrEmpty(productoParams.EstadoAceptacion) || x.CEN_dte_acceptance_status.Name == productoParams.EstadoAceptacion) &&
