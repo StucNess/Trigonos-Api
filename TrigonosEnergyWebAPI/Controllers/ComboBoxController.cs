@@ -59,12 +59,10 @@ namespace TrigonosEnergyWebAPI.Controllers
                     EstadoPago = payment,
                     EstadoAceptacion = acceptance,
                     Concepto = instruccionDto,
-
-
-
                 }
                 );
         }
+
         [HttpGet]
         [Route("/windows")]
         public async Task<ActionResult<IReadOnlyList<CEN_billing_windows>>> PRUEBA()

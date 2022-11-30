@@ -68,7 +68,9 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.Glosa, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key))
                 .ForMember(p => p.MontoNeto, x => x.MapFrom(a => a.CEN_instruction.Amount))
                 .ForMember(p => p.MontoBruto, x => x.MapFrom(a => a.CEN_instruction.Amount_Gross))
-                .ForMember(p => p.period, x => x.MapFrom(a => a.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period));
+                .ForMember(p => p.period, x => x.MapFrom(a => a.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period))
+                .ForMember(p => p.Carta, x => x.MapFrom(a => a.CEN_instruction.cEN_Payment_Matrices.Letter_code))
+                .ForMember(p => p.CodigoRef, x => x.MapFrom(a => a.CEN_instruction.cEN_Payment_Matrices.Reference_code));
 
             CreateMap<TRGNS_Datos_Facturacion, sFiltros>()
                 //.ForMember(p => p.RutAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Rut))
@@ -85,7 +87,8 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.label, x => x.MapFrom(a =>  a.CEN_instruction.Participants_creditor.Business_Name));
             CreateMap<TRGNS_Datos_Facturacion, sFiltrosNameDebtor>()
                 .ForMember(p => p.label, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Business_Name));
-
+            //CreateMap<TRGNS_Datos_Facturacion, probando>()
+            //    .ForMember(p => p.prueba, x => x.MapFrom(a => a.CEN_instruction.Amount));
             //CreateMap<CEN_billing_windows, BillingWindowsDto>()
             //    .ForMember(p => p.Natural_key, x => x.MapFrom(a => a.natural_key))
             //    .ForMember(p => p.billing_type, x => x.MapFrom(a => a.billing_type))

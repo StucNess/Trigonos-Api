@@ -29,6 +29,8 @@
         public int MontoNeto { get; set; }
         public int MontoBruto { get; set; }
         public string period { get; set; }
+        public string? Carta { get; set; }
+        public string? CodigoRef { get; set; }
 
     }
 }

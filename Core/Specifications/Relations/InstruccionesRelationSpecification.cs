@@ -11,8 +11,8 @@ namespace Core.Specifications.Relations
     public class InstruccionesRelationSpecification : BaseSpecification<TRGNS_Datos_Facturacion>
     {
         public InstruccionesRelationSpecification(int id, InstruccionesSpecificationParams productoParams)
-            //
-             : base(x => (x.CEN_instruction.Creditor == id || x.CEN_instruction.Debtor == id) &&
+              //
+              : base(x => (x.CEN_instruction.Creditor == id || x.CEN_instruction.Debtor == id) &&
              (!productoParams.Acreedor.HasValue || x.CEN_instruction.Creditor == productoParams.Acreedor) &&
             (string.IsNullOrEmpty(productoParams.EstadoAceptacion) || x.CEN_dte_acceptance_status.Name == productoParams.EstadoAceptacion) &&
              (string.IsNullOrEmpty(productoParams.EstadoRecepcion) || x.TRGNS_dte_reception_status.Name == productoParams.EstadoRecepcion) &&
@@ -30,29 +30,27 @@ namespace Core.Specifications.Relations
             (!productoParams.FechaEmision.HasValue || x.Fecha_recepcion == productoParams.FechaEmision) &&
 
 
-             (!productoParams.InicioPeriodo.HasValue ||
+             (
+             !productoParams.InicioPeriodo.HasValue && !productoParams.TerminoPeriodo.HasValue
+             ||
 
-             x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period >= productoParams.InicioPeriodo)
-             
-             &&                
+             (productoParams.InicioPeriodo.HasValue && !productoParams.TerminoPeriodo.HasValue &&
 
-            (productoParams.InicioPeriodo.HasValue && !productoParams.TerminoPeriodo.HasValue ||
-
-             x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period >= productoParams.InicioPeriodo)
-
-             &&
-
-            (!productoParams.TerminoPeriodo.HasValue ||
-
-             (!x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period_end.HasValue && x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period <= productoParams.TerminoPeriodo)
+             x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period == productoParams.InicioPeriodo)
 
              ||
 
-            (x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period_end.HasValue && x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period_end <= productoParams.TerminoPeriodo))
+             (productoParams.TerminoPeriodo.HasValue && productoParams.InicioPeriodo.HasValue &&
+             !x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period_end.HasValue &&
+             x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period <= productoParams.TerminoPeriodo
+              && x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period >= productoParams.InicioPeriodo)
+             ||
+            (productoParams.TerminoPeriodo.HasValue && productoParams.InicioPeriodo.HasValue &&
+             x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period_end.HasValue &&
+             x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period_end <= productoParams.TerminoPeriodo
+              && x.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows.period >= productoParams.InicioPeriodo)
 
-
-
-
+             )
              &&
             (!productoParams.Acreedor.HasValue || x.CEN_instruction.Creditor == productoParams.Acreedor) &&
             (!productoParams.Deudor.HasValue || x.CEN_instruction.Debtor == productoParams.Deudor) &&

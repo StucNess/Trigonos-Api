@@ -172,6 +172,49 @@ namespace TrigonosEnergyWebAPI.Controllers
 
     }
         [HttpGet]
+        [Route("/ssFiltros")]
+        public async Task<ActionResult<IReadOnlyList<ssFiltros>>> ssFiltros(int id, int pa, [FromQuery] InstruccionesSpecificationParams parametros)
+        {
+            var spec = new InstruccionesRelationSpecification(id, pa, parametros);
+            var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
+            var producto1 = producto.DistinctBy(p => p.CEN_instruction.Payment_matrix_natural_key).ToList();
+            var Carta = producto.DistinctBy(p => p.CEN_instruction.cEN_Payment_Matrices.Letter_code).ToList();
+            var CodRef = producto.DistinctBy(p => p.CEN_instruction.cEN_Payment_Matrices.Reference_code).ToList();
+            List<string> listConcept = new List<string>();
+            List<string> listCarta = new List<string>();
+            List<string> listCodRef = new List<string>();
+            foreach (var item in CodRef)
+            {
+                var co2 = item.CEN_instruction.cEN_Payment_Matrices.Reference_code;
+                listCodRef.Add(co2);
+
+            }
+            foreach (var item in Carta)
+            {
+                var co1 = item.CEN_instruction.cEN_Payment_Matrices.Letter_code;
+                listCarta.Add(co1);
+
+            }
+            foreach (var item in producto1)
+            {
+                var co = item.CEN_instruction.Payment_matrix_natural_key;
+                listConcept.Add(co);
+
+            }
+
+            return Ok(
+                new ssFiltros
+                {
+                    label = listConcept,
+                    Carta = listCarta,
+                    CodRef = listCodRef
+
+                }
+                );
+
+
+        }
+        [HttpGet]
         [Route("/sFiltrosRutCreditor")]
         public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosRutCreditor(int id, int pa, [FromQuery] InstruccionesSpecificationParams parametros)
         {
