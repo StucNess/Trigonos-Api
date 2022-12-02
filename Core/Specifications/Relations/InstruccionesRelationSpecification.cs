@@ -28,6 +28,9 @@ namespace Core.Specifications.Relations
             (!productoParams.FechaAceptacion.HasValue || x.Fecha_recepcion == productoParams.FechaAceptacion) &&
             (!productoParams.FechaPago.HasValue || x.Fecha_recepcion == productoParams.FechaPago) &&
             (!productoParams.FechaEmision.HasValue || x.Fecha_recepcion == productoParams.FechaEmision) &&
+             (string.IsNullOrEmpty(productoParams.Carta) || x.CEN_instruction.cEN_Payment_Matrices.Letter_code == productoParams.Carta) &&
+              (string.IsNullOrEmpty(productoParams.CodigoRef)|| x.CEN_instruction.cEN_Payment_Matrices.Reference_code == productoParams.CodigoRef) &&
+             (!productoParams.FechaEmision.HasValue || x.Fecha_recepcion == productoParams.FechaEmision) &&
 
 
              (

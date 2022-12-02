@@ -13,7 +13,7 @@ namespace Core.Specifications.Counting
         public InstruccionesForCountingSpecification(int id, InstruccionesSpecificationParams productoParams)
 
 
-             : base(x => (x.CEN_instruction.Creditor == id || x.CEN_instruction.Debtor == id) &&
+              : base(x => (x.CEN_instruction.Creditor == id || x.CEN_instruction.Debtor == id) &&
              (!productoParams.Acreedor.HasValue || x.CEN_instruction.Creditor == productoParams.Acreedor) &&
             (string.IsNullOrEmpty(productoParams.EstadoAceptacion) || x.CEN_dte_acceptance_status.Name == productoParams.EstadoAceptacion) &&
              (string.IsNullOrEmpty(productoParams.EstadoRecepcion) || x.TRGNS_dte_reception_status.Name == productoParams.EstadoRecepcion) &&
@@ -29,6 +29,9 @@ namespace Core.Specifications.Counting
             (!productoParams.FechaAceptacion.HasValue || x.Fecha_recepcion == productoParams.FechaAceptacion) &&
             (!productoParams.FechaPago.HasValue || x.Fecha_recepcion == productoParams.FechaPago) &&
             (!productoParams.FechaEmision.HasValue || x.Fecha_recepcion == productoParams.FechaEmision) &&
+             (string.IsNullOrEmpty(productoParams.Carta) || x.CEN_instruction.cEN_Payment_Matrices.Letter_code == productoParams.Carta) &&
+              (string.IsNullOrEmpty(productoParams.CodigoRef) || x.CEN_instruction.cEN_Payment_Matrices.Reference_code == productoParams.CodigoRef) &&
+             (!productoParams.FechaEmision.HasValue || x.Fecha_recepcion == productoParams.FechaEmision) &&
 
 
              (
