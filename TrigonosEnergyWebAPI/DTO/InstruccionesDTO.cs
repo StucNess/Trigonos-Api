@@ -31,6 +31,9 @@
         public string period { get; set; }
         public string? Carta { get; set; }
         public string? CodigoRef { get; set; }
+        public DateTime Fecha_carta { get; set; }
+  
+
 
     }
 }
