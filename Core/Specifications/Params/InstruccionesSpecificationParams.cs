@@ -32,6 +32,8 @@ namespace Core.Specifications.Params
         public string? NombreDeudor { get; set; }
         public string? Carta { get; set; }
         public string? CodigoRef { get; set; }
+        public string? OrderByNeto { get; set; }
+        public string? OrderByBruto { get; set; }
         public int PageIndex { get; set; } = 1;
         private const int MaxPageSize = 100;
         private int _pageSize = 100;

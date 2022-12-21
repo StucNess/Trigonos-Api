@@ -73,10 +73,30 @@ namespace Core.Specifications.Relations
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows);
             AddInclude(p => p.CEN_instruction.Participants_creditor);
-            AddOrderByDescending(p => p.id_instructions);
+            
             AddInclude(p => p.CEN_instruction.Participants_debtor);
-
             ApplyPaging(productoParams.PageSize * (productoParams.PageIndex - 1), productoParams.PageSize);
+            if (productoParams.OrderByNeto == "desc")
+            {
+                AddOrderByDescending(p => p.CEN_instruction.Amount);
+            }
+            else if (productoParams.OrderByNeto == "asc")
+            {
+                AddOrderBy(p => p.CEN_instruction.Amount);
+            }
+            else if (productoParams.OrderByBruto == "desc")
+            {
+                AddOrderByDescending(p => p.CEN_instruction.Amount_Gross);
+            }
+            else if (productoParams.OrderByBruto == "asc")
+            {
+                AddOrderBy(p => p.CEN_instruction.Amount_Gross);
+            }
+            
+            else
+            {
+                AddOrderByDescending(p => p.id_instructions);
+            }
 
 
         }
