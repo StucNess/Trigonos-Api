@@ -34,6 +34,10 @@ namespace Core.Specifications.Params
         public string? CodigoRef { get; set; }
         public string? OrderByNeto { get; set; }
         public string? OrderByBruto { get; set; }
+        public string? OrderByFechaEmision { get; set; }
+        public string? OrderByFechaPago { get; set; }
+        public string? OrderByFechaCarta { get; set; }
+        public string? OrderByFolio { get; set; }
         public int PageIndex { get; set; } = 1;
         private const int MaxPageSize = 100;
         private int _pageSize = 100;
