@@ -24,11 +24,13 @@ namespace LogicaTrigonos.Data
         public DbSet<CEN_payment_status_type> CEN_payment_status_type { get; set; }
         public DbSet<CEN_transaction_types> CEN_transaction_types { get; set; }
         public DbSet<TRGNS_Datos_Facturacion> TRGNS_Datos_Facturacion { get; set; }
+        
         public DbSet<TRGNS_PROYECTOS> TRGNS_PROYECTOS { get; set; }
         public DbSet<TRGNS_H_CEN_participants> TRGNS_H_CEN_participants { get; set; }
 
         public DbSet<TRGNS_dte_reception_status> TRGNS_dte_reception_status { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<TRGNS_H_Datos_Facturacion> TRGNS_H_Datos_Facturacion { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
