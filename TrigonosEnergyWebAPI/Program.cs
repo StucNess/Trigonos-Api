@@ -11,6 +11,9 @@ using System.Text;
 using TrigonosEnergy.DTO;
 using Microsoft.Extensions;
 using TrigonosEnergyWebAPI.Middleware;
+using Core.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,28 +22,44 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+
 // Add services to the container.
 builder.Services.AddDbContext<TrigonosDBContext>(Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("TrigonosConnection")));
+builder.Services.AddDbContext<SecurityDbContext>(x =>
+{
+    x.UseSqlServer(builder.Configuration.GetConnectionString("TrigonosConnection"));
+});
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 builder.Services.AddScoped<IRepositoryUsuario,UsuarioRepository>();
+
+
+var builder2 = builder.Services.AddIdentityCore<Usuarios>();
+builder2 = new IdentityBuilder(builder2.UserType, builder2.Services);
+builder2.AddEntityFrameworkStores<SecurityDbContext>();
+//builder2.AddSignInManager<SignInManager<Usuarios>>();
+// AGREGANDO TOQUEN SEGURIDAD
+builder.Services.AddAuthorization();
+
+// AGREGANDO CREACION DEL MODELO
+
 //Agregando dependencia del toke
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+//{
+//    //options.RequireHttpsMetadata = false;
+//    //options.SaveToken = true;
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    //options.RequireHttpsMetadata = false;
-    //options.SaveToken = true;
-
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
         
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
-        ValidateIssuer = false,
-        ValidateAudience = false
+//        ValidateIssuerSigningKey = true,
+//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+//        ValidateIssuer = false,
+//        ValidateAudience = false
 
-    };
-});
+//    };
+//});
 
 builder.Services.AddControllers();
 builder.Services.AddCors(opt =>
@@ -52,6 +71,7 @@ builder.Services.AddCors(opt =>
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 //builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -189,7 +209,10 @@ var app = builder.Build();
 //    app.UseSwaggerUI();
 
 //}
-
+var userManager = app.Services.GetService(typeof(UserManager < Usuarios>));
+var identityContext = app.Services.GetRequiredService<SecurityDbContext>();
+identityContext.Database.MigrateAsync();
+SecurityDbContextData.SeedUserAsync(userManager);
 app.UseSwaggerUI();
 app.UseSwagger();
 app.UseHttpsRedirection();
