@@ -18,13 +18,7 @@ namespace LogicaTrigonos.Data
                     Nombre = "javier",
                     Apellido = "onate",
                     UserName = "javier1233",
-                    //Direccion = new Direccion
-                    //{
-                    //    Calle = "Avenida Fermin Vergara 218",
-                    //    Ciudad = "Colina",
-                    //    CodigoPostal = "93030",
-                    //    Departamento = "No"
-                    //}
+                    Email = "ejoocontactos@gmail.com"
                 };
 
                 await userManager.CreateAsync(usuario,"Colocolo1$");

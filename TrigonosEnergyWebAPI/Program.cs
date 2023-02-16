@@ -33,13 +33,22 @@ builder.Services.AddDbContext<SecurityDbContext>(x =>
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 builder.Services.AddScoped<IRepositoryUsuario,UsuarioRepository>();
-
+builder.Services.AddScoped<ITokenService,TokenService>();
 
 var builder2 = builder.Services.AddIdentityCore<Usuarios>();
 builder2 = new IdentityBuilder(builder2.UserType, builder2.Services);
 builder2.AddEntityFrameworkStores<SecurityDbContext>();
 builder2.AddSignInManager<SignInManager<Usuarios>>();
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token:Key"])),
+        ValidIssuer = builder.Configuration["AppSettings:Token:Issuer"],
+        ValidateIssuer = true
+    };
+});
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddCors(opt =>
@@ -189,6 +198,8 @@ var app = builder.Build();
 //    app.UseSwaggerUI();
 
 //}
+
+
 
 var scope = app.Services.CreateScope();
 var services1 = scope.ServiceProvider;

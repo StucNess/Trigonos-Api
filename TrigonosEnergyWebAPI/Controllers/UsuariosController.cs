@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,13 @@ namespace TrigonosEnergyWebAPI.Controllers
     {
         private readonly UserManager<Usuarios> _userManager;
         private readonly SignInManager<Usuarios> _signInManager;
+        private readonly ITokenService _tokenService;
 
-        public UsuariosController(UserManager<Usuarios> userManager, SignInManager<Usuarios> signInManager)
+        public UsuariosController(UserManager<Usuarios> userManager, SignInManager<Usuarios> signInManager, ITokenService tokenService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
 
@@ -37,12 +40,39 @@ namespace TrigonosEnergyWebAPI.Controllers
             {
                 Email = usuario.Email,
                 Username = usuario.UserName,
-                Token = "Este es el token del usuario",
+                Token = _tokenService.CreateToken(usuario),
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido
             };
 
         }
+        [HttpPost("Registrar")]
+        public async Task<ActionResult<UsuariosDto>> Registrar(RegistrarDto registrarDto)
+        {
+            var usuario = new Usuarios
+            {
+                Email = registrarDto.Email,
+                UserName = registrarDto.Username,
+                Nombre = registrarDto.Nombre,
+                Apellido = registrarDto.Apellido
+            };
+
+            var resultado = await _userManager.CreateAsync(usuario,registrarDto.Password);
+            if (!resultado.Succeeded)
+            {
+                return BadRequest(new CodeErrorResponse(400));
+            }
+            return new UsuariosDto
+            {
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Token = _tokenService.CreateToken(usuario),
+                Email = usuario.Email,
+                Username = usuario.UserName 
+            };
+
+        }
+
 
 
     }
