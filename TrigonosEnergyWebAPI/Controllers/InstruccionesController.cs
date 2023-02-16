@@ -19,15 +19,16 @@ namespace TrigonosEnergyWebAPI.Controllers
     {
         private readonly IGenericRepository<TRGNS_Datos_Facturacion> _instruccionesRepository;
         private readonly IGenericRepository<CEN_payment_matrices> _matricesRepository;
+        private readonly IGenericRepository<TRGNS_H_Datos_Facturacion> _historificacionInstruccionesRepository;
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
 
-        public InstruccionesController(IGenericRepository<TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<CEN_payment_matrices> matricesRepository)
+        public InstruccionesController(IGenericRepository<TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
             _mapper = mapper;
             _matricesRepository = matricesRepository;
-            //_instruccionessRepository = instruccionessRepository;
+            _historificacionInstruccionesRepository = historificacionInstruccionesRepository;
         }
         /// <summary>
         /// Obtener la glosa de todas las instrucciones
@@ -93,57 +94,149 @@ namespace TrigonosEnergyWebAPI.Controllers
         {
 
             var spec = new PruebaParams(id);
-            var prueba = await _instruccionesRepository.GetByClienteIDAsync(spec);
-            if (parametros.EstadoEmision != null)
+            var bd = await _instruccionesRepository.GetByClienteIDAsync(spec);
+            var bdh = new TRGNS_H_Datos_Facturacion();
+
+            bdh.id_instruction= id;
+            bdh.date = DateTime.Now;
+            bdh.emission_status_old = 0;
+            bdh.reception_status_old = 0;
+            bdh.payment_status_old = 0;
+            bdh.aceptation_status_old = 0;
+            bdh.emission_date_old = new DateTime(1999,01,01);
+            bdh.reception_date_old = new DateTime(1999,01,01);
+            bdh.payment_date_old = new DateTime(1999,01,01);
+            bdh.aceptation_date_old = new DateTime(1999,01,01);
+            bdh.tipo_instruction_old = 0;
+            bdh.folio_old = 0;
+            bdh.emission_status_new = 0;
+            bdh.reception_status_new = 0;
+            bdh.payment_status_new = 0;
+            bdh.aceptation_status_new = 0;
+            bdh.emission_date_new = new DateTime(1999,01,01);
+            bdh.reception_date_new = new DateTime(1999,01,01);
+            bdh.payment_date_new = new DateTime(1999,01,01);
+            bdh.aceptation_date_new = new DateTime(1999,01,01);
+            bdh.tipo_instruction_new = 0;
+            bdh.folio_new = 0;
+            var condicional = 0;
+            bdh.editor = parametros.Editor;
+            //if (parametros.FechaAceptacion != bd.Fecha_aceptacion && parametros.FechaAceptacion != null)
+            //{
+            //    bdh.aceptation_date_old = bd.Fecha_aceptacion;
+            //    bd.Fecha_aceptacion = parametros.FechaAceptacion;
+            //    bdh.aceptation_date_new = parametros.FechaAceptacion;
+            //}
+
+            if (parametros.EstadoEmision != bd.Estado_emision && parametros.EstadoEmision != null)
             {
-                prueba.Estado_emision = parametros.EstadoEmision;
+                bdh.emission_status_old = bd.Estado_emision;
+                bd.Estado_emision = parametros.EstadoEmision;
+                bdh.emission_status_new = parametros.EstadoEmision;
+                condicional = 1;
+
             }
-            if (parametros.EstadoRecepcion != null)
+            if (parametros.EstadoRecepcion != bd.Estado_recepcion && parametros.EstadoRecepcion != null)
             {
-                prueba.Estado_recepcion = parametros.EstadoRecepcion;
-            }
-            if (parametros.EstadoRecepcion != null)
-            {
-                prueba.Estado_recepcion = parametros.EstadoRecepcion;
-            }
-            if (parametros.EstadoPago != null)
-            {
-                prueba.Estado_pago = parametros.EstadoPago;
-            }
-            if (parametros.EstadoAceptacion != null)
-            {
-                prueba.Estado_aceptacion = parametros.EstadoAceptacion;
-            }
-            if (parametros.FechaEmision != null)
-            {
-                prueba.Fecha_emision = parametros.FechaEmision;
-            }
-            if (parametros.FechaRecepcion != null)
-            {
-                prueba.Fecha_recepcion = parametros.FechaRecepcion;
-            }
-            if (parametros.FechaPago != null)
-            {
-                prueba.Fecha_pago = parametros.FechaPago;
-            }
-            if (parametros.FechaAceptacion != null)
-            {
-                prueba.Fecha_aceptacion = parametros.FechaAceptacion;
-            }
-            if (parametros.TipoInstructions != null)
-            {
-                prueba.tipo_instructions = parametros.TipoInstructions;
+                bdh.reception_status_old = bd.Estado_recepcion;
+                bd.Estado_recepcion = parametros.EstadoRecepcion;
+                bdh.reception_status_new = parametros.EstadoRecepcion;
+                condicional = 1;
             }
 
-            if (parametros.Folio != null)
+            if (parametros.EstadoPago != bd.Estado_pago && parametros.EstadoPago != null)
             {
-                prueba.Folio = parametros.Folio;
+                bdh.payment_status_old = bd.Estado_pago;
+                bd.Estado_pago = parametros.EstadoPago;
+                bdh.payment_status_new = bd.Estado_pago;
+                condicional = 1;
             }
 
-            if (!await _instruccionesRepository.UpdateeAsync(prueba))
+            if (parametros.EstadoAceptacion != bd.Estado_aceptacion && parametros.EstadoAceptacion != null)
             {
-                return StatusCode(500);
+                bdh.aceptation_status_old = bd.Estado_aceptacion;
+                bd.Estado_aceptacion = parametros.EstadoAceptacion;
+                bdh.emission_status_new = parametros.EstadoAceptacion;
             }
+
+            if (parametros.FechaEmision != bd.Fecha_emision && parametros.FechaEmision != null)
+            {
+                bdh.emission_date_old = bd.Fecha_emision;
+                bd.Fecha_emision = parametros.FechaEmision;
+                bdh.emission_date_new = parametros.FechaEmision;
+                bdh.emission_status_old = bd.Estado_emision;
+                bd.Estado_emision = 2;
+                bdh.emission_status_new = 2;
+                condicional = 1;
+            }
+
+            if (parametros.FechaAceptacion != bd.Fecha_aceptacion && parametros.FechaAceptacion != null)
+            {
+                bdh.aceptation_date_old = bd.Fecha_aceptacion;
+                bd.Fecha_aceptacion = parametros.FechaAceptacion;
+                bdh.aceptation_date_new = parametros.FechaAceptacion;
+                condicional = 1;
+            }
+
+            if (parametros.FechaPago != bd.Fecha_pago && parametros.FechaPago != null)
+            {
+                bdh.payment_date_old = bd.Fecha_pago;
+                bd.Fecha_pago = parametros.FechaPago;
+                bdh.payment_date_new = parametros.FechaPago;
+                bdh.payment_status_old = bd.Estado_pago;
+                bd.Estado_pago = 2;
+                bdh.payment_status_new =2;
+                condicional = 1;
+            }
+            if (parametros.FechaRecepcion != bd.Fecha_recepcion && parametros.FechaRecepcion != null)
+            {
+                bdh.reception_date_old = bd.Fecha_recepcion;
+                bd.Fecha_recepcion = parametros.FechaRecepcion;
+                bdh.reception_date_new = parametros.FechaRecepcion;
+                bdh.aceptation_date_old = bd.Fecha_aceptacion;
+                bd.Fecha_aceptacion = parametros.FechaRecepcion;
+                bdh.aceptation_date_new = parametros.FechaRecepcion;
+
+                bdh.reception_status_old = bd.Estado_recepcion;
+                bd.Estado_recepcion = 1;
+                bdh.reception_status_new = 1;
+                bdh.aceptation_status_old = bd.Estado_aceptacion;
+                bd.Estado_aceptacion = 1;
+                bdh.emission_status_new = 1;
+
+                condicional = 1;
+            }
+            if (parametros.TipoInstructions != bd.tipo_instructions && parametros.TipoInstructions != null)
+            {
+                bdh.tipo_instruction_old = bd.tipo_instructions;
+                bd.tipo_instructions = parametros.TipoInstructions;
+                bdh.tipo_instruction_new = parametros.TipoInstructions;
+                condicional = 1;
+            }
+
+            if (parametros.Folio != bd.Folio && parametros.Folio != null)
+            {
+                bdh.folio_old = bd.Folio;
+                bd.Folio = parametros.Folio;
+                bdh.folio_new = parametros.Folio;
+                condicional = 1;
+            }
+
+            var guardar1 = await _instruccionesRepository.UpdateeAsync(bd);
+            //if (!await _instruccionesRepository.UpdateeAsync(bd))
+            //{
+            //    return StatusCode(500);
+            //}
+            if (parametros.Editor != "Masivo")
+            {
+                if(condicional == 1)
+                {
+                 var guardar = await _historificacionInstruccionesRepository.SaveBD(bdh);
+                }
+                
+
+            }
+            
             return NoContent();
         }
         [HttpGet]

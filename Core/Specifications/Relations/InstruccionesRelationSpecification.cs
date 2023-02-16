@@ -76,89 +76,73 @@ namespace Core.Specifications.Relations
             
             AddInclude(p => p.CEN_instruction.Participants_debtor);
             ApplyPaging(productoParams.PageSize * (productoParams.PageIndex - 1), productoParams.PageSize);
-            if (!string.IsNullOrEmpty(productoParams.OrderByNeto))
+            
+            if  (!string.IsNullOrEmpty(productoParams.OrderByNeto))
             {
-                if (productoParams.OrderByNeto == "asc"){
-                    AddOrderBy(p => p.CEN_instruction.Amount);
-                }
-                else if (productoParams.OrderByNeto == "desc")
+                if (productoParams.OrderByNeto == "desc")
                 {
                     AddOrderByDescending(p => p.CEN_instruction.Amount);
                 }
-                
+                else if (productoParams.OrderByNeto == "asc")
+                {
+                    AddOrderBy(p => p.CEN_instruction.Amount);
+                }
             }
             else if (!string.IsNullOrEmpty(productoParams.OrderByBruto))
             {
-                if (productoParams.OrderByBruto == "asc")
-                {
-                    AddOrderBy(p => p.CEN_instruction.Amount_Gross);
-                }
-                else if (productoParams.OrderByBruto == "desc")
+                if (productoParams.OrderByBruto == "desc")
                 {
                     AddOrderByDescending(p => p.CEN_instruction.Amount_Gross);
                 }
-
+                else if (productoParams.OrderByBruto == "asc")
+                {
+                    AddOrderBy(p => p.CEN_instruction.Amount_Gross);
+                }
             }
             else if (!string.IsNullOrEmpty(productoParams.OrderByFechaEmision))
             {
-                if (productoParams.OrderByFechaEmision == "asc")
-                {
-                    AddOrderBy(p => p.Fecha_emision);
-                }
-                else if (productoParams.OrderByFechaEmision == "desc")
+                if (productoParams.OrderByFechaEmision == "desc")
                 {
                     AddOrderByDescending(p => p.Fecha_emision);
                 }
-
-            }
-            else if (!string.IsNullOrEmpty(productoParams.OrderByFechaRecepcion))
-            {
-                if (productoParams.OrderByFechaRecepcion == "asc")
+                else if (productoParams.OrderByFechaEmision == "asc")
                 {
-                    AddOrderBy(p => p.Fecha_recepcion);
+                    AddOrderBy(p => p.Fecha_emision);
                 }
-                else if (productoParams.OrderByFechaRecepcion == "desc")
-                {
-                    AddOrderByDescending(p => p.Fecha_recepcion);
-                }
-
             }
             else if (!string.IsNullOrEmpty(productoParams.OrderByFechaPago))
             {
-                if (productoParams.OrderByFechaPago == "asc")
-                {
-                    AddOrderBy(p => p.Fecha_pago);
-                }
-                else if (productoParams.OrderByFechaPago == "desc")
+                if (productoParams.OrderByFechaPago == "desc")
                 {
                     AddOrderByDescending(p => p.Fecha_pago);
                 }
-
+                else if (productoParams.OrderByFechaPago == "asc")
+                {
+                    AddOrderBy(p => p.Fecha_pago);
+                }
             }
-            else if (!string.IsNullOrEmpty(productoParams.OrderByFechaAceptacion))
+            else if (!string.IsNullOrEmpty(productoParams.OrderByFechaCarta))
             {
-                if (productoParams.OrderByFechaAceptacion == "asc")
-                {
-                    AddOrderBy(p => p.Fecha_aceptacion);
-                }
-                else if (productoParams.OrderByFechaAceptacion == "desc")
-                {
-                    AddOrderByDescending(p => p.Fecha_aceptacion);
-                }
-
-            }
-            else if (!string.IsNullOrEmpty(productoParams.OrderByCarta))
-            {
-                if (productoParams.OrderByCarta == "asc")
-                {
-                    AddOrderBy(p => p.CEN_instruction.cEN_Payment_Matrices.Publish_date);
-                }
-                else if (productoParams.OrderByCarta == "desc")
+                if (productoParams.OrderByFechaCarta == "desc")
                 {
                     AddOrderByDescending(p => p.CEN_instruction.cEN_Payment_Matrices.Publish_date);
                 }
-
+                else if (productoParams.OrderByFechaCarta == "asc")
+                {
+                    AddOrderBy(p => p.CEN_instruction.cEN_Payment_Matrices.Publish_date);
+                }
             }
+            else if (!string.IsNullOrEmpty(productoParams.OrderByFolio))
+            {
+                if (productoParams.OrderByFolio == "desc")
+                {
+                    AddOrderByDescending(p => p.Folio);
+                }
+                else if (productoParams.OrderByFolio == "asc")
+                {
+                    AddOrderBy(p => p.Folio);
+                }
+            } 
             else
             {
                 AddOrderByDescending(p => p.id_instructions);

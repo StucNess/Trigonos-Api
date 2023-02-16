@@ -8,6 +8,7 @@ namespace Core.Specifications.Params
 {
     public class PatchInstruccionesParams
     {
+        public string? Editor { get; set; }
         public int? EstadoEmision { get; set; }
         public int? EstadoRecepcion { get; set; }
         public int? EstadoPago { get; set; }

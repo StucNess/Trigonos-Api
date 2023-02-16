@@ -35,10 +35,9 @@ namespace Core.Specifications.Params
         public string? OrderByNeto { get; set; }
         public string? OrderByBruto { get; set; }
         public string? OrderByFechaEmision { get; set; }
-        public string? OrderByFechaRecepcion { get; set; }
         public string? OrderByFechaPago { get; set; }
-        public string? OrderByFechaAceptacion { get; set; }
-        public string? OrderByCarta { get; set; }
+        public string? OrderByFechaCarta { get; set; }
+        public string? OrderByFolio { get; set; }
         public int PageIndex { get; set; } = 1;
         private const int MaxPageSize = 100;
         private int _pageSize = 100;
