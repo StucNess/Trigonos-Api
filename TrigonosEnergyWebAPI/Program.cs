@@ -38,29 +38,9 @@ builder.Services.AddScoped<IRepositoryUsuario,UsuarioRepository>();
 var builder2 = builder.Services.AddIdentityCore<Usuarios>();
 builder2 = new IdentityBuilder(builder2.UserType, builder2.Services);
 builder2.AddEntityFrameworkStores<SecurityDbContext>();
-//builder2.AddSignInManager<SignInManager<Usuarios>>();
-// AGREGANDO TOQUEN SEGURIDAD
+builder2.AddSignInManager<SignInManager<Usuarios>>();
+builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
-
-// AGREGANDO CREACION DEL MODELO
-
-//Agregando dependencia del toke
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-//{
-//    //options.RequireHttpsMetadata = false;
-//    //options.SaveToken = true;
-
-//    options.TokenValidationParameters = new TokenValidationParameters
-//    {
-        
-//        ValidateIssuerSigningKey = true,
-//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
-//        ValidateIssuer = false,
-//        ValidateAudience = false
-
-//    };
-//});
-
 builder.Services.AddControllers();
 builder.Services.AddCors(opt =>
 {
@@ -209,10 +189,17 @@ var app = builder.Build();
 //    app.UseSwaggerUI();
 
 //}
-var userManager = app.Services.GetService(typeof(UserManager < Usuarios>));
-var identityContext = app.Services.GetRequiredService<SecurityDbContext>();
-identityContext.Database.MigrateAsync();
-SecurityDbContextData.SeedUserAsync(userManager);
+
+var scope = app.Services.CreateScope();
+var services1 = scope.ServiceProvider;
+var logger = services1.GetRequiredService<ILoggerFactory>();
+
+var userManager = services1.GetRequiredService<UserManager<Usuarios>>();
+//var identityContext = services1.GetRequiredService<SecurityDbContext>();
+//await identityContext.Database.MigrateAsync();
+await SecurityDbContextData.SeedUserAsync(userManager);
+
+
 app.UseSwaggerUI();
 app.UseSwagger();
 app.UseHttpsRedirection();

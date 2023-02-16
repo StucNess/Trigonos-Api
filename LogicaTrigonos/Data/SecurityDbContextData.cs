@@ -15,19 +15,20 @@ namespace LogicaTrigonos.Data
             if (!userManager.Users.Any()) {
                 var usuario = new Usuarios
                 {
-                    Nombre = "Elvis",
-                    Apellido = "Olmedo",
-                    UserName = "eolmedo",
-                    Direccion = new Direccion
-                    {
-                        Calle = "Avenida Fermin Vergara 218",
-                        Ciudad = "Colina",
-                        CodigoPostal = "93030",
-                        Departamento = "No"
-                    }
+                    Nombre = "javier",
+                    Apellido = "onate",
+                    UserName = "javier1233",
+                    //Direccion = new Direccion
+                    //{
+                    //    Calle = "Avenida Fermin Vergara 218",
+                    //    Ciudad = "Colina",
+                    //    CodigoPostal = "93030",
+                    //    Departamento = "No"
+                    //}
                 };
 
-                await userManager.CreateAsync(usuario,"colocolo1");
+                await userManager.CreateAsync(usuario,"Colocolo1$");
+                
 
             }
         }
