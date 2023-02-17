@@ -36,13 +36,13 @@ namespace LogicaTrigonos.Logic
                 new Claim(JwtRegisteredClaimNames.Email, usuarios.Email),
                 new Claim("username",usuarios.UserName),
             };
-            var credencials = new SigningCredentials(_key,SecurityAlgorithms.HmacSha512Signature);
+            var credentials = new SigningCredentials(_key,SecurityAlgorithms.HmacSha512Signature);
             var tokenConfiguration = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(60),
-                SigningCredentials = credencials,
-                Issuer = _config["Token:Issuer"]
+                SigningCredentials = credentials,
+                Issuer = _config["AppSettings:Token:Issuer"]
 
             };
             var tokenHandler = new JwtSecurityTokenHandler();

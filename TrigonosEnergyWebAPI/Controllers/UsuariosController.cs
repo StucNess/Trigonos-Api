@@ -1,8 +1,9 @@
 ﻿using Core.Entities;
 using Core.Interface;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TrigonosEnergy.Controllers;
 using TrigonosEnergyWebAPI.DTO;
 using TrigonosEnergyWebAPI.Errors;
@@ -72,8 +73,29 @@ namespace TrigonosEnergyWebAPI.Controllers
             };
 
         }
-
-
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<UsuariosDto>> GetUsuario()
+        {
+            var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            var usuario = await _userManager.FindByEmailAsync(email);
+            return new UsuariosDto
+            {
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Email = usuario.Email,
+                Username = usuario.UserName,
+                Token = _tokenService.CreateToken(usuario)
+            };
+        }
+        [Authorize]
+        [HttpGet("emailvalid")]
+        public async Task<ActionResult<bool>> ValidarEmail([FromQuery]string email)
+        {
+            var usuario = await _userManager.FindByEmailAsync(email);
+            if (usuario == null) return false;
+            return true;
+        }
 
     }
 }

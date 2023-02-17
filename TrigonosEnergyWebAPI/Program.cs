@@ -22,7 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 // Add services to the container.
 builder.Services.AddDbContext<TrigonosDBContext>(Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("TrigonosConnection")));
@@ -33,20 +33,21 @@ builder.Services.AddDbContext<SecurityDbContext>(x =>
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 builder.Services.AddScoped<IRepositoryUsuario,UsuarioRepository>();
-builder.Services.AddScoped<ITokenService,TokenService>();
+
 
 var builder2 = builder.Services.AddIdentityCore<Usuarios>();
 builder2 = new IdentityBuilder(builder2.UserType, builder2.Services);
 builder2.AddEntityFrameworkStores<SecurityDbContext>();
 builder2.AddSignInManager<SignInManager<Usuarios>>();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+builder2.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
     opt.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token:Key"])),
         ValidIssuer = builder.Configuration["AppSettings:Token:Issuer"],
-        ValidateIssuer = true
+        ValidateIssuer = true,
+        ValidateAudience = false,
     };
 });
 builder.Services.AddAuthorization();
@@ -208,7 +209,7 @@ var logger = services1.GetRequiredService<ILoggerFactory>();
 var userManager = services1.GetRequiredService<UserManager<Usuarios>>();
 //var identityContext = services1.GetRequiredService<SecurityDbContext>();
 //await identityContext.Database.MigrateAsync();
-await SecurityDbContextData.SeedUserAsync(userManager);
+//await SecurityDbContextData.SeedUserAsync(userManager);
 
 
 app.UseSwaggerUI();
@@ -217,9 +218,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 //Para la autenticacion y autorizacion
-app.UseAuthorization();
-app.UseAuthentication();
+
+
 app.UseCors("CorsRule");
+
 // Lineas para la documentacion
 //app.UseSwagger(options =>
 //{
@@ -238,6 +240,8 @@ app.UseSwaggerUI(options =>
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<DeChunkerMiddleware>();
 app.UseStatusCodePagesWithReExecute("/errors", "?code={0}");
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.Run();
 
