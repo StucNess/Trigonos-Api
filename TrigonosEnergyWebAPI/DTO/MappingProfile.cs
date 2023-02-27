@@ -113,7 +113,8 @@ namespace TrigonosEnergy.DTO
             CreateMap<TRGNS_Datos_Facturacion, Datos_Facturacion_DTO>();
 
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
-                
+            CreateMap<Usuarios, UsuariosDto>().ReverseMap();
+
         }
     }
 }

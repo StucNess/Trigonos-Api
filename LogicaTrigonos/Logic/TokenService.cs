@@ -26,16 +26,19 @@ namespace LogicaTrigonos.Logic
               
         }
 
-        public string CreateToken(Usuarios usuarios)
+        public string CreateToken(Usuarios usuarios,string rol)
         {
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Email, usuarios.Email),
                 new Claim(JwtRegisteredClaimNames.Name, usuarios.Nombre),
                 new Claim(JwtRegisteredClaimNames.FamilyName, usuarios.Apellido),
-                new Claim(JwtRegisteredClaimNames.Email, usuarios.Email),
                 new Claim("username",usuarios.UserName),
             };
+            if (!string.IsNullOrEmpty(rol))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, rol));
+            }
             var credentials = new SigningCredentials(_key,SecurityAlgorithms.HmacSha512Signature);
             var tokenConfiguration = new SecurityTokenDescriptor
             {

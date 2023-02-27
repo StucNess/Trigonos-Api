@@ -31,6 +31,7 @@ namespace LogicaTrigonos.Data
         public DbSet<TRGNS_dte_reception_status> TRGNS_dte_reception_status { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<TRGNS_H_Datos_Facturacion> TRGNS_H_Datos_Facturacion { get; set; }
+        public DbSet<TRGNS_UserProyects> TRGNS_UserProyects { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

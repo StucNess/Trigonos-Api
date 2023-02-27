@@ -14,6 +14,8 @@ using TrigonosEnergyWebAPI.Middleware;
 using Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,11 +34,14 @@ builder.Services.AddDbContext<SecurityDbContext>(x =>
 });
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+builder.Services.AddScoped(typeof(IGenericSecurityRepository<>), (typeof(GenericSecurityRepository<>)));
 builder.Services.AddScoped<IRepositoryUsuario,UsuarioRepository>();
-
+//builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 
 var builder2 = builder.Services.AddIdentityCore<Usuarios>();
+//builder2.Services.TryAddSingleton<ISystemClock, SystemClock>();
 builder2 = new IdentityBuilder(builder2.UserType, builder2.Services);
+builder2.AddRoles<IdentityRole>();
 builder2.AddEntityFrameworkStores<SecurityDbContext>();
 builder2.AddSignInManager<SignInManager<Usuarios>>();
 builder2.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
@@ -206,10 +211,11 @@ var scope = app.Services.CreateScope();
 var services1 = scope.ServiceProvider;
 var logger = services1.GetRequiredService<ILoggerFactory>();
 
-var userManager = services1.GetRequiredService<UserManager<Usuarios>>();
+//var userManager = services1.GetRequiredService<UserManager<Usuarios>>();
+//var RoleManager = services1.GetRequiredService<RoleManager<IdentityRole>>();
 //var identityContext = services1.GetRequiredService<SecurityDbContext>();
 //await identityContext.Database.MigrateAsync();
-//await SecurityDbContextData.SeedUserAsync(userManager);
+//await SecurityDbContextData.SeedUserAsync(userManager, RoleManager);
 
 
 app.UseSwaggerUI();
