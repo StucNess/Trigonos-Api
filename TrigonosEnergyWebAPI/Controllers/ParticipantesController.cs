@@ -17,14 +17,16 @@ namespace TrigonosEnergy.Controllers
     {
         private readonly IGenericRepository<CEN_Participants> _participantesRepository;
         private readonly IGenericRepository<TRGNS_PROYECTOS> _proyectosRepository;
+        private readonly IGenericRepository<TRGNS_UserProyects> _proyectosUserRepository;
         private readonly IGenericRepository<TRGNS_H_CEN_participants> _pruebaRepo;
         private readonly IMapper _mapper;
-        public ParticipantesController(IGenericRepository<CEN_Participants> participantesRepository, IMapper mapper, IGenericRepository<TRGNS_PROYECTOS> proyectosRepository,IGenericRepository<TRGNS_H_CEN_participants> pruebaRepo)
+        public ParticipantesController(IGenericRepository<CEN_Participants> participantesRepository, IMapper mapper, IGenericRepository<TRGNS_PROYECTOS> proyectosRepository,IGenericRepository<TRGNS_H_CEN_participants> pruebaRepo, IGenericRepository<TRGNS_UserProyects> proyectosUserRepository)
         {
             _participantesRepository = participantesRepository;
             _mapper = mapper;
             _proyectosRepository = proyectosRepository;
             _pruebaRepo = pruebaRepo;
+            _proyectosUserRepository = proyectosUserRepository;
         }
        /// <summary>
        /// Obtener a los participantes de TRGNS o a todos los del CEN
@@ -35,29 +37,55 @@ namespace TrigonosEnergy.Controllers
         [ProducesResponseType(200, Type = typeof(Pagination<ParticipantesDTO>))]
         [ProducesResponseType(400)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<List<ParticipantesDTO>>> GetParticipantes([FromQuery] ParticipantsParams parametros)
+        public async Task<ActionResult<List<ParticipantesDTO>>> GetParticipantes(string? id,[FromQuery] ParticipantsParams parametros)
         {
             if (string.IsNullOrEmpty(parametros.All))
             {
-                var spec = new ProyectosRelation();
-                var participantes = await _proyectosRepository.GetAllAsync(spec);
-                var specCount = new ProyectosRelation();
-                var totalparticipantes = await _proyectosRepository.CountAsync(specCount);
-                var rounded = Math.Ceiling(Convert.ToDecimal(totalparticipantes / parametros.PageSize));
-                var totalPages = Convert.ToInt32(rounded);
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var spec = new UserProyectsRelation(id);
+                    var participantes = await _proyectosUserRepository.GetAllAsync(spec);
+                    var specCount = new UserProyectsRelation(id);
+                    var totalparticipantes = await _proyectosUserRepository.CountAsync(specCount);
+                    var rounded = Math.Ceiling(Convert.ToDecimal(totalparticipantes / parametros.PageSize));
+                    var totalPages = Convert.ToInt32(rounded);
 
-                var data = _mapper.Map<IReadOnlyList<TRGNS_PROYECTOS>, IReadOnlyList<ParticipantesDTO>>(participantes);
+                    var data = _mapper.Map<IReadOnlyList<TRGNS_UserProyects>, IReadOnlyList<ParticipantesDTO>>(participantes);
 
-                return Ok(
-                    new Pagination<ParticipantesDTO>
-                    {
-                        count = totalparticipantes,
-                        Data = data,
-                        PageCount = totalPages+1,
-                        PageIndex = parametros.PageIndex,
-                        PageSize = parametros.PageSize,
-                    }
-                    );
+                    return Ok(
+                        new Pagination<ParticipantesDTO>
+                        {
+                            count = totalparticipantes,
+                            Data = data,
+                            PageCount = totalPages + 1,
+                            PageIndex = parametros.PageIndex,
+                            PageSize = parametros.PageSize,
+                        }
+                        );
+                }
+                else
+                {
+                    var spec = new ProyectosRelation();
+                    var participantes = await _proyectosRepository.GetAllAsync(spec);
+                    var specCount = new ProyectosRelation();
+                    var totalparticipantes = await _proyectosRepository.CountAsync(specCount);
+                    var rounded = Math.Ceiling(Convert.ToDecimal(totalparticipantes / parametros.PageSize));
+                    var totalPages = Convert.ToInt32(rounded);
+
+                    var data = _mapper.Map<IReadOnlyList<TRGNS_PROYECTOS>, IReadOnlyList<ParticipantesDTO>>(participantes);
+
+                    return Ok(
+                        new Pagination<ParticipantesDTO>
+                        {
+                            count = totalparticipantes,
+                            Data = data,
+                            PageCount = totalPages + 1,
+                            PageIndex = parametros.PageIndex,
+                            PageSize = parametros.PageSize,
+                        }
+                        );
+                }
+                
             }
             else
             {

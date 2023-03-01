@@ -241,6 +241,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/APIParticipantes/swagger.json", "API Participantes");
     options.SwaggerEndpoint("/swagger/APIUsuarios/swagger.json", "API Usuarios");
     options.SwaggerEndpoint("/swagger/APIBanks/swagger.json", "API Banks");
+
     options.RoutePrefix = string.Empty;
 });
 app.UseMiddleware<ExceptionMiddleware>();

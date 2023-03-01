@@ -34,9 +34,9 @@ namespace LogicaTrigonos.Data
         public DbSet<TRGNS_UserProyects> TRGNS_UserProyects { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<CEN_billing_windows>().ToTable("CEN_billing_windows");
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            //base.OnModelCreating(modelBuilder);
+            ////modelBuilder.Entity<CEN_billing_windows>().ToTable("CEN_billing_windows");
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             
         }
     }
