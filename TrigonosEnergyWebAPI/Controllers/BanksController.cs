@@ -28,5 +28,15 @@ namespace TrigonosEnergyWebAPI.Controllers
             //var maping = _mapper.Map<IReadOnlyList<CEN_banks>, IReadOnlyList<BanksDto>>(datos);
             return Ok(datos);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BanksDto>> GetBank(int id)
+        {
+
+            var banco = await _banksRepository.GetByClienteIDAsync(id);
+            //var producto = await _participantesRepository.GetByClienteIDAsync(spec);
+
+            return Ok(banco);
+        }
+
     }
 }
