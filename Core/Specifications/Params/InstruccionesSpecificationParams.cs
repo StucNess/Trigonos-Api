@@ -39,7 +39,7 @@ namespace Core.Specifications.Params
         public string? OrderByFechaCarta { get; set; }
         public string? OrderByFolio { get; set; }
         public int PageIndex { get; set; } = 1;
-        private const int MaxPageSize = 100;
+        private const int MaxPageSize = 1000;
         private int _pageSize = 100;
         public int PageSize
         {

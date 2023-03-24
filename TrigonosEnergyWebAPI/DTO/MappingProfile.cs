@@ -103,6 +103,12 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.Fecha_carta, x => x.MapFrom(a => a.CEN_instruction.cEN_Payment_Matrices.Publish_date))
                 .ForMember(p => p.CodigoRef, x => x.MapFrom(a => a.CEN_instruction.cEN_Payment_Matrices.Reference_code));
 
+            CreateMap<TRGNS_Datos_Facturacion, NominasBciDto>()
+              .ForMember(p => p.ID, x => x.MapFrom(a => a.ID))
+              .ForMember(p => p.id_instruccions, x => x.MapFrom(a => a.id_instructions))
+              .ForMember(p => p.Glosa, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key));
+
+
             CreateMap<TRGNS_Datos_Facturacion, sFiltros>()
                 //.ForMember(p => p.RutAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Rut))
                 //.ForMember(p => p.RutDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Rut))

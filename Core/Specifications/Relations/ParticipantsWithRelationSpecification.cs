@@ -16,13 +16,15 @@ namespace Core.Specifications.Relations
         {
             AddInclude(p => p.CEN_banks);
             ApplyPaging(parametros.PageSize * (parametros.PageIndex - 1), parametros.PageSize);
+            AddOrderBy(p => p.ID);
         }
 
         public ParticipantsWithRelationSpecification(int id, ParticipantsParamsID parametros) : base(x => x.ID == id) 
         
         {   
             AddInclude(p => p.CEN_banks);
-           
+            AddOrderBy(p => p.ID);
+
         }
     }
 }

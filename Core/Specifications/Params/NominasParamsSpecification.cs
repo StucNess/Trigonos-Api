@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Params
 {
-    public class ParticipantsParams
+    public class NominasParamsSpecification
     {
-        public string? All { get; set; }
-        public string? business_Name { get; set; }
-        public string? rut { get; set; }
+        public int participant;
+        public string? Glosa { get; set; }
+        //public string? Concepto { get; set; }
         public int PageIndex { get; set; } = 1;
         private const int MaxPageSize = 1000;
         private int _pageSize = 100;
