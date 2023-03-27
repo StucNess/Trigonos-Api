@@ -160,6 +160,24 @@ builder.Services.AddSwaggerGen(options =>
         }
 
     });
+    options.SwaggerDoc("APINominas", new OpenApiInfo()
+    {
+        Title = "API TRGNS",
+        Version = "v1",
+        Description = "Backend .NET CORE 6",
+        Contact = new OpenApiContact()
+        {
+            Email = "TRIGONOS@bluetreeam.com",
+            Name = "Equipo Informatico TRGNS",
+            Url = new Uri("https://bluetreeam.com/?lang=es")
+        },
+        License = new OpenApiLicense()
+        {
+            Name = "MIT License",
+            Url = new Uri("https://es.wikipedia.org/wiki/Licencia_MIT")
+        }
+
+    });
     var archivo = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var ruta = Path.Combine(AppContext.BaseDirectory, archivo);
     options.IncludeXmlComments(ruta);
@@ -241,6 +259,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/APIParticipantes/swagger.json", "API Participantes");
     options.SwaggerEndpoint("/swagger/APIUsuarios/swagger.json", "API Usuarios");
     options.SwaggerEndpoint("/swagger/APIBanks/swagger.json", "API Banks");
+    options.SwaggerEndpoint("/swagger/APINominas/swagger.json", "API Nominas");
 
     options.RoutePrefix = string.Empty;
 });

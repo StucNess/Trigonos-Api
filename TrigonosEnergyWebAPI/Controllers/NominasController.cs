@@ -10,6 +10,7 @@ using TrigonosEnergyWebAPI.DTO;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
+    [ApiExplorerSettings(GroupName = "APINominas")]
     public class NominasController:BaseApiController
     {
         private readonly IMapper _mapper;
@@ -22,7 +23,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         }
         [HttpGet]
         
-        public async Task<ActionResult<Pagination<InstruccionesDTO>>> GetInstructionsOpen(int id, [FromQuery] NominasParamsSpecification parametros)
+        public async Task<ActionResult<Pagination<NominasBciDto>>> GetInstructionsOpen(int id, [FromQuery] NominasParamsSpecification parametros)
         {
             var spec = new NominasRelationSpecification(id, parametros);
             var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
@@ -31,11 +32,11 @@ namespace TrigonosEnergyWebAPI.Controllers
             var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
             var totalPages = Convert.ToInt32(rounded);
 
-            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<InstruccionesDTO>>(producto);
+            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<NominasBciDto>>(producto);
 
 
             return Ok(
-                new Pagination<InstruccionesDTO>
+                new Pagination<NominasBciDto>
                 {
                     count = totalinstrucciones,
                     Data = data,

@@ -106,7 +106,16 @@ namespace TrigonosEnergy.DTO
             CreateMap<TRGNS_Datos_Facturacion, NominasBciDto>()
               .ForMember(p => p.ID, x => x.MapFrom(a => a.ID))
               .ForMember(p => p.id_instruccions, x => x.MapFrom(a => a.id_instructions))
-              .ForMember(p => p.Glosa, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key));
+              .ForMember(p => p.Glosa, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key))
+              .ForMember(p => p.rutDeudor, x => x.MapFrom(a => String.Concat(a.CEN_instruction.Participants_debtor.Rut, '-', a.CEN_instruction.Participants_debtor.Verification_Code)))
+              .ForMember(p => p.rutAcreedor, x => x.MapFrom(a => String.Concat(a.CEN_instruction.Participants_creditor.Rut, '-', a.CEN_instruction.Participants_creditor.Verification_Code)))
+              .ForMember(p => p.nombreAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Business_Name))
+              .ForMember(p => p.nombreDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Business_Name))
+              .ForMember(p => p.cuentaBancoAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Bank_Account))
+              .ForMember(p => p.correoDteAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Dte_Reception_Email))
+              .ForMember(p => p.valorNeto, x => x.MapFrom(a => a.CEN_instruction.Amount_Gross))
+              .ForMember(p => p.folio, x => x.MapFrom(a => a.Folio))
+              .ForMember(p => p.sBifAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.CEN_banks.Sbif)); 
 
 
             CreateMap<TRGNS_Datos_Facturacion, sFiltros>()
