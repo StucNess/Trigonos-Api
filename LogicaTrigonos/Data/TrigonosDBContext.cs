@@ -22,6 +22,7 @@ namespace LogicaTrigonos.Data
         public DbSet<CEN_payment_due_type> CEN_payment_due_type { get; set; }
         public DbSet<CEN_payment_matrices> CEN_payment_matrices { get; set; }
         public DbSet<CEN_payment_status_type> CEN_payment_status_type { get; set; }
+        public DbSet<CEN_nonconformities> CEN_nonconformities { get; set; }
         public DbSet<CEN_transaction_types> CEN_transaction_types { get; set; }
         public DbSet<TRGNS_Datos_Facturacion> TRGNS_Datos_Facturacion { get; set; }
         

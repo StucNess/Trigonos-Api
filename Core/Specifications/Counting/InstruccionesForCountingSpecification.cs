@@ -60,7 +60,7 @@ namespace Core.Specifications.Counting
             (!productoParams.Folio.HasValue || x.Folio == productoParams.Folio)
             )
         {
-            ApplyPaging(productoParams.PageSize * (productoParams.PageIndex - 1), productoParams.PageSize);
+          
         }
     }
 }

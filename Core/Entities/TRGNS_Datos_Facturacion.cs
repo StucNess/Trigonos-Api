@@ -24,5 +24,7 @@ namespace Core.Entities
         public DateTime? Fecha_aceptacion { get; set; }
         public int? tipo_instructions { get; set; }
         public int? Folio { get; set; }
+        public int? nonconformitie { get; set; }
+        public CEN_nonconformities? CEN_nonconformities { get; set; }
     }
 }

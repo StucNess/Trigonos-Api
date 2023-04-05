@@ -18,6 +18,7 @@ namespace LogicaTrigonos.Data.Configuration
             builder.HasOne(r => r.TRGNS_dte_reception_status).WithMany().HasForeignKey(p => p.Estado_recepcion);
             builder.HasOne(o => o.CEN_payment_status_type).WithMany().HasForeignKey(p => p.Estado_pago);
             builder.HasOne(a => a.CEN_dte_acceptance_status).WithMany().HasForeignKey(p => p.Estado_aceptacion);
+            builder.HasOne(a => a.CEN_nonconformities).WithMany().HasForeignKey(p => p.nonconformitie);
             builder.Property(p => p.Fecha_emision);
             builder.Property(p => p.Fecha_recepcion);
             builder.Property(p => p.Fecha_pago);

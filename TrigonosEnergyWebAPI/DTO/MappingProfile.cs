@@ -115,7 +115,8 @@ namespace TrigonosEnergy.DTO
               .ForMember(p => p.correoDteAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Dte_Reception_Email))
               .ForMember(p => p.valorNeto, x => x.MapFrom(a => a.CEN_instruction.Amount_Gross))
               .ForMember(p => p.folio, x => x.MapFrom(a => a.Folio))
-              .ForMember(p => p.sBifAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.CEN_banks.Sbif)); 
+              .ForMember(p => p.sBifAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.CEN_banks.Sbif))
+              .ForMember(p => p.fechaDesconformidad, x => x.MapFrom(a => a.CEN_nonconformities.created_ts));
 
 
             CreateMap<TRGNS_Datos_Facturacion, sFiltros>()
@@ -144,7 +145,22 @@ namespace TrigonosEnergy.DTO
             //    .ForMember(p => p.period, x => x.MapFrom(a => a.period));
             // RELACIONADO A DTO DE BILLING WINDOWS QUE NO SE USA
             // EN EL CONTROLER DE COMBO BOX
-
+            CreateMap<CEN_nonconformities, NonconformitiesDto>()
+                .ForMember(d => d.Id, x => x.MapFrom(a => a.ID))
+                .ForMember(d => d.auxiliary_data, x => x.MapFrom(a => a.auxiliary_data))
+                .ForMember(d => d.created_ts, x => x.MapFrom(a => a.created_ts))
+                .ForMember(d => d.updated_ts, x => x.MapFrom(a => a.updated_ts))
+                .ForMember(d => d.is_open, x => x.MapFrom(a => a.is_open))
+                .ForMember(d => d.description, x => x.MapFrom(a => a.description))
+                .ForMember(d => d.file, x => x.MapFrom(a => a.file))
+                .ForMember(d => d.reported_by_creditor, x => x.MapFrom(a => a.reported_by_creditor))
+                .ForMember(d => d.historial_file, x => x.MapFrom(a => a.historial_file))
+                .ForMember(d => d.closed_date, x => x.MapFrom(a => a.closed_date))
+                .ForMember(d => d.jira_key, x => x.MapFrom(a => a.jira_key))
+                .ForMember(d => d.process_rad_number, x => x.MapFrom(a => a.process_rad_number))
+                .ForMember(d => d.id_case, x => x.MapFrom(a => a.id_case))
+                .ForMember(d => d.instruction, x => x.MapFrom(a => a.instruction))
+                .ForMember(d => d.reason, x => x.MapFrom(a => a.reason));
 
 
 

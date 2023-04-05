@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class TRGNS_H_Datos_Facturacion:TRGNS_base
+    public class TRGNS_H_Datos_Facturacion : TRGNS_base
     {
         public int? id_instruction { get; set; }
         public string? editor { get; set; }
@@ -31,6 +31,7 @@ namespace Core.Entities
         public DateTime? aceptation_date_new { get; set; }
         public int? tipo_instruction_new { get; set; }
         public int? folio_new { get; set; }
+
 
 
 

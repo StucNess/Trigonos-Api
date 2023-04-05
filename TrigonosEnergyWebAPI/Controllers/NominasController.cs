@@ -15,11 +15,13 @@ namespace TrigonosEnergyWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IGenericRepository<TRGNS_Datos_Facturacion> _instruccionesRepository;
+        private readonly IGenericRepository<CEN_nonconformities> _nonconformitiesRepository;
         //private readonly IGenericRepository<>
-        public NominasController(IMapper mapper, IGenericRepository<TRGNS_Datos_Facturacion> instruccionesRepository)
+        public NominasController(IMapper mapper, IGenericRepository<TRGNS_Datos_Facturacion> instruccionesRepository, IGenericRepository<CEN_nonconformities> nonconformitiesRepository)
         {
             _mapper= mapper;
             _instruccionesRepository= instruccionesRepository;
+            _nonconformitiesRepository= nonconformitiesRepository;
         }
         [HttpGet]
         
@@ -27,7 +29,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         {
             var spec = new NominasRelationSpecification(id, parametros);
             var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
-            var specCount = new NominasRelationSpecification(id, parametros);
+            var specCount = new NominasForCountingSpecification(id, parametros);
             var totalinstrucciones = await _instruccionesRepository.CountAsync(specCount);
             var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
             var totalPages = Convert.ToInt32(rounded);

@@ -19,7 +19,7 @@ namespace Core.Specifications.Counting
             AddInclude(p => p.TRGNS_dte_reception_status);
             AddInclude(p => p.CEN_payment_status_type);
             AddInclude(p => p.CEN_billing_status_type);
-
+            AddInclude(p => p.CEN_nonconformities);
             AddInclude(p => p.CEN_instruction);
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows);
