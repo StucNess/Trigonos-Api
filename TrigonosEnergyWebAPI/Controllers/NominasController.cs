@@ -29,27 +29,29 @@ namespace TrigonosEnergyWebAPI.Controllers
         {
             var spec = new NominasRelationSpecification(id, parametros);
             var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
-            var specCount = new NominasForCountingSpecification(id, parametros);
-            var totalinstrucciones = await _instruccionesRepository.CountAsync(specCount);
-            var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
-            var totalPages = Convert.ToInt32(rounded);
+            //var specCount = new NominasForCountingSpecification(id, parametros);
+            //var totalinstrucciones = await _instruccionesRepository.CountAsync(specCount);
+            //var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
+            //var totalPages = Convert.ToInt32(rounded);
 
             var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<NominasBciDto>>(producto);
-
-
             return Ok(
-                new Pagination<NominasBciDto>
-                {
-                    count = totalinstrucciones,
-                    Data = data,
-                    PageCount = totalPages,
-                    PageIndex = parametros.PageIndex,
-                    PageSize = parametros.PageSize,
-
-
-
-                }
+               data
                 );
+
+            //return Ok(
+            //    new Pagination<NominasBciDto>
+            //    {
+            //        count = totalinstrucciones,
+            //        Data = data,
+            //        PageCount = totalPages,
+            //        PageIndex = parametros.PageIndex,
+            //        PageSize = parametros.PageSize,
+
+
+
+            //    }
+            //    );
         }
     }
 }

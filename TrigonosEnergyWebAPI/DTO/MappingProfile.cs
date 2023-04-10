@@ -15,11 +15,13 @@ namespace TrigonosEnergy.DTO
             CreateMap<CEN_Participants, BusinessNameDto>()
                 .ForMember(p => p.label, x => x.MapFrom(a => a.Business_Name));
             CreateMap<CEN_Participants, ParticipantesDTO>()
-                .ForMember(p => p.BanksName, x => x.MapFrom(a => a.CEN_banks.Name));
+                .ForMember(p => p.BanksName, x => x.MapFrom(a => a.CEN_banks.Name))
+                 .ForMember(p => p.RutCompleto, x => x.MapFrom(a => String.Concat(a.Rut, '-', a.Verification_Code)));
             CreateMap<TRGNS_PROYECTOS, ParticipantesDTO>()
                 .ForMember(p => p.Id, x => x.MapFrom(a => a.cEN_Participants.ID))
                 .ForMember(p => p.Name, x => x.MapFrom(a => a.cEN_Participants.Name))
                 .ForMember(p => p.Rut, x => x.MapFrom(a => a.cEN_Participants.Rut))
+                .ForMember(p => p.RutCompleto, x => x.MapFrom(a => String.Concat(a.cEN_Participants.Rut, '-', a.cEN_Participants.Verification_Code)))
                 .ForMember(p => p.Verification_Code, x => x.MapFrom(a => a.cEN_Participants.Verification_Code))
                 .ForMember(p => p.Business_Name, x => x.MapFrom(a => a.cEN_Participants.Business_Name))
                 .ForMember(p => p.Commercial_Business, x => x.MapFrom(a => a.cEN_Participants.Commercial_Business))
@@ -47,6 +49,7 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.Id, x => x.MapFrom(a => a.cEN_Participants.ID))
                 .ForMember(p => p.Name, x => x.MapFrom(a => a.cEN_Participants.Name))
                 .ForMember(p => p.Rut, x => x.MapFrom(a => a.cEN_Participants.Rut))
+                .ForMember(p => p.RutCompleto, x => x.MapFrom(a => String.Concat(a.cEN_Participants.Rut, '-', a.cEN_Participants.Verification_Code)))
                 .ForMember(p => p.Verification_Code, x => x.MapFrom(a => a.cEN_Participants.Verification_Code))
                 .ForMember(p => p.Business_Name, x => x.MapFrom(a => a.cEN_Participants.Business_Name))
                 .ForMember(p => p.Commercial_Business, x => x.MapFrom(a => a.cEN_Participants.Commercial_Business))

@@ -6,6 +6,7 @@
         public string Name { get; set; }
         public string Rut { get; set; }
         public string Verification_Code { get; set; }
+        public string RutCompleto { get; set; }
         public string Business_Name { get; set; }
         public string Commercial_Business { get; set; }
         public string Dte_Reception_Email { get; set; }
@@ -27,5 +28,6 @@
         public string Bills_contact_email { get; set; }
         public string Created_ts { get; set; }
         public string Updated_ts { get; set; }
+       
     }
 }
