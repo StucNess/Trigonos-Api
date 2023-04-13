@@ -33,7 +33,7 @@ namespace Core.Specifications.Relations
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows);
             AddInclude(p => p.CEN_instruction.Participants_creditor);
-            AddOrderByDescending(p => p.CEN_nonconformities.created_ts);
+            AddOrderBy(p => p.CEN_nonconformities.created_ts);
             AddInclude(p => p.CEN_instruction.Participants_debtor);
             AddOrderBy(p => p.CEN_nonconformities.created_ts);
 

@@ -316,5 +316,47 @@ namespace TrigonosEnergyWebAPI.Controllers
             usuarioDto.Token = _tokenService.CreateToken(usuario, roleParam.Nombre);
             return usuarioDto;
         }
+
+        [HttpPost("ValidarEmail")]
+        //public async Task<ActionResult<UsuariosDto>> ExisteUsuario([FromQuery] string email)
+        public async Task<ActionResult<UsuariosDto>> ValidarEmail([FromQuery] string email)
+        {
+            var usuario = await _userManager.FindByEmailAsync(email);
+            var roles = await _userManager.GetRolesAsync(usuario);
+            if (usuario == null)
+            {
+                return Unauthorized(new CodeErrorResponse(401));
+            }
+            return new UsuariosDto
+            {
+                Id = usuario.Id,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Email = usuario.Email,
+                Username = usuario.UserName,
+                Token = _tokenService.CreateToken(usuario, roles[0]),
+                Role = roles[0]
+            };
+
+        }
+        //[Authorize]
+        //[HttpGet]
+        //public async Task<ActionResult<UsuariosDto>> GetUsuario()
+        //{
+        //    var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+        //    var usuario = await _userManager.FindByEmailAsync(email);
+        //    var roles = await _userManager.GetRolesAsync(usuario);
+        //    return new UsuariosDto
+        //    {
+        //        Id = usuario.Id,
+        //        Nombre = usuario.Nombre,
+        //        Apellido = usuario.Apellido,
+        //        Email = usuario.Email,
+        //        Username = usuario.UserName,
+        //        Token = _tokenService.CreateToken(usuario, roles[0]),
+        //        Role = roles[0]
+        //    };
+        //}
     }
+        
 }
