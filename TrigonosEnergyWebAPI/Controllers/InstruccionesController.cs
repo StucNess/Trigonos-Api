@@ -268,6 +268,8 @@ namespace TrigonosEnergyWebAPI.Controllers
         [Route("/ssFiltros")]
         public async Task<ActionResult<IReadOnlyList<ssFiltros>>> ssFiltros(int id, int pa, [FromQuery] InstruccionesSpecificationParams parametros)
         {
+            //.Server.ScriptTimeout = 300;
+
             var spec = new InstruccionesRelationSpecification(id, pa, parametros);
             var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
             var producto1 = producto.DistinctBy(p => p.CEN_instruction.Payment_matrix_natural_key).ToList();

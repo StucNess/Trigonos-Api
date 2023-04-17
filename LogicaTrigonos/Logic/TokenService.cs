@@ -52,5 +52,27 @@ namespace LogicaTrigonos.Logic
             var token = tokenHandler.CreateToken(tokenConfiguration); 
             return tokenHandler.WriteToken(token);
         }
+        public string CreateToken(Usuarios usuarios)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Email, usuarios.Email),
+                new Claim(JwtRegisteredClaimNames.Name, usuarios.Nombre),
+                new Claim(JwtRegisteredClaimNames.FamilyName, usuarios.Apellido),
+                new Claim("username",usuarios.UserName),
+            };
+            var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+            var tokenConfiguration = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddMinutes(3),
+                SigningCredentials = credentials,
+                Issuer = _config["AppSettings:Token:Issuer"]
+
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenConfiguration);
+            return tokenHandler.WriteToken(token);
+        }
     }
 }

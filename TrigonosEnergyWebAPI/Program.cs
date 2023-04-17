@@ -20,7 +20,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.WebHost.ConfigureKestrel(options => options.Limits.KeepAliveTimeout = TimeSpan.FromDays(1));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -37,6 +37,9 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericReposito
 builder.Services.AddScoped(typeof(IGenericSecurityRepository<>), (typeof(GenericSecurityRepository<>)));
 builder.Services.AddScoped<IRepositoryUsuario,UsuarioRepository>();
 //builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
+//var builder = WebApplication.CreateBuilder(args);
+
+
 
 var builder2 = builder.Services.AddIdentityCore<Usuarios>();
 //builder2.Services.TryAddSingleton<ISystemClock, SystemClock>();
