@@ -322,7 +322,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         public async Task<ActionResult<UsuariosDto>> ValidarEmail([FromQuery] string email)
         {
             var usuario = await _userManager.FindByEmailAsync(email);
-            var roles = await _userManager.GetRolesAsync(usuario);
+            //var roles = await _userManager.GetRolesAsync(usuario);
             if (usuario == null)
             {
                 return Unauthorized(new CodeErrorResponse(401));
@@ -334,8 +334,8 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Apellido = usuario.Apellido,
                 Email = usuario.Email,
                 Username = usuario.UserName,
-                Token = _tokenService.CreateToken(usuario, roles[0]),
-                Role = roles[0]
+                Token = _tokenService.CreateToken(usuario),
+                Role = ""
             };
 
         }

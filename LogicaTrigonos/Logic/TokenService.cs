@@ -61,11 +61,12 @@ namespace LogicaTrigonos.Logic
                 new Claim(JwtRegisteredClaimNames.FamilyName, usuarios.Apellido),
                 new Claim("username",usuarios.UserName),
             };
+            claims.Add(new Claim(ClaimTypes.Role, ""));
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenConfiguration = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(3),
+                Expires = DateTime.Now.AddSeconds(300),
                 SigningCredentials = credentials,
                 Issuer = _config["AppSettings:Token:Issuer"]
 
