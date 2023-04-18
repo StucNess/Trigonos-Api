@@ -10,6 +10,5 @@ namespace Core.Interface
     public interface ITokenService
     {
         string CreateToken(Usuarios usuarios,string rol);
-        string CreateToken(Usuarios usuarios);
     }
 }
