@@ -12,6 +12,10 @@ using System.Security.Claims;
 using TrigonosEnergy.Controllers;
 using TrigonosEnergyWebAPI.DTO;
 using TrigonosEnergyWebAPI.Errors;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication;
+using LogicaTrigonos.Logic;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
@@ -27,7 +31,6 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IGenericRepository<TRGNS_UserProyects> _userProyects;
 
-        
         public UsuariosController(UserManager<Usuarios> userManager, SignInManager<Usuarios> signInManager, ITokenService tokenService, IPasswordHasher<Usuarios> passwordHasher, IGenericSecurityRepository<Usuarios> seguridadRepository, IMapper mapper, RoleManager<IdentityRole> roleManager, IGenericRepository<TRGNS_UserProyects> userProyects)
         {
             _signInManager = signInManager;
@@ -41,7 +44,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         }
         /// <summary>
         /// Devuelve datos de usuario al logearse con su token
-        /// </summary>
+        /// </summary>M
         /// <returns></returns>
         [Authorize]
         [HttpGet]
@@ -135,7 +138,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
             if (!await _userProyects.SaveBD(proyectoUsuario))
             {
-                return BadRequest(new CodeErrorResponse(500,"No existe el usuario y/o el proyecto"));
+                return BadRequest(new CodeErrorResponse(500, "No existe el usuario y/o el proyecto"));
             }
             return Ok();
         }
@@ -147,6 +150,8 @@ namespace TrigonosEnergyWebAPI.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<UsuariosDto>> Login(LoginDto loginDto)
         {
+
+
             var usuario = await _userManager.FindByEmailAsync(loginDto.Email);
 
             if (usuario == null)
@@ -180,11 +185,11 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// <returns></returns>
         [HttpPost("Registrar")]
         public async Task<ActionResult<UsuariosDto>> Registrar(RegistrarDto registrarDto)
-        {   
+        {
             var usuarioEmail = await _userManager.FindByEmailAsync(registrarDto.Email);
             if (usuarioEmail != null)
             {
-                return BadRequest(new CodeErrorResponse(400,"El email ingresado existe"));
+                return BadRequest(new CodeErrorResponse(400, "El email ingresado existe"));
             }
             var usuario = new Usuarios
             {
@@ -196,8 +201,6 @@ namespace TrigonosEnergyWebAPI.Controllers
             };
 
             var resultado = await _userManager.CreateAsync(usuario, registrarDto.Password);
-
-
 
             var resultado1 = await _userManager.AddToRoleAsync(usuario, registrarDto.Rol);
             if (!resultado.Succeeded || !resultado1.Succeeded)
@@ -257,6 +260,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Role = roles[0]
             };
         }
+
         /// <summary>
         /// Actualiza el rol de un usuario
         /// </summary>
@@ -268,13 +272,13 @@ namespace TrigonosEnergyWebAPI.Controllers
         {
             var usuario = await _userManager.FindByIdAsync(id);
             var role = _roleManager.FindByNameAsync(roleParam.Nombre);
-            if(role == null)
+            if (role == null)
             {
 
                 return NotFound(new CodeErrorResponse(404, "El role no existe"));
             }
-            
-            if(usuario == null)
+
+            if (usuario == null)
             {
                 return NotFound(new CodeErrorResponse(404, "El usuario no existe"));
             }
@@ -288,11 +292,11 @@ namespace TrigonosEnergyWebAPI.Controllers
                 }
                 if (resultado.Errors.Any())
                 {
-                    if(resultado.Errors.Where(x=> x.Code == "UserAlreadyRole").Any())
+                    if (resultado.Errors.Where(x => x.Code == "UserAlreadyRole").Any())
                     {
                         usuarioDto.Role = roleParam.Nombre;
                     }
-                   
+
                 }
                 //else
                 //{
@@ -306,12 +310,12 @@ namespace TrigonosEnergyWebAPI.Controllers
             }
             else
             {
-               var resultado = await _userManager.RemoveFromRoleAsync(usuario, roleParam.Nombre);
+                var resultado = await _userManager.RemoveFromRoleAsync(usuario, roleParam.Nombre);
                 if (resultado.Succeeded)
                 {
                     usuarioDto.Role = "NO";
                 }
-                
+
             }
             usuarioDto.Token = _tokenService.CreateToken(usuario, roleParam.Nombre);
             return usuarioDto;
@@ -339,24 +343,33 @@ namespace TrigonosEnergyWebAPI.Controllers
             };
 
         }
-        //[Authorize]
-        //[HttpGet]
-        //public async Task<ActionResult<UsuariosDto>> GetUsuario()
-        //{
-        //    var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
-        //    var usuario = await _userManager.FindByEmailAsync(email);
-        //    var roles = await _userManager.GetRolesAsync(usuario);
-        //    return new UsuariosDto
-        //    {
-        //        Id = usuario.Id,
-        //        Nombre = usuario.Nombre,
-        //        Apellido = usuario.Apellido,
-        //        Email = usuario.Email,
-        //        Username = usuario.UserName,
-        //        Token = _tokenService.CreateToken(usuario, roles[0]),
-        //        Role = roles[0]
-        //    };
-        //}
+        /// <summary>
+        /// Recuperar contraseña
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost("ActualizarContrasena")]
+        public async Task<ActionResult<UsuariosDto>> RecuperarContrasena(ActualizarContrasenaDto actualizarContrasenaDto)
+        {
+            var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            var usuario = await _userManager.FindByEmailAsync(email);
+            usuario.PasswordHash = _passwordHasher.HashPassword(usuario, actualizarContrasenaDto.Password);
+            var resultado = await _userManager.UpdateAsync(usuario);
+
+            if (!resultado.Succeeded)
+            {
+                return BadRequest(new CodeErrorResponse(400, "No se pudo actualizar el usuario"));
+            }
+            return new UsuariosDto
+            {
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Email = usuario.Email,
+            };
+
+
+
+
+        }
     }
-        
 }

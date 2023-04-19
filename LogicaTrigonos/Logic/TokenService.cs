@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 //using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -43,7 +44,7 @@ namespace LogicaTrigonos.Logic
             var tokenConfiguration = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(60),
+                Expires = DateTime.UtcNow.AddMinutes(5),
                 SigningCredentials = credentials,
                 Issuer = _config["AppSettings:Token:Issuer"]
 
@@ -66,11 +67,11 @@ namespace LogicaTrigonos.Logic
             var tokenConfiguration = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddSeconds(300),
+                Expires = DateTime.UtcNow.AddMinutes(5),
                 SigningCredentials = credentials,
                 Issuer = _config["AppSettings:Token:Issuer"]
-
-            };
+//string accessTokenExpire = await HttpContext.GetTokenAsync("expires_at");
+        };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenConfiguration);
             return tokenHandler.WriteToken(token);

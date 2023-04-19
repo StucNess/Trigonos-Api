@@ -55,6 +55,7 @@ builder2.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJ
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token:Key"])),
         ValidIssuer = builder.Configuration["AppSettings:Token:Issuer"],
         ValidateIssuer = true,
+        ClockSkew = TimeSpan.Zero,
         ValidateAudience = false,
     };
 });
