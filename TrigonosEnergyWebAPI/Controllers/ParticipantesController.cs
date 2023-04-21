@@ -15,12 +15,12 @@ namespace TrigonosEnergy.Controllers
     [ApiExplorerSettings(GroupName = "APIParticipantes")]
     public class ParticipantesController : BaseApiController
     {
-        private readonly IGenericRepository<CEN_Participants> _participantesRepository;
-        private readonly IGenericRepository<TRGNS_PROYECTOS> _proyectosRepository;
-        private readonly IGenericRepository<TRGNS_UserProyects> _proyectosUserRepository;
-        private readonly IGenericRepository<TRGNS_H_CEN_participants> _pruebaRepo;
+        private readonly IGenericRepository<REACT_CEN_Participants> _participantesRepository;
+        private readonly IGenericRepository<REACT_TRGNS_PROYECTOS> _proyectosRepository;
+        private readonly IGenericRepository<REACT_TRGNS_UserProyects> _proyectosUserRepository;
+        private readonly IGenericRepository<REACT_TRGNS_H_CEN_participants> _pruebaRepo;
         private readonly IMapper _mapper;
-        public ParticipantesController(IGenericRepository<CEN_Participants> participantesRepository, IMapper mapper, IGenericRepository<TRGNS_PROYECTOS> proyectosRepository,IGenericRepository<TRGNS_H_CEN_participants> pruebaRepo, IGenericRepository<TRGNS_UserProyects> proyectosUserRepository)
+        public ParticipantesController(IGenericRepository<REACT_CEN_Participants> participantesRepository, IMapper mapper, IGenericRepository<REACT_TRGNS_PROYECTOS> proyectosRepository,IGenericRepository<REACT_TRGNS_H_CEN_participants> pruebaRepo, IGenericRepository<REACT_TRGNS_UserProyects> proyectosUserRepository)
         {
             _participantesRepository = participantesRepository;
             _mapper = mapper;
@@ -50,7 +50,7 @@ namespace TrigonosEnergy.Controllers
                     var rounded = Math.Ceiling(Convert.ToDecimal(totalparticipantes / parametros.PageSize));
                     var totalPages = Convert.ToInt32(rounded);
 
-                    var data = _mapper.Map<IReadOnlyList<TRGNS_UserProyects>, IReadOnlyList<ParticipantesDTO>>(participantes);
+                    var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_UserProyects>, IReadOnlyList<ParticipantesDTO>>(participantes);
 
                     return Ok(
                         new Pagination<ParticipantesDTO>
@@ -72,7 +72,7 @@ namespace TrigonosEnergy.Controllers
                     var rounded = Math.Ceiling(Convert.ToDecimal(totalparticipantes / parametros.PageSize));
                     var totalPages = Convert.ToInt32(rounded);
 
-                    var data = _mapper.Map<IReadOnlyList<TRGNS_PROYECTOS>, IReadOnlyList<ParticipantesDTO>>(participantes);
+                    var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_PROYECTOS>, IReadOnlyList<ParticipantesDTO>>(participantes);
 
                     return Ok(
                         new Pagination<ParticipantesDTO>
@@ -96,7 +96,7 @@ namespace TrigonosEnergy.Controllers
                 var rounded = Math.Ceiling(Convert.ToDecimal(totalparticipantes / parametros.PageSize));
                 var totalPages = Convert.ToInt32(rounded);
 
-                var data = _mapper.Map<IReadOnlyList<CEN_Participants>, IReadOnlyList<ParticipantesDTO>>(participantes);
+                var data = _mapper.Map<IReadOnlyList<REACT_CEN_Participants>, IReadOnlyList<ParticipantesDTO>>(participantes);
 
                 return Ok(
                     new Pagination<ParticipantesDTO>
@@ -117,10 +117,10 @@ namespace TrigonosEnergy.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/BusinessName")]
-        public async Task<ActionResult<IReadOnlyList<CEN_Participants>>> PRUEBA()
+        public async Task<ActionResult<IReadOnlyList<REACT_CEN_Participants>>> PRUEBA()
         {
             var datos = await _participantesRepository.GetAllAsync();
-            var maping = _mapper.Map <IReadOnlyList<CEN_Participants>, IReadOnlyList<BusinessNameDto>>(datos);
+            var maping = _mapper.Map <IReadOnlyList<REACT_CEN_Participants>, IReadOnlyList<BusinessNameDto>>(datos);
             return Ok(maping);
         }
         /// <summary>
@@ -129,10 +129,10 @@ namespace TrigonosEnergy.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/Rut")]
-        public async Task<ActionResult<IReadOnlyList<CEN_Participants>>> PRUEBA1()
+        public async Task<ActionResult<IReadOnlyList<REACT_CEN_Participants>>> PRUEBA1()
         {
             var datos = await _participantesRepository.GetAllAsync();
-            var maping = _mapper.Map<IReadOnlyList<CEN_Participants>, IReadOnlyList<RutDto>>(datos);
+            var maping = _mapper.Map<IReadOnlyList<REACT_CEN_Participants>, IReadOnlyList<RutDto>>(datos);
             return Ok(maping);
         }
         /// <summary>
@@ -147,18 +147,18 @@ namespace TrigonosEnergy.Controllers
             var spec = new ParticipantsWithRelationSpecification(id, parametros);
             var producto = await _participantesRepository.GetByClienteIDAsync(spec);
 
-            return _mapper.Map<CEN_Participants, ParticipantesDTO>(producto);
+            return _mapper.Map<REACT_CEN_Participants, ParticipantesDTO>(producto);
         }
 
         [HttpGet]
         [Route("/Historificacion")]
-        public async Task<ActionResult<TRGNS_H_CEN_participants>> GetParticipanteHistorico(int id)
+        public async Task<ActionResult<REACT_TRGNS_H_CEN_participants>> GetParticipanteHistorico(int id)
         {
 
             var spec = new HistorificacionParticipantesSpecification(id);
             var producto = await _pruebaRepo.GetAllAsync(spec);
             return Ok(producto);
-            //return _mapper.Map<CEN_Participants, ParticipantesDTO>(producto);
+            //return _mapper.Map<REACT_CEN_Participants, ParticipantesDTO>(producto);
         }
         /// <summary>
         /// Actualizar datos de un participante
@@ -173,7 +173,7 @@ namespace TrigonosEnergy.Controllers
             var spec = new PatchParticipantsRelation(id);
             var bdc = await _participantesRepository.GetByClienteIDAsync(spec);
             var bd= await _participantesRepository.GetByClienteIDAsync(spec);
-            var bdh = new TRGNS_H_CEN_participants();
+            var bdh = new REACT_TRGNS_H_CEN_participants();
             bdh.name_old = "0";
             bdh.name_new = "0";
             bdh.rut_old = "0";

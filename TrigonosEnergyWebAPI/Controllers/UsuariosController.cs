@@ -29,9 +29,9 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly IGenericSecurityRepository<Usuarios> _seguridadRepository;
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IGenericRepository<TRGNS_UserProyects> _userProyects;
+        private readonly IGenericRepository<REACT_TRGNS_UserProyects> _userProyects;
 
-        public UsuariosController(UserManager<Usuarios> userManager, SignInManager<Usuarios> signInManager, ITokenService tokenService, IPasswordHasher<Usuarios> passwordHasher, IGenericSecurityRepository<Usuarios> seguridadRepository, IMapper mapper, RoleManager<IdentityRole> roleManager, IGenericRepository<TRGNS_UserProyects> userProyects)
+        public UsuariosController(UserManager<Usuarios> userManager, SignInManager<Usuarios> signInManager, ITokenService tokenService, IPasswordHasher<Usuarios> passwordHasher, IGenericSecurityRepository<Usuarios> seguridadRepository, IMapper mapper, RoleManager<IdentityRole> roleManager, IGenericRepository<REACT_TRGNS_UserProyects> userProyects)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -130,7 +130,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         [HttpPost("AsignarProyecto")]
         public async Task<IActionResult> AsignarProyecto(AsignarProyectoDto asignarProyectoDto)
         {
-            var proyectoUsuario = new TRGNS_UserProyects
+            var proyectoUsuario = new REACT_TRGNS_UserProyects
             {
                 idProyect = asignarProyectoDto.idProyect,
                 idUser = asignarProyectoDto.idUser

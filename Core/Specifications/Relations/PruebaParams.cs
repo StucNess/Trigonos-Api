@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Relations
 {
-    public class PruebaParams : BaseSpecification<TRGNS_Datos_Facturacion>
+    public class PruebaParams : BaseSpecification<REACT_TRGNS_Datos_Facturacion>
     {
         public PruebaParams(int id/*, InstruccionesSpecificationParams productoParams*/)
 

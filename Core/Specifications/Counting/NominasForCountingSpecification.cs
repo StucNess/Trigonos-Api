@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Counting
 {
-    public class NominasForCountingSpecification : BaseSpecification<TRGNS_Datos_Facturacion>
+    public class NominasForCountingSpecification : BaseSpecification<REACT_TRGNS_Datos_Facturacion>
     {
         public NominasForCountingSpecification(int id, NominasParamsSpecification parametros)
             : base(x => x.CEN_instruction.Debtor == id &&

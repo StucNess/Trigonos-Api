@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Relations
 {
-    public class HistorificacionParticipantesSpecification : BaseSpecification<TRGNS_H_CEN_participants>
+    public class HistorificacionParticipantesSpecification : BaseSpecification<REACT_TRGNS_H_CEN_participants>
     {
 
         public HistorificacionParticipantesSpecification(int id):base(x => x.id_definir == id)

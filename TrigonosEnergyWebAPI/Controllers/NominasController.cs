@@ -14,10 +14,10 @@ namespace TrigonosEnergyWebAPI.Controllers
     public class NominasController:BaseApiController
     {
         private readonly IMapper _mapper;
-        private readonly IGenericRepository<TRGNS_Datos_Facturacion> _instruccionesRepository;
-        private readonly IGenericRepository<CEN_nonconformities> _nonconformitiesRepository;
+        private readonly IGenericRepository<REACT_TRGNS_Datos_Facturacion> _instruccionesRepository;
+        private readonly IGenericRepository<REACT_CEN_nonconformities> _nonconformitiesRepository;
         //private readonly IGenericRepository<>
-        public NominasController(IMapper mapper, IGenericRepository<TRGNS_Datos_Facturacion> instruccionesRepository, IGenericRepository<CEN_nonconformities> nonconformitiesRepository)
+        public NominasController(IMapper mapper, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository, IGenericRepository<REACT_CEN_nonconformities> nonconformitiesRepository)
         {
             _mapper= mapper;
             _instruccionesRepository= instruccionesRepository;
@@ -34,7 +34,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             //var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
             //var totalPages = Convert.ToInt32(rounded);
 
-            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<NominasBciDto>>(producto);
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<NominasBciDto>>(producto);
             return Ok(
                data
                 );

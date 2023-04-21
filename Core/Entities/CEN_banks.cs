@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class CEN_banks : TRGNS_base
+    public class REACT_CEN_banks : TRGNS_base
     {
 
         public string? Code { get; set; }

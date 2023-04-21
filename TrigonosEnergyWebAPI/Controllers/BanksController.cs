@@ -11,9 +11,9 @@ namespace TrigonosEnergyWebAPI.Controllers
     [ApiExplorerSettings(GroupName = "APIBanks")]
     public class BanksController : BaseApiController
     {
-        private readonly IGenericRepository<CEN_banks> _banksRepository;
+        private readonly IGenericRepository<REACT_CEN_banks> _banksRepository;
         private readonly IMapper _mapper;
-        public BanksController(IGenericRepository<CEN_banks> banksRepository, IMapper mapper)
+        public BanksController(IGenericRepository<REACT_CEN_banks> banksRepository, IMapper mapper)
         {
             _banksRepository = banksRepository;
             _mapper = mapper;
@@ -25,7 +25,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         public async Task<ActionResult<IReadOnlyList<BanksDto>>> GetBanks()
         {
             var datos = await _banksRepository.GetAllAsync();
-            //var maping = _mapper.Map<IReadOnlyList<CEN_banks>, IReadOnlyList<BanksDto>>(datos);
+            //var maping = _mapper.Map<IReadOnlyList<REACT_CEN_banks>, IReadOnlyList<BanksDto>>(datos);
             return Ok(datos);
         }
         [HttpGet("{id}")]

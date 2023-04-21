@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class TRGNS_UserProyects:TRGNS_base
+    public class REACT_TRGNS_UserProyects : TRGNS_base
     {
        
         public int idProyect { get; set; }
-        public CEN_Participants? cEN_Participants { get; set; }
+        public REACT_CEN_Participants? cEN_Participants { get; set; }
         public string idUser { get; set; }
     }
 }

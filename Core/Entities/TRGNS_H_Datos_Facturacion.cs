@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class TRGNS_H_Datos_Facturacion : TRGNS_base
+    public class REACT_TRGNS_H_Datos_Facturacion : TRGNS_base
     {
         public int? id_instruction { get; set; }
         public string? editor { get; set; }

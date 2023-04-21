@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Counting
 {
-    public class NonconformitiesForCountingSpecification : BaseSpecification<CEN_nonconformities>
+    public class NonconformitiesForCountingSpecification : BaseSpecification<REACT_CEN_nonconformities>
     {
         public NonconformitiesForCountingSpecification(NonconformitiesSpecificationParams nonconformitiesParams)
 

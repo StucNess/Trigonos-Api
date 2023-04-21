@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Relations
 {
-    public class ParticipantsWithRelationSpecification : BaseSpecification<CEN_Participants>
+    public class ParticipantsWithRelationSpecification : BaseSpecification<REACT_CEN_Participants>
     {
         public ParticipantsWithRelationSpecification(ParticipantsParams parametros) : base(x =>
         (string.IsNullOrEmpty(parametros.business_Name) || x.Business_Name == parametros.business_Name)&&

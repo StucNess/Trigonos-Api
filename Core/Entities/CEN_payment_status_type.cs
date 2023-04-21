@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class CEN_payment_status_type : TRGNS_base
+    public class REACT_CEN_payment_status_type : TRGNS_base
     {
         public string Name { get; set; }
         public string Natural_key { get; set; }

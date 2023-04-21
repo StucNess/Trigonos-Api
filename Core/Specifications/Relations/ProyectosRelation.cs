@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Relations
 {
-    public class ProyectosRelation: BaseSpecification<TRGNS_PROYECTOS>
+    public class ProyectosRelation: BaseSpecification<REACT_TRGNS_PROYECTOS>
     {
     
         public ProyectosRelation():base(x=> x.vHabilitado == 1)

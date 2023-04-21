@@ -14,9 +14,9 @@ namespace TrigonosEnergyWebAPI.Controllers
     [ApiExplorerSettings(GroupName = "APIDesconformidades")]
     public class NonconformitiesController : BaseApiController
     {
-        private readonly IGenericRepository<CEN_nonconformities> _nonconformitiesRepository;
+        private readonly IGenericRepository<REACT_CEN_nonconformities> _nonconformitiesRepository;
         private readonly IMapper _mapper;
-        public NonconformitiesController(IGenericRepository<CEN_nonconformities> nonconformitiesRepository, IMapper mapper)
+        public NonconformitiesController(IGenericRepository<REACT_CEN_nonconformities> nonconformitiesRepository, IMapper mapper)
         {
             _nonconformitiesRepository = nonconformitiesRepository;
             _mapper = mapper;
@@ -37,7 +37,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var rounded = Math.Ceiling(Convert.ToDecimal(totalNonconformities / parametros.PageSize));
             var totalPages = Convert.ToInt32(rounded);
 
-            var data = _mapper.Map<IReadOnlyList<CEN_nonconformities>, IReadOnlyList<NonconformitiesDto>>(nonconformities);
+            var data = _mapper.Map<IReadOnlyList<REACT_CEN_nonconformities>, IReadOnlyList<NonconformitiesDto>>(nonconformities);
 
             return Ok(
                 new Pagination<NonconformitiesDto>

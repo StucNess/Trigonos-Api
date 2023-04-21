@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Relations
 {
-    public class NonconformitiesRelationSpecification : BaseSpecification<CEN_nonconformities>
+    public class NonconformitiesRelationSpecification : BaseSpecification<REACT_CEN_nonconformities>
     {
         public NonconformitiesRelationSpecification(NonconformitiesSpecificationParams nonconformitiesParams)
            

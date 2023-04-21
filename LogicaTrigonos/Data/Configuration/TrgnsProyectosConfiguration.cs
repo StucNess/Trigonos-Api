@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LogicaTrigonos.Data.Configuration
 {
-    internal class TrgnsProyectosConfiguration: IEntityTypeConfiguration<TRGNS_PROYECTOS>
+    internal class TrgnsProyectosConfiguration: IEntityTypeConfiguration<REACT_TRGNS_PROYECTOS>
     {
-        public void Configure(EntityTypeBuilder<TRGNS_PROYECTOS> builder)
+        public void Configure(EntityTypeBuilder<REACT_TRGNS_PROYECTOS> builder)
         {
             builder.HasOne(p => p.cEN_Participants).WithMany().HasForeignKey(i => i.Id_participants);
 

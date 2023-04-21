@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Relations
 {
-    public class NominasRelationSpecification:BaseSpecification<TRGNS_Datos_Facturacion>
+    public class NominasRelationSpecification:BaseSpecification<REACT_TRGNS_Datos_Facturacion>
     {
 
 

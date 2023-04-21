@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class CEN_Participants : TRGNS_base
+    public class REACT_CEN_Participants : TRGNS_base
     {
         public string? Name { get; set; }
         public string? Rut { get; set; }
@@ -16,7 +16,7 @@ namespace Core.Entities
         public string? Dte_Reception_Email { get; set; } 
         public string? Bank_Account { get; set; }
         public int? bank{ get; set; }
-        public CEN_banks? CEN_banks { get; set; }
+        public REACT_CEN_banks? CEN_banks { get; set; }
         public string? Commercial_address { get; set; }
         public string? Postal_address { get; set; }  
         public string? Manager { get; set; }

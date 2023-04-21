@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LogicaTrigonos.Data.Configuration
 {
-    internal class TrgnsFacturacionConfiguration : IEntityTypeConfiguration<TRGNS_Datos_Facturacion>
+    internal class TrgnsFacturacionConfiguration : IEntityTypeConfiguration<REACT_TRGNS_Datos_Facturacion>
     {
-        public void Configure(EntityTypeBuilder<TRGNS_Datos_Facturacion> builder)
+        public void Configure(EntityTypeBuilder<REACT_TRGNS_Datos_Facturacion> builder)
         {
             builder.HasOne(i => i.CEN_instruction).WithMany().HasForeignKey(p => p.id_instructions);
             builder.HasOne(b => b.CEN_billing_status_type).WithMany().HasForeignKey(p => p.Estado_emision);

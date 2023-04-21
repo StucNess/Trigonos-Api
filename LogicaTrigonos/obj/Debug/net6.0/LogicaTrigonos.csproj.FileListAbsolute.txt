@@ -1,0 +1,17 @@
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\bin\Debug\net6.0\LogicaTrigonos.deps.json
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\bin\Debug\net6.0\LogicaTrigonos.runtimeconfig.json
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\bin\Debug\net6.0\LogicaTrigonos.dll
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\bin\Debug\net6.0\LogicaTrigonos.pdb
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\bin\Debug\net6.0\Core.dll
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\bin\Debug\net6.0\Core.pdb
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.csproj.AssemblyReference.cache
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.AssemblyInfoInputs.cache
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.AssemblyInfo.cs
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.csproj.CoreCompileInputs.cache
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.csproj.CopyComplete
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.dll
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\refint\LogicaTrigonos.dll
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.pdb
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.genruntimeconfig.cache
+C:\Users\Elvis\Desktop\TRGNS 2023\TEST\LogicaTrigonos\obj\Debug\net6.0\ref\LogicaTrigonos.dll

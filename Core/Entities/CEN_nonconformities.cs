@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class CEN_nonconformities:TRGNS_base
+    public class REACT_CEN_nonconformities : TRGNS_base
     {
         public string? auxiliary_data { get; set; }
         public string? created_ts { get; set; }
@@ -22,7 +22,7 @@ namespace Core.Entities
 
         public int? id_case { get; set; }
         public int? instruction { get; set; }
-        public CEN_instructions? CEN_Instructions { get; set; }
+        public REACT_CEN_instructions? CEN_Instructions { get; set; }
         public int? reason { get; set; }
     }
 }

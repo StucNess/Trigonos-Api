@@ -8,16 +8,16 @@ namespace TrigonosEnergy.DTO
     {
         public MappingProfile()
         {
-            CreateMap<CEN_payment_matrices, FolioDto>()
+            CreateMap<REACT_CEN_payment_matrices, FolioDto>()
                 .ForMember(p => p.label, x => x.MapFrom(a => a.Natural_key));
-            CreateMap<CEN_Participants, RutDto>()
+            CreateMap<REACT_CEN_Participants, RutDto>()
                 .ForMember(p => p.label, x => x.MapFrom(a => String.Concat(a.Rut, '-', a.Verification_Code)));
-            CreateMap<CEN_Participants, BusinessNameDto>()
+            CreateMap<REACT_CEN_Participants, BusinessNameDto>()
                 .ForMember(p => p.label, x => x.MapFrom(a => a.Business_Name));
-            CreateMap<CEN_Participants, ParticipantesDTO>()
+            CreateMap<REACT_CEN_Participants, ParticipantesDTO>()
                 .ForMember(p => p.BanksName, x => x.MapFrom(a => a.CEN_banks.Name))
                  .ForMember(p => p.RutCompleto, x => x.MapFrom(a => String.Concat(a.Rut, '-', a.Verification_Code)));
-            CreateMap<TRGNS_PROYECTOS, ParticipantesDTO>()
+            CreateMap<REACT_TRGNS_PROYECTOS, ParticipantesDTO>()
                 .ForMember(p => p.Id, x => x.MapFrom(a => a.cEN_Participants.ID))
                 .ForMember(p => p.Name, x => x.MapFrom(a => a.cEN_Participants.Name))
                 .ForMember(p => p.Rut, x => x.MapFrom(a => a.cEN_Participants.Rut))
@@ -45,7 +45,7 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.Created_ts, x => x.MapFrom(a => a.cEN_Participants.Created_ts))
                 .ForMember(p => p.Updated_ts, x => x.MapFrom(a => a.cEN_Participants.Updated_ts));
 
-            CreateMap<TRGNS_UserProyects, ParticipantesDTO>()
+            CreateMap<REACT_TRGNS_UserProyects, ParticipantesDTO>()
                 .ForMember(p => p.Id, x => x.MapFrom(a => a.cEN_Participants.ID))
                 .ForMember(p => p.Name, x => x.MapFrom(a => a.cEN_Participants.Name))
                 .ForMember(p => p.Rut, x => x.MapFrom(a => a.cEN_Participants.Rut))
@@ -73,9 +73,9 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.Created_ts, x => x.MapFrom(a => a.cEN_Participants.Created_ts))
                 .ForMember(p => p.Updated_ts, x => x.MapFrom(a => a.cEN_Participants.Updated_ts));
 
-            CreateMap<CEN_Participants, RutDto>()
+            CreateMap<REACT_CEN_Participants, RutDto>()
                 .ForMember(p => p.label, x => x.MapFrom(a => String.Concat(a.Rut, '-', a.Verification_Code)));
-            CreateMap<TRGNS_Datos_Facturacion, InstruccionesDTO>()
+            CreateMap<REACT_TRGNS_Datos_Facturacion, InstruccionesDTO>()
                 .ForMember(p => p.ID, x => x.MapFrom(a => a.ID))
                 .ForMember(p => p.id_instruccions, x => x.MapFrom(a => a.id_instructions))
                 .ForMember(p => p.Estado_emision, x => x.MapFrom(a => a.Estado_emision))
@@ -106,7 +106,7 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.Fecha_carta, x => x.MapFrom(a => a.CEN_instruction.cEN_Payment_Matrices.Publish_date))
                 .ForMember(p => p.CodigoRef, x => x.MapFrom(a => a.CEN_instruction.cEN_Payment_Matrices.Reference_code));
 
-            CreateMap<TRGNS_Datos_Facturacion, NominasBciDto>()
+            CreateMap<REACT_TRGNS_Datos_Facturacion, NominasBciDto>()
               .ForMember(p => p.ID, x => x.MapFrom(a => a.ID))
               .ForMember(p => p.id_instruccions, x => x.MapFrom(a => a.id_instructions))
               .ForMember(p => p.Glosa, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key))
@@ -122,24 +122,24 @@ namespace TrigonosEnergy.DTO
               .ForMember(p => p.fechaDesconformidad, x => x.MapFrom(a => a.CEN_nonconformities.created_ts));
 
 
-            CreateMap<TRGNS_Datos_Facturacion, sFiltros>()
+            CreateMap<REACT_TRGNS_Datos_Facturacion, sFiltros>()
                 //.ForMember(p => p.RutAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Rut))
                 //.ForMember(p => p.RutDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Rut))
                 .ForMember(p => p.label, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_natural_key));
             //.ForMember(p => p.NombreAcreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.Business_Name))
             //.ForMember(p => p.NombreDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Business_Name));
-            CreateMap<TRGNS_Datos_Facturacion, sFiltrosRutCreditor>()       
+            CreateMap<REACT_TRGNS_Datos_Facturacion, sFiltrosRutCreditor>()       
                 .ForMember(p => p.label, x => x.MapFrom(a => String.Concat(a.CEN_instruction.Participants_creditor.Rut,'-', a.CEN_instruction.Participants_creditor.Verification_Code)));
 
-            CreateMap<TRGNS_Datos_Facturacion, sFiltrosRutDeudor>()
+            CreateMap<REACT_TRGNS_Datos_Facturacion, sFiltrosRutDeudor>()
                 .ForMember(p => p.label, x => x.MapFrom(a => String.Concat(a.CEN_instruction.Participants_debtor.Rut, '-', a.CEN_instruction.Participants_debtor.Verification_Code)));
-            CreateMap<TRGNS_Datos_Facturacion, sFiltrosNameCreditor>()
+            CreateMap<REACT_TRGNS_Datos_Facturacion, sFiltrosNameCreditor>()
                 .ForMember(p => p.label, x => x.MapFrom(a =>  a.CEN_instruction.Participants_creditor.Business_Name));
-            CreateMap<TRGNS_Datos_Facturacion, sFiltrosNameDebtor>()
+            CreateMap<REACT_TRGNS_Datos_Facturacion, sFiltrosNameDebtor>()
                 .ForMember(p => p.label, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Business_Name));
-            //CreateMap<TRGNS_Datos_Facturacion, probando>()
+            //CreateMap<REACT_TRGNS_Datos_Facturacion, probando>()
             //    .ForMember(p => p.prueba, x => x.MapFrom(a => a.CEN_instruction.Amount));
-            //CreateMap<CEN_billing_windows, BillingWindowsDto>()
+            //CreateMap<REACT_CEN_billing_windows, BillingWindowsDto>()
             //    .ForMember(p => p.Natural_key, x => x.MapFrom(a => a.natural_key))
             //    .ForMember(p => p.billing_type, x => x.MapFrom(a => a.billing_type))
             //    .ForMember(p => p.periods, x => x.MapFrom(a => a.periods))
@@ -148,7 +148,7 @@ namespace TrigonosEnergy.DTO
             //    .ForMember(p => p.period, x => x.MapFrom(a => a.period));
             // RELACIONADO A DTO DE BILLING WINDOWS QUE NO SE USA
             // EN EL CONTROLER DE COMBO BOX
-            CreateMap<CEN_nonconformities, NonconformitiesDto>()
+            CreateMap<REACT_CEN_nonconformities, NonconformitiesDto>()
                 .ForMember(d => d.Id, x => x.MapFrom(a => a.ID))
                 .ForMember(d => d.auxiliary_data, x => x.MapFrom(a => a.auxiliary_data))
                 .ForMember(d => d.created_ts, x => x.MapFrom(a => a.created_ts))
@@ -168,10 +168,10 @@ namespace TrigonosEnergy.DTO
 
 
 
-            CreateMap<CEN_billing_windows, Concepto>()
+            CreateMap<REACT_CEN_billing_windows, Concepto>()
                 .ForMember(p => p.label, x => x.MapFrom(a => a.natural_key));
 
-            CreateMap<TRGNS_Datos_Facturacion, Datos_Facturacion_DTO>();
+            CreateMap<REACT_TRGNS_Datos_Facturacion, Datos_Facturacion_DTO>();
 
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
             CreateMap<Usuarios, UsuariosDto>().ReverseMap();

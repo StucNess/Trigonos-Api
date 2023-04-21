@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LogicaTrigonos.Data.Configuration
 {
-    internal class NonconformitiesConfiguration : IEntityTypeConfiguration<CEN_nonconformities>
+    internal class NonconformitiesConfiguration : IEntityTypeConfiguration<REACT_CEN_nonconformities>
     {
-        public void Configure(EntityTypeBuilder<CEN_nonconformities> builder)
+        public void Configure(EntityTypeBuilder<REACT_CEN_nonconformities> builder)
         {
             builder.HasOne(i => i.CEN_Instructions).WithMany().HasForeignKey(p => p.ID);
         }

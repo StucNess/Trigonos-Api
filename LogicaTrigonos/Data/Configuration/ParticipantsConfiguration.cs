@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LogicaTrigonos.Data.Configuration
 {
-    internal class ParticipantsConfiguration : IEntityTypeConfiguration<CEN_Participants>
+    internal class ParticipantsConfiguration : IEntityTypeConfiguration<REACT_CEN_Participants>
     {
-        public void Configure(EntityTypeBuilder<CEN_Participants> builder)
+        public void Configure(EntityTypeBuilder<REACT_CEN_Participants> builder)
         {
             builder.Property(p => p.Name).HasMaxLength(500);
             builder.Property(p => p.Rut).HasMaxLength(500);

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "Mm9HMLuVLt7JtlrqHYRe8703cKyFAd3iWO4750vAQfo=",
+  "Source": "TrigonosEnergyWebAPI",
+  "BasePath": "_content/TrigonosEnergyWebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

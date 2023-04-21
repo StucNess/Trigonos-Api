@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class CEN_billing_windows : TRGNS_base
+    public class REACT_CEN_billing_windows : TRGNS_base
     {
         public string? natural_key { get; set; }
         
         public int? billing_type { get; set; }
-        public CEN_billing_types? Billing_Types { get; set; }
+        public REACT_CEN_billing_types? Billing_Types { get; set; }
         public string? periods { get; set; }
         public string? created_ts { get; set; }
         public string? updated_ts { get; set; }

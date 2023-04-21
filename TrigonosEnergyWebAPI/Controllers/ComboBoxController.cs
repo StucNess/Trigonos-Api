@@ -12,18 +12,18 @@ namespace TrigonosEnergyWebAPI.Controllers
     [ApiExplorerSettings(GroupName = "APIComboBox")]
     public class ComboBoxController : ControllerBase
     {
-        private readonly IGenericRepository<CEN_dte_acceptance_status> _acceptanceRepository;
-        private readonly IGenericRepository<CEN_payment_status_type> _paymentRepository;
-        private readonly IGenericRepository<CEN_billing_windows> _billingwindowsRepository;
+        private readonly IGenericRepository<REACT_CEN_dte_acceptance_status> _acceptanceRepository;
+        private readonly IGenericRepository<REACT_CEN_payment_status_type> _paymentRepository;
+        private readonly IGenericRepository<REACT_CEN_billing_windows> _billingwindowsRepository;
 
-        private readonly IGenericRepository<CEN_billing_status_type> _billingRepository;
-        private readonly IGenericRepository<TRGNS_dte_reception_status> _receptionRepository;
-        private readonly IGenericRepository<TRGNS_Datos_Facturacion> _instruccionesRepository;
+        private readonly IGenericRepository<REACT_CEN_billing_status_type> _billingRepository;
+        private readonly IGenericRepository<REACT_TRGNS_dte_reception_status> _receptionRepository;
+        private readonly IGenericRepository<REACT_TRGNS_Datos_Facturacion> _instruccionesRepository;
         private readonly IMapper _mapper;
 
-        public ComboBoxController(IGenericRepository<CEN_dte_acceptance_status> acceptanceRepository, IMapper mapper, IGenericRepository<CEN_payment_status_type> paymentRepository,
-            IGenericRepository<CEN_billing_status_type> billingRepository, IGenericRepository<TRGNS_dte_reception_status> receptionRepository, IGenericRepository<TRGNS_Datos_Facturacion> instruccionesRepository
-            , IGenericRepository<CEN_billing_windows> billingwindowsRepository)
+        public ComboBoxController(IGenericRepository<REACT_CEN_dte_acceptance_status> acceptanceRepository, IMapper mapper, IGenericRepository<REACT_CEN_payment_status_type> paymentRepository,
+            IGenericRepository<REACT_CEN_billing_status_type> billingRepository, IGenericRepository<REACT_TRGNS_dte_reception_status> receptionRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository
+            , IGenericRepository<REACT_CEN_billing_windows> billingwindowsRepository)
         {
             _acceptanceRepository = acceptanceRepository;
             _mapper = mapper;
@@ -50,7 +50,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var billing = await _billingRepository.GetAllAsync();
             var instruccion = await _instruccionesRepository.GetAllAsync();
             var billingtypes = await _billingwindowsRepository.GetAllAsync();
-            var instruccionDto = _mapper.Map<IReadOnlyList<CEN_billing_windows>, IReadOnlyList<Concepto>>(billingtypes);
+            var instruccionDto = _mapper.Map<IReadOnlyList<REACT_CEN_billing_windows>, IReadOnlyList<Concepto>>(billingtypes);
             return Ok(
                 new ComboBoxAPI
                 {
@@ -65,11 +65,11 @@ namespace TrigonosEnergyWebAPI.Controllers
 
         [HttpGet]
         [Route("/windows")]
-        public async Task<ActionResult<IReadOnlyList<CEN_billing_windows>>> PRUEBA()
+        public async Task<ActionResult<IReadOnlyList<REACT_CEN_billing_windows>>> PRUEBA()
         {
 
             var billingtypes = await _billingwindowsRepository.GetAllAsync();
-            //var instruccionDto = _mapper.Map<IReadOnlyList<CEN_billing_windows>, IReadOnlyList<BillingWindowsDto>>(billingtypes);
+            //var instruccionDto = _mapper.Map<IReadOnlyList<REACT_CEN_billing_windows>, IReadOnlyList<BillingWindowsDto>>(billingtypes);
             return Ok(billingtypes);
         }
     } 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Relations
 {
-    public class UserProyectsRelation : BaseSpecification<TRGNS_UserProyects>
+    public class UserProyectsRelation : BaseSpecification<REACT_TRGNS_UserProyects>
     {
         public UserProyectsRelation(string id):base(x=> x.idUser == id )
         {

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LogicaTrigonos.Data.Configuration
 {
-    internal class Payment_MatricesConfiguration : IEntityTypeConfiguration<CEN_payment_matrices>
+    internal class Payment_MatricesConfiguration : IEntityTypeConfiguration<REACT_CEN_payment_matrices>
     {
-        public void Configure(EntityTypeBuilder<CEN_payment_matrices> builder)
+        public void Configure(EntityTypeBuilder<REACT_CEN_payment_matrices> builder)
         {
             builder.Property(p => p.Auxiliary_data).HasMaxLength(500);
             builder.Property(p => p.Created_ts).HasMaxLength(500);

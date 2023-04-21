@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Counting
 {
-    public class InstruccionesForCountingSpecification : BaseSpecification<TRGNS_Datos_Facturacion>
+    public class InstruccionesForCountingSpecification : BaseSpecification<REACT_TRGNS_Datos_Facturacion>
     {
         public InstruccionesForCountingSpecification(int id, InstruccionesSpecificationParams productoParams)
 

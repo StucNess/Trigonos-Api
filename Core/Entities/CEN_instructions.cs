@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class CEN_instructions : TRGNS_base
+    public class REACT_CEN_instructions : TRGNS_base
     {
         public int? Payment_matrix { get; set; }
-        public CEN_payment_matrices? cEN_Payment_Matrices { get; set; }
+        public REACT_CEN_payment_matrices? cEN_Payment_Matrices { get; set; }
         public int? Creditor { get; set; }
-        public CEN_Participants? Participants_creditor { get; set; }
+        public REACT_CEN_Participants? Participants_creditor { get; set; }
         public int? Debtor { get; set; }
-        public CEN_Participants? Participants_debtor { get; set; }
+        public REACT_CEN_Participants? Participants_debtor { get; set; }
         public Int64? Amount { get; set; }
         public Int64? Amount_Gross { get; set; }
         public bool? Closed { get; set; }

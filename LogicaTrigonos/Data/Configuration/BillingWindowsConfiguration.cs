@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LogicaTrigonos.Data.Configuration
 {
-    internal class BillingWindowsConfiguration : IEntityTypeConfiguration<CEN_billing_windows>
+    internal class BillingWindowsConfiguration : IEntityTypeConfiguration<REACT_CEN_billing_windows>
     {
-        public void Configure(EntityTypeBuilder<CEN_billing_windows> builder)
+        public void Configure(EntityTypeBuilder<REACT_CEN_billing_windows> builder)
         {
             builder.HasOne(p => p.Billing_Types).WithMany().HasForeignKey(i => i.billing_type);
             builder.Property(p => p.natural_key);

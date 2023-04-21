@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Counting
 {
-    public class ParticipantsForCountingSpecification:BaseSpecification<CEN_Participants>
+    public class ParticipantsForCountingSpecification:BaseSpecification<REACT_CEN_Participants>
     {
         public ParticipantsForCountingSpecification()
         {

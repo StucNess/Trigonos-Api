@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LogicaTrigonos.Data.Configuration
 {
-    internal class InstruccionsConfiguration : IEntityTypeConfiguration<CEN_instructions>
+    internal class InstruccionsConfiguration : IEntityTypeConfiguration<REACT_CEN_instructions>
     {
-        public void Configure(EntityTypeBuilder<CEN_instructions> builder)
+        public void Configure(EntityTypeBuilder<REACT_CEN_instructions> builder)
         {
             builder.HasOne(m => m.cEN_Payment_Matrices).WithMany().HasForeignKey(p => p.Payment_matrix);
             builder.HasOne(c => c.Participants_creditor).WithMany().HasForeignKey(p => p.Creditor);

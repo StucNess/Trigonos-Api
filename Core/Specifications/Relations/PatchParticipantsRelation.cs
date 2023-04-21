@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Relations
 {
-    public class PatchParticipantsRelation : BaseSpecification<CEN_Participants>
+    public class PatchParticipantsRelation : BaseSpecification<REACT_CEN_Participants>
     {
         public PatchParticipantsRelation(int id):base(x=> x.ID == id)
         {

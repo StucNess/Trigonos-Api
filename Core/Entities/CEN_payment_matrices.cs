@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class CEN_payment_matrices : TRGNS_base
+    public class REACT_CEN_payment_matrices : TRGNS_base
     {
         public string? Auxiliary_data { get; set; }
         public string? Created_ts { get; set; }
@@ -26,8 +26,8 @@ namespace Core.Entities
         public string? Natural_key { get; set; }
         public string? Reference_code { get; set; }
         public int? billing_window { get; set; }
-        public CEN_billing_windows? CEN_billing_windows { get; set; }
+        public REACT_CEN_billing_windows? CEN_billing_windows { get; set; }
         public int? payment_due_type { get; set; }
-        public CEN_payment_due_type? CEN_payment_due_type { get; set; }
+        public REACT_CEN_payment_due_type? CEN_payment_due_type { get; set; }
     }
 }

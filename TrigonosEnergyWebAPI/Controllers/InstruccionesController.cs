@@ -17,13 +17,13 @@ namespace TrigonosEnergyWebAPI.Controllers
 
     public class InstruccionesController : BaseApiController
     {
-        private readonly IGenericRepository<TRGNS_Datos_Facturacion> _instruccionesRepository;
-        private readonly IGenericRepository<CEN_payment_matrices> _matricesRepository;
-        private readonly IGenericRepository<TRGNS_H_Datos_Facturacion> _historificacionInstruccionesRepository;
+        private readonly IGenericRepository<REACT_TRGNS_Datos_Facturacion> _instruccionesRepository;
+        private readonly IGenericRepository<REACT_CEN_payment_matrices> _matricesRepository;
+        private readonly IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> _historificacionInstruccionesRepository;
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
 
-        public InstruccionesController(IGenericRepository<TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<CEN_payment_matrices> matricesRepository)
+        public InstruccionesController(IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
             _mapper = mapper;
@@ -36,10 +36,10 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/Glosa")]
-        public async Task<ActionResult<IReadOnlyList<CEN_Participants>>> PRUEBA1()
+        public async Task<ActionResult<IReadOnlyList<REACT_CEN_Participants>>> PRUEBA1()
         {
             var datos = await _matricesRepository.GetAllAsync();
-            var maping = _mapper.Map<IReadOnlyList<CEN_payment_matrices>, IReadOnlyList<FolioDto>>(datos);
+            var maping = _mapper.Map<IReadOnlyList<REACT_CEN_payment_matrices>, IReadOnlyList<FolioDto>>(datos);
             return Ok(maping);
         }
 
@@ -63,7 +63,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
             var totalPages = Convert.ToInt32(rounded);
 
-            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<InstruccionesDTO>>(producto);
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<InstruccionesDTO>>(producto);
 
 
             return Ok(
@@ -95,7 +95,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
             var spec = new PruebaParams(id);
             var bd = await _instruccionesRepository.GetByClienteIDAsync(spec);
-            var bdh = new TRGNS_H_Datos_Facturacion();
+            var bdh = new REACT_TRGNS_H_Datos_Facturacion();
 
             bdh.id_instruction= id;
             bdh.date = DateTime.Now;
@@ -250,7 +250,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             //var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
             //var totalPages = Convert.ToInt32(rounded);
             var producto1 = producto.DistinctBy(p => p.CEN_instruction.Payment_matrix_natural_key).ToList();
-            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltros>>(producto1);
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltros>>(producto1);
             //var probando = data
             return Ok(data);
             //return Ok(
@@ -316,7 +316,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var spec = new InstruccionesRelationSpecification(id, pa, parametros);
             var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
             var producto1 = producto.DistinctBy(a => a.CEN_instruction.Participants_creditor.Rut).ToList();
-            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosRutCreditor>>(producto1);
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosRutCreditor>>(producto1);
 
             return Ok(data);
 
@@ -328,7 +328,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var spec = new InstruccionesRelationSpecification(id, pa, parametros);
             var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
             var producto1 = producto.DistinctBy(a => a.CEN_instruction.Participants_debtor.Rut).ToList();
-            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosRutDeudor>>(producto1);
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosRutDeudor>>(producto1);
             return Ok(data);
 
 
@@ -341,7 +341,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var spec = new InstruccionesRelationSpecification(id, pa, parametros);
             var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
             var producto1 = producto.DistinctBy(a => a.CEN_instruction.Participants_creditor.Business_Name).ToList();
-            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosNameCreditor>>(producto1);
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosNameCreditor>>(producto1);
             return Ok(data);
 
 
@@ -354,7 +354,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var spec = new InstruccionesRelationSpecification(id, pa, parametros);
             var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
             var producto1 = producto.DistinctBy(a => a.CEN_instruction.Participants_debtor.Business_Name).ToList();
-            var data = _mapper.Map<IReadOnlyList<TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosNameDebtor>>(producto1);
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<sFiltrosNameDebtor>>(producto1);
             return Ok(data);
 
 
