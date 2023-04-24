@@ -63,7 +63,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
             var totalPages = Convert.ToInt32(rounded);
 
-            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<InstruccionesDTO>>(producto);
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<InstruccionesDTO>>(producto); 
 
 
             return Ok(

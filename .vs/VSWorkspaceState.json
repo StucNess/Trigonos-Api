@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\LogicaTrigonos",
+    "\\LogicaTrigonos\\Data"
   ],
-  "SelectedNode": "\\Trigonos-Energy.sln",
+  "SelectedNode": "\\LogicaTrigonos\\Data\\TrigonosDBContext.cs",
   "PreviewInSolutionExplorer": false
 }
