@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\neidr\\OneDrive\\Desktop\\TRGNS 2023\\TrigonosAPI\\Core\\Core.csproj": {}
+    "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\neidr\\OneDrive\\Desktop\\TRGNS 2023\\TrigonosAPI\\Core\\Core.csproj": {
+    "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\neidr\\OneDrive\\Desktop\\TRGNS 2023\\TrigonosAPI\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\Users\\neidr\\OneDrive\\Desktop\\TRGNS 2023\\TrigonosAPI\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\neidr\\OneDrive\\Desktop\\TRGNS 2023\\TrigonosAPI\\Core\\obj\\",
+        "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\Edgar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Edgar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -65,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }

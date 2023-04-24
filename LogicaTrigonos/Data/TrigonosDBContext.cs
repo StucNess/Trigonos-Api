@@ -30,6 +30,8 @@ namespace LogicaTrigonos.Data
         public DbSet<REACT_TRGNS_H_CEN_participants> REACT_TRGNS_H_CEN_participants { get; set; }
 
         public DbSet<REACT_TRGNS_dte_reception_status> REACT_TRGNS_dte_reception_status { get; set; }
+        public DbSet<REACT_TRGNS_Empresas> REACT_TRGNS_Empresas { get; set; }
+
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<REACT_TRGNS_H_Datos_Facturacion> REACT_TRGNS_H_Datos_Facturacion { get; set; }
         public DbSet<REACT_TRGNS_UserProyects> REACT_TRGNS_UserProyects { get; set; }

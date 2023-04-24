@@ -165,6 +165,10 @@ namespace TrigonosEnergy.DTO
                 .ForMember(d => d.instruction, x => x.MapFrom(a => a.instruction))
                 .ForMember(d => d.reason, x => x.MapFrom(a => a.reason));
 
+            CreateMap<REACT_TRGNS_Empresas, EmpresasDto>()
+               .ForMember(d => d.Id, x => x.MapFrom(a => a.ID))
+               .ForMember(d => d.RutEmpresa, x => x.MapFrom(a => a.RutEmpresa))
+               .ForMember(d => d.NombreEmpresa, x => x.MapFrom(a => a.NombreEmpresa));
 
 
 
