@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LogicaTrigonos.Data
 {
-    public class SecurityDbContext:IdentityDbContext<Usuarios>
+    public class SecurityDbContext:IdentityDbContext<Usuarios, Rol, string>
     {
         public SecurityDbContext(DbContextOptions<SecurityDbContext> options): base(options)
         {

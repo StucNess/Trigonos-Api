@@ -169,6 +169,11 @@ namespace TrigonosEnergy.DTO
                .ForMember(d => d.Id, x => x.MapFrom(a => a.ID))
                .ForMember(d => d.RutEmpresa, x => x.MapFrom(a => a.RutEmpresa))
                .ForMember(d => d.NombreEmpresa, x => x.MapFrom(a => a.NombreEmpresa));
+            //CreateMap<Rol, RolDto>()
+            // .ForMember(d => d.Id, x => x.MapFrom(a => a.Id))
+            // .ForMember(d => d.Name, x => x.MapFrom(a => a.Name))
+            // .ForMember(d => d.Descripcion, x => x.MapFrom(a => a.Descripcion))
+            // .ForMember(d => d.Bhabilitado, x => x.MapFrom(a => a.Bhabilitado));
 
 
 
@@ -178,6 +183,7 @@ namespace TrigonosEnergy.DTO
             CreateMap<REACT_TRGNS_Datos_Facturacion, Datos_Facturacion_DTO>();
 
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
+            CreateMap<Rol, RolDto>().ReverseMap();
             CreateMap<Usuarios, UsuariosDto>().ReverseMap();
 
         }

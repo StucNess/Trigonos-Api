@@ -35,6 +35,8 @@ builder.Services.AddDbContext<SecurityDbContext>(x =>
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 builder.Services.AddScoped(typeof(IGenericSecurityRepository<>), (typeof(GenericSecurityRepository<>)));
+builder.Services.AddScoped(typeof(IGenericRepositoryRole<>), (typeof(GenericSecRespositoryRol<>)));
+
 builder.Services.AddScoped<IRepositoryUsuario,UsuarioRepository>();
 //builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 //var builder = WebApplication.CreateBuilder(args);
@@ -44,7 +46,7 @@ builder.Services.AddScoped<IRepositoryUsuario,UsuarioRepository>();
 var builder2 = builder.Services.AddIdentityCore<Usuarios>();
 //builder2.Services.TryAddSingleton<ISystemClock, SystemClock>();
 builder2 = new IdentityBuilder(builder2.UserType, builder2.Services);
-builder2.AddRoles<IdentityRole>();
+builder2.AddRoles<Rol>();
 builder2.AddEntityFrameworkStores<SecurityDbContext>();
 builder2.AddSignInManager<SignInManager<Usuarios>>();
 builder2.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
