@@ -9,8 +9,7 @@ using TrigonosEnergyWebAPI.Errors;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
+    [ApiExplorerSettings(GroupName = "APIEmpresas")]
     public class EmpresasController : BaseApiController
     {
 

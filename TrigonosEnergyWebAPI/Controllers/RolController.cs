@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TrigonosEnergy.Controllers;
 using TrigonosEnergyWebAPI.DTO;
 using TrigonosEnergyWebAPI.Errors;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RolController : ControllerBase
+    [ApiExplorerSettings(GroupName = "APIRol")]
+    public class RolController : BaseApiController
     {
 
         private readonly IGenericRepositoryRole<Rol> _rolRepository;
@@ -32,6 +32,13 @@ namespace TrigonosEnergyWebAPI.Controllers
             var datos =  await _rolManager.Roles.ToListAsync();
             var maping = _mapper.Map<IReadOnlyList<Rol>, IReadOnlyList<RolDto>>(datos);
             return Ok(maping);
+        }
+        [HttpPost("Prueba")]
+        public int Prueba()
+        {
+            var usuarioEmail = 1 + 1;
+
+            return usuarioEmail;
         }
         [HttpPost("Agregar")]
         public async Task<ActionResult<RolDto>> AgregarRol(AgregarRolDto agregarRolDto)

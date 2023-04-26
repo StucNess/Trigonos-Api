@@ -28,10 +28,10 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly IPasswordHasher<Usuarios> _passwordHasher;
         private readonly IGenericSecurityRepository<Usuarios> _seguridadRepository;
         private readonly IMapper _mapper;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<Rol> _roleManager;
         private readonly IGenericRepository<REACT_TRGNS_UserProyects> _userProyects;
 
-        public UsuariosController(UserManager<Usuarios> userManager, SignInManager<Usuarios> signInManager, ITokenService tokenService, IPasswordHasher<Usuarios> passwordHasher, IGenericSecurityRepository<Usuarios> seguridadRepository, IMapper mapper, RoleManager<IdentityRole> roleManager, IGenericRepository<REACT_TRGNS_UserProyects> userProyects)
+        public UsuariosController(UserManager<Usuarios> userManager, SignInManager<Usuarios> signInManager, ITokenService tokenService, IPasswordHasher<Usuarios> passwordHasher, IGenericSecurityRepository<Usuarios> seguridadRepository, IMapper mapper, RoleManager<Rol> roleManager, IGenericRepository<REACT_TRGNS_UserProyects> userProyects)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -60,6 +60,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Apellido = usuario.Apellido,
                 Email = usuario.Email,
                 Username = usuario.UserName,
+                IdEmpresa = usuario.IdEmpresa,
                 Token = _tokenService.CreateToken(usuario, roles[0]),
                 Role = roles[0]
             };
@@ -119,6 +120,8 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Apellido = usuario.Apellido,
                 Email = usuario.Email,
                 Username = usuario.UserName,
+                IdEmpresa = usuario.IdEmpresa,
+                Pais    = usuario.Pais,
                 Role = roles[0]
             };
         }
@@ -173,6 +176,8 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Token = _tokenService.CreateToken(usuario, roles[0]),
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido,
+                IdEmpresa = usuario.IdEmpresa,
+                Pais = usuario.Pais,
                 Role = roles[0]
 
             };
@@ -197,7 +202,9 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Email = registrarDto.Email,
                 UserName = registrarDto.Username,
                 Nombre = registrarDto.Nombre,
-                Apellido = registrarDto.Apellido
+                Apellido = registrarDto.Apellido,
+                IdEmpresa = registrarDto.IdEmpresa,
+                Pais    = registrarDto.Pais
             };
 
             var resultado = await _userManager.CreateAsync(usuario, registrarDto.Password);
@@ -216,6 +223,8 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Token = _tokenService.CreateToken(usuario, registrarDto.Rol),
                 Email = usuario.Email,
                 Username = usuario.UserName,
+                IdEmpresa = usuario.IdEmpresa,
+                Pais = usuario.Pais,
                 Role = registrarDto.Rol
             };
         }
@@ -236,6 +245,8 @@ namespace TrigonosEnergyWebAPI.Controllers
             }
             usuario.Nombre = registrarDto.Nombre;
             usuario.Apellido = registrarDto.Apellido;
+            usuario.IdEmpresa = registrarDto.IdEmpresa;
+            usuario.Pais = registrarDto.Pais;
 
             if (!string.IsNullOrEmpty(registrarDto.Password))
             {
@@ -256,6 +267,8 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Apellido = usuario.Apellido,
                 Email = usuario.Email,
                 Username = usuario.UserName,
+                IdEmpresa = registrarDto.IdEmpresa,
+                Pais = registrarDto.Pais,
                 Token = _tokenService.CreateToken(usuario, roles[0]),
                 Role = roles[0]
             };
@@ -338,6 +351,8 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Apellido = usuario.Apellido,
                 Email = usuario.Email,
                 Username = usuario.UserName,
+                IdEmpresa = usuario.IdEmpresa,
+                Pais = usuario.Pais,
                 Token = _tokenService.CreateToken(usuario),
                 Role = ""
             };
