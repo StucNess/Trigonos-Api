@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Core",
+    "\\Core\\Entities",
     "\\LogicaTrigonos",
     "\\LogicaTrigonos\\Data"
   ],
-  "SelectedNode": "\\LogicaTrigonos\\Data\\TrigonosDBContext.cs",
+  "SelectedNode": "\\Core\\Entities\\Usuarios.cs",
   "PreviewInSolutionExplorer": false
 }
