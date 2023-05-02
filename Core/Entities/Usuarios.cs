@@ -13,6 +13,7 @@ namespace Core.Entities
         public string Apellido { get; set; }
         public int? IdEmpresa { get; set; }
         public string? Pais { get; set; }
+        public string? Role { get; set; }
 
         //public Direccion Direccion { get; set; }
 

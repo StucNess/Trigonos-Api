@@ -204,7 +204,8 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Nombre = registrarDto.Nombre,
                 Apellido = registrarDto.Apellido,
                 IdEmpresa = registrarDto.IdEmpresa,
-                Pais    = registrarDto.Pais
+                Pais    = registrarDto.Pais,
+                Role = registrarDto.Rol
             };
 
             var resultado = await _userManager.CreateAsync(usuario, registrarDto.Password);
@@ -247,6 +248,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             usuario.Apellido = registrarDto.Apellido;
             usuario.IdEmpresa = registrarDto.IdEmpresa;
             usuario.Pais = registrarDto.Pais;
+            usuario.Role = registrarDto.Rol;
 
             if (!string.IsNullOrEmpty(registrarDto.Password))
             {
