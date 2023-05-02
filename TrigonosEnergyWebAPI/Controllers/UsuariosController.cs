@@ -30,7 +30,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly IMapper _mapper;
         private readonly RoleManager<Rol> _roleManager;
         private readonly IGenericRepository<REACT_TRGNS_UserProyects> _userProyects;
-
+      
         public UsuariosController(UserManager<Usuarios> userManager, SignInManager<Usuarios> signInManager, ITokenService tokenService, IPasswordHasher<Usuarios> passwordHasher, IGenericSecurityRepository<Usuarios> seguridadRepository, IMapper mapper, RoleManager<Rol> roleManager, IGenericRepository<REACT_TRGNS_UserProyects> userProyects)
         {
             _signInManager = signInManager;
