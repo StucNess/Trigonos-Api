@@ -235,7 +235,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// <param name="id"></param>
         /// <param name="registrarDto"></param>
         /// <returns></returns>
-        [HttpPut("actualizar/{id}")]
+        [HttpPost("actualizar/{id}")]
         public async Task<ActionResult<UsuariosDto>> Actualizar(string id, RegistrarDto registrarDto)
         {
             var usuario = await _userManager.FindByIdAsync(id);
@@ -246,6 +246,8 @@ namespace TrigonosEnergyWebAPI.Controllers
             }
             usuario.Nombre = registrarDto.Nombre;
             usuario.Apellido = registrarDto.Apellido;
+            usuario.Email = registrarDto.Email;
+            usuario.UserName = registrarDto.Username;
             usuario.IdEmpresa = registrarDto.IdEmpresa;
             usuario.Pais = registrarDto.Pais;
             usuario.Role = registrarDto.Rol;

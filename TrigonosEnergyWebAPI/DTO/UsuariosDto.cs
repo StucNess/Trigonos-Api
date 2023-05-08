@@ -13,5 +13,7 @@
 
         public string? Role { get; set; }
 
+        public DateTimeOffset? LockoutEnd { get; set; }
+
     }
 }
