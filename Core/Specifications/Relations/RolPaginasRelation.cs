@@ -12,7 +12,8 @@ namespace Core.Specifications.Relations
         public RolPaginasRelation() 
         {
             AddInclude(p => p.tRGNS_PaginasWeb);
-            
+            AddInclude(p => p.rolAspNet);
+
         }
     }
 }

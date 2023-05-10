@@ -40,13 +40,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var maping = _mapper.Map<IReadOnlyList<Rol>, IReadOnlyList<RolDto>>(datos);
             return Ok(maping);
         }
-        [HttpPost("Prueba")]
-        public int Prueba()
-        {
-            var usuarioEmail = 1 + 1;
-
-            return usuarioEmail;
-        }
+       
         [HttpPost("Agregar")]
         public async Task<ActionResult<RolDto>> AgregarRol(AgregarRolDto agregarRolDto)
         {
@@ -91,6 +85,15 @@ namespace TrigonosEnergyWebAPI.Controllers
             return Ok();
         }
         //CRUD PAGINA_WEB
+        [HttpGet("ListarPaginaWeb")]
+
+        public async Task<ActionResult<IReadOnlyList<PaginasWebDto>>> GetPaginasWebs()
+        {
+            var datos = await _paginasWebRepository.GetAllAsync();
+            var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_PaginasWeb>, IReadOnlyList<PaginasWebDto>>(datos);
+            return Ok(maping);
+        }
+
         [HttpPost("AgregarPaginaWeb")]
         public async Task<IActionResult> AgregarPagina(AgregarPaginaWeb agregarPagina)
         {
@@ -110,14 +113,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             }
             return Ok();
         }
-        [HttpGet("ListarPaginaWeb")]
-
-        public async Task<ActionResult<IReadOnlyList<PaginasWebDto>>> GetPaginasWebs()
-        {
-            var datos = await _paginasWebRepository.GetAllAsync();
-            var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_PaginasWeb>, IReadOnlyList<PaginasWebDto>>(datos);
-            return Ok(maping);
-        }
+       
 
         [HttpPost("actualizarPaginaWeb/{id}")]
         public async Task<IActionResult> ActualizarPaginaWeb(int id, AgregarPaginaWeb registrarDto)
@@ -212,6 +208,15 @@ namespace TrigonosEnergyWebAPI.Controllers
 
 
         //CRUD rol_pagina
+        [HttpGet("listarRolPagina")] //lista la tabla de romperompe
+
+        public async Task<ActionResult<IReadOnlyList<RolPaginaWebDto>>> GetRolesPaginas()
+        {
+            var spec = new RolPaginasRelation();
+            var participantes = await _rolPaginasRepository.GetAllAsync(spec);
+            var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_RolPaginas>, IReadOnlyList<RolPaginaWebDto>>(participantes);
+            return Ok(maping);
+        }
         [HttpPost("AsignarRolPagina")]
         public async Task<IActionResult> AsignarRolPagina(AsignarRolPaginaDto asignarPagina)
         {
@@ -239,85 +244,195 @@ namespace TrigonosEnergyWebAPI.Controllers
             }
             return Ok();
         }
-        [HttpPost("quitarRolPagina/{Idrol}/{Idpagina}")]//Elimina defenitivamente de la tabla de rompimiento pero la pagina obvio sigue existiendo
-        public async Task<IActionResult> quitarRolPagina(string Idrol, int Idpagina)
+       
+
+        [HttpPost("actualizarRolPagina/{id}")]
+        public async Task<IActionResult> ActualizarRolPagina(int id, AsignarRolPaginaDto registrarDto)
         {
+     
+            var rolPageExist = await _rolPaginasRepository.GetByClienteIDAsync(id);
 
+            rolPageExist.Idrol = registrarDto.Idrol;
+            rolPageExist.Bhabilitado = registrarDto.Bhabilitado;
 
-            var spec = new RolPaginasRelation();
-            var rolPaginas = await _rolPaginasRepository.GetAllAsync(spec);
-            var existingItem = rolPaginas.FirstOrDefault(i => i.Idpagina == Idpagina && i.Idrol == Idrol);
-
-            if (existingItem == null)
+            if (rolPageExist == null)
             {
                 return NotFound(new CodeErrorResponse(404, "Error no existe un idrol y un idpagina en la tabla"));
             }
 
-            if (!await _rolPaginasRepository.RemoveBD(existingItem))
+            if (!await _rolPaginasRepository.UpdateeAsync(rolPageExist))
+            {
+                return BadRequest(new CodeErrorResponse(500, "Error no se ha logrado asignar el rol a la pagina"));
+            }
+            return Ok();
+        }
+        [HttpPost("quitarRolPagina/{id}")]//Elimina defenitivamente de la tabla de rompimiento pero la pagina obvio sigue existiendo
+        public async Task<IActionResult> quitarRolPagina(int id)
+        {
+
+
+            var rolPageExist = await _rolPaginasRepository.GetByClienteIDAsync(id);
+
+         
+            if (rolPageExist == null)
+            {
+                return NotFound(new CodeErrorResponse(404, "Error no existe un idrol y un idpagina en la tabla"));
+            }
+
+            if (!await _rolPaginasRepository.RemoveBD(rolPageExist))
             {
                 return BadRequest(new CodeErrorResponse(500, "Error no se ha logrado eliminar el rol a la pagina"));
             }
             return Ok();
         }
-        [HttpGet("listarRolPagina")] //lista la tabla de romperompe
 
-        public async Task<ActionResult<IReadOnlyList<RolPaginaWebDto>>> GetRolesPaginas()
+
+        [HttpPost("desactivarRolPagina/{id}")]
+        public async Task<IActionResult> DesactivarRolPagina( int id)
         {
-            var spec = new RolPaginasRelation();
-            var participantes = await _rolPaginasRepository.GetAllAsync(spec);
-            var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_RolPaginas>, IReadOnlyList<RolPaginaWebDto>>(participantes);
-            return Ok(maping);
-        }
-        [HttpPost("desactivarRolPagina/{Idrol}/{Idpagina}")]
-        public async Task<IActionResult> DesactivarRolPagina(string Idrol, int Idpagina)
-        {
-            var spec = new RolPaginasRelation();
-            var rolPaginas = await _rolPaginasRepository.GetAllAsync(spec);
-            var existingItem = rolPaginas.FirstOrDefault(i => i.Idpagina == Idpagina && i.Idrol == Idrol);
-            if (existingItem == null)
+            var rolPageExist = await _rolPaginasRepository.GetByClienteIDAsync(id);
+            if (rolPageExist == null)
             {
                 return NotFound(new CodeErrorResponse(404, "No existe ese rolpage no existe"));
 
             }
-            else if (existingItem.Bhabilitado == 0)
+            else if (rolPageExist.Bhabilitado == 0)
             {
                 return NotFound(new CodeErrorResponse(404, "ya se encuentra desactivado el rol para la pagina!"));
             }
-            var paginaweb = await _rolPaginasRepository.GetByClienteIDAsync(existingItem.ID);
-            paginaweb.Bhabilitado = 0;
 
-            if (!await _rolPaginasRepository.UpdateeAsync(paginaweb))
+            rolPageExist.Bhabilitado = 0;
+
+            if (!await _rolPaginasRepository.UpdateeAsync(rolPageExist))
             {
                 return BadRequest(new CodeErrorResponse(400, "No se pudo desactivar el rol de la pagina"));
             }
 
             return Ok();
         }
-        [HttpPost("activarRolPagina/{Idrol}/{Idpagina}")]
-        public async Task<IActionResult> ActivarRolPagina(string Idrol, int Idpagina)
+
+        [HttpPost("activarRolPagina/{id}")]
+        public async Task<IActionResult> ActivarRolPagina(int id)
         {
-            var spec = new RolPaginasRelation();
-            var rolPaginas = await _rolPaginasRepository.GetAllAsync(spec);
-            var existingItem = rolPaginas.FirstOrDefault(i => i.Idpagina == Idpagina && i.Idrol == Idrol);
-            if (existingItem == null)
+            var rolPageExist = await _rolPaginasRepository.GetByClienteIDAsync(id);
+            if (rolPageExist == null)
             {
                 return NotFound(new CodeErrorResponse(404, "No existe ese rolpage no existe"));
 
             }
-            else if (existingItem.Bhabilitado == 1)
+            else if (rolPageExist.Bhabilitado == 1)
             {
                 return NotFound(new CodeErrorResponse(404, "ya se encuentra activado el rol para la pagina!"));
             }
-            var paginaweb = await _rolPaginasRepository.GetByClienteIDAsync(existingItem.ID);
-            paginaweb.Bhabilitado = 1;
+           
+            rolPageExist.Bhabilitado = 1;
 
-            if (!await _rolPaginasRepository.UpdateeAsync(paginaweb))
+            if (!await _rolPaginasRepository.UpdateeAsync(rolPageExist))
             {
                 return BadRequest(new CodeErrorResponse(400, "No se pudo activado el rol de la pagina"));
             }
 
             return Ok();
         }
+
+
+        //mausque herramienta para despues
+        //[HttpPost("actualizarRolPagina/{Idrol}/{Idpagina}")]
+        //public async Task<IActionResult> ActualizarRolPagina(string Idrol, int Idpagina, AsignarRolPaginaDto registrarDto)
+        //{
+        //    var spec = new RolPaginasRelation();
+        //    var rolPaginas = await _rolPaginasRepository.GetAllAsync(spec);
+        //    var existingItem = rolPaginas.FirstOrDefault(i => i.Idpagina == Idpagina && i.Idrol == Idrol);
+        //    var rolPageExist = await _rolPaginasRepository.GetByClienteIDAsync(existingItem.ID);
+
+        //    rolPageExist.Idrol = registrarDto.Idrol;
+        //    rolPageExist.Bhabilitado = registrarDto.Bhabilitado;
+
+        //    if (existingItem == null)
+        //    {
+        //        return NotFound(new CodeErrorResponse(404, "Error no existe un idrol y un idpagina en la tabla"));
+        //    }
+
+        //    if (!await _rolPaginasRepository.UpdateeAsync(rolPageExist))
+        //    {
+        //        return BadRequest(new CodeErrorResponse(500, "Error no se ha logrado asignar el rol a la pagina"));
+        //    }
+        //    return Ok();
+        //}
+        //[HttpPost("quitarRolPagina/{Idrol}/{Idpagina}")]//Elimina defenitivamente de la tabla de rompimiento pero la pagina obvio sigue existiendo
+        //public async Task<IActionResult> quitarRolPagina(string Idrol, int Idpagina)
+        //{
+
+
+        //    var spec = new RolPaginasRelation();
+        //    var rolPaginas = await _rolPaginasRepository.GetAllAsync(spec);
+        //    var existingItem = rolPaginas.FirstOrDefault(i => i.Idpagina == Idpagina && i.Idrol == Idrol);
+
+        //    if (existingItem == null)
+        //    {
+        //        return NotFound(new CodeErrorResponse(404, "Error no existe un idrol y un idpagina en la tabla"));
+        //    }
+
+        //    if (!await _rolPaginasRepository.RemoveBD(existingItem))
+        //    {
+        //        return BadRequest(new CodeErrorResponse(500, "Error no se ha logrado eliminar el rol a la pagina"));
+        //    }
+        //    return Ok();
+        //}
+
+
+        //[HttpPost("desactivarRolPagina/{Idrol}/{Idpagina}")]
+        //public async Task<IActionResult> DesactivarRolPagina(string Idrol, int Idpagina)
+        //{
+        //    var spec = new RolPaginasRelation();
+        //    var rolPaginas = await _rolPaginasRepository.GetAllAsync(spec);
+        //    var existingItem = rolPaginas.FirstOrDefault(i => i.Idpagina == Idpagina && i.Idrol == Idrol);
+        //    if (existingItem == null)
+        //    {
+        //        return NotFound(new CodeErrorResponse(404, "No existe ese rolpage no existe"));
+
+        //    }
+        //    else if (existingItem.Bhabilitado == 0)
+        //    {
+        //        return NotFound(new CodeErrorResponse(404, "ya se encuentra desactivado el rol para la pagina!"));
+        //    }
+        //    var paginaweb = await _rolPaginasRepository.GetByClienteIDAsync(existingItem.ID);
+        //    paginaweb.Bhabilitado = 0;
+
+        //    if (!await _rolPaginasRepository.UpdateeAsync(paginaweb))
+        //    {
+        //        return BadRequest(new CodeErrorResponse(400, "No se pudo desactivar el rol de la pagina"));
+        //    }
+
+        //    return Ok();
+        //}
+
+        //[HttpPost("activarRolPagina/{Idrol}/{Idpagina}")]
+        //public async Task<IActionResult> ActivarRolPagina(string Idrol, int Idpagina)
+        //{
+        //    var spec = new RolPaginasRelation();
+        //    var rolPaginas = await _rolPaginasRepository.GetAllAsync(spec);
+        //    var existingItem = rolPaginas.FirstOrDefault(i => i.Idpagina == Idpagina && i.Idrol == Idrol);
+        //    if (existingItem == null)
+        //    {
+        //        return NotFound(new CodeErrorResponse(404, "No existe ese rolpage no existe"));
+
+        //    }
+        //    else if (existingItem.Bhabilitado == 1)
+        //    {
+        //        return NotFound(new CodeErrorResponse(404, "ya se encuentra activado el rol para la pagina!"));
+        //    }
+        //    var paginaweb = await _rolPaginasRepository.GetByClienteIDAsync(existingItem.ID);
+        //    paginaweb.Bhabilitado = 1;
+
+        //    if (!await _rolPaginasRepository.UpdateeAsync(paginaweb))
+        //    {
+        //        return BadRequest(new CodeErrorResponse(400, "No se pudo activado el rol de la pagina"));
+        //    }
+
+        //    return Ok();
+        //}
+
 
     }
 }

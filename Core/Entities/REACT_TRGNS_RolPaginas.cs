@@ -10,6 +10,7 @@ namespace Core.Entities
     {
         public string Idrol { get; set; }
         public REACT_TRGNS_PaginasWeb? tRGNS_PaginasWeb { get; set; }
+        public AspNetRoles? rolAspNet{ get; set; }
         public int Idpagina { get; set; }
         public int? Bhabilitado { get; set; }
 

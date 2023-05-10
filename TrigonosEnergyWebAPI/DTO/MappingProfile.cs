@@ -180,8 +180,13 @@ namespace TrigonosEnergy.DTO
               .ForMember(d => d.NombrePagina, x => x.MapFrom(a => a.tRGNS_PaginasWeb.Nombre))
               .ForMember(d => d.DescripcionPagina, x => x.MapFrom(a => a.tRGNS_PaginasWeb.Descripcion))
               .ForMember(d => d.BhabilitadoPagina, x => x.MapFrom(a => a.tRGNS_PaginasWeb.Bhabilitado))
+               .ForMember(d => d.Idrol, x => x.MapFrom(a => a.rolAspNet.Id))
+              .ForMember(d => d.NombreRol, x => x.MapFrom(a => a.rolAspNet.Name))
+              .ForMember(d => d.DescripcionRol, x => x.MapFrom(a => a.rolAspNet.Descripcion))
+              .ForMember(d => d.BhabilitadoRol, x => x.MapFrom(a => a.rolAspNet.Bhabilitado))
+
               .ForMember(d => d.Bhabilitado, x => x.MapFrom(a => a.Bhabilitado))
-              .ForMember(d => d.Idrol, x => x.MapFrom(a => a.Idrol))
+             
               ;
             //CreateMap<Rol, RolDto>()
             // .ForMember(d => d.Id, x => x.MapFrom(a => a.Id))

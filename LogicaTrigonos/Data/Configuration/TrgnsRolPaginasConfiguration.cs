@@ -14,9 +14,7 @@ namespace LogicaTrigonos.Data.Configuration
         public void Configure(EntityTypeBuilder<REACT_TRGNS_RolPaginas> builder)
         {
             builder.HasOne(p => p.tRGNS_PaginasWeb).WithMany().HasForeignKey(i => i.Idpagina);
-
-
-
+            builder.HasOne(x => x.rolAspNet).WithMany().HasForeignKey(z => z.Idrol);
         }
     }
 }
