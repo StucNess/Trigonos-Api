@@ -169,6 +169,20 @@ namespace TrigonosEnergy.DTO
                .ForMember(d => d.Id, x => x.MapFrom(a => a.ID))
                .ForMember(d => d.RutEmpresa, x => x.MapFrom(a => a.RutEmpresa))
                .ForMember(d => d.NombreEmpresa, x => x.MapFrom(a => a.NombreEmpresa));
+            CreateMap<REACT_TRGNS_PaginasWeb, PaginasWebDto>()
+              .ForMember(d => d.Id, x => x.MapFrom(a => a.ID))
+              .ForMember(d => d.Nombre, x => x.MapFrom(a => a.Nombre))
+              .ForMember(d => d.Descripcion, x => x.MapFrom(a => a.Descripcion))
+              .ForMember(d => d.Bhabilitado, x => x.MapFrom(a => a.Bhabilitado));
+            CreateMap<REACT_TRGNS_RolPaginas, RolPaginaWebDto>()
+              .ForMember(d => d.Id, x => x.MapFrom(a => a.ID))
+              .ForMember(d => d.Idpagina, x => x.MapFrom(a => a.tRGNS_PaginasWeb.ID))
+              .ForMember(d => d.NombrePagina, x => x.MapFrom(a => a.tRGNS_PaginasWeb.Nombre))
+              .ForMember(d => d.DescripcionPagina, x => x.MapFrom(a => a.tRGNS_PaginasWeb.Descripcion))
+              .ForMember(d => d.BhabilitadoPagina, x => x.MapFrom(a => a.tRGNS_PaginasWeb.Bhabilitado))
+              .ForMember(d => d.Bhabilitado, x => x.MapFrom(a => a.Bhabilitado))
+              .ForMember(d => d.Idrol, x => x.MapFrom(a => a.Idrol))
+              ;
             //CreateMap<Rol, RolDto>()
             // .ForMember(d => d.Id, x => x.MapFrom(a => a.Id))
             // .ForMember(d => d.Name, x => x.MapFrom(a => a.Name))

@@ -79,5 +79,11 @@ namespace LogicaTrigonos.Logic
             _context.SaveChanges();
             return true;
         }
+        public async Task<bool> RemoveBD(T BD)
+        {
+            _context.Set<T>().Remove(BD);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

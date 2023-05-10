@@ -35,6 +35,8 @@ namespace LogicaTrigonos.Data
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<REACT_TRGNS_H_Datos_Facturacion> REACT_TRGNS_H_Datos_Facturacion { get; set; }
         public DbSet<REACT_TRGNS_UserProyects> REACT_TRGNS_UserProyects { get; set; }
+        public DbSet<REACT_TRGNS_PaginasWeb> REACT_TRGNS_PaginasWeb { get; set; }
+        public DbSet<REACT_TRGNS_RolPaginas> REACT_TRGNS_RolPaginas { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
