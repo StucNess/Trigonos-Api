@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+QJSlcsDAVm2N1rbGD3KKQkETlfz+KYdCg5vpytFZ0SBegV4XtiVTN6arzwSjzn3x4dyqvg92zqClBmql0MdoQ==",
+  "dgSpecHash": "ZZkpB2jfb/ttErKQ/zocsl2KdI3rTZj1Qk2KGn3/7QOmX9krD6l72GeGScCE6PRCa7k2wmRTahSOvCYOu+SkOQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
+  "projectFilePath": "C:\\Users\\Edgar\\source\\repos\\Prueba\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Edgar\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\Edgar\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",

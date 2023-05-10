@@ -887,11 +887,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj",
+      "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\Prueba\\TrigonosAPI\\Core\\Core.csproj",
       "projectName": "Core",
-      "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj",
+      "projectPath": "C:\\Users\\Edgar\\source\\repos\\Prueba\\TrigonosAPI\\Core\\Core.csproj",
       "packagesPath": "C:\\Users\\Edgar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\obj\\",
+      "outputPath": "C:\\Users\\Edgar\\source\\repos\\Prueba\\TrigonosAPI\\Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Edgar\\AppData\\Roaming\\NuGet\\NuGet.Config",
