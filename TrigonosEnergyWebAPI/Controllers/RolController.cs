@@ -217,6 +217,15 @@ namespace TrigonosEnergyWebAPI.Controllers
             var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_RolPaginas>, IReadOnlyList<RolPaginaWebDto>>(participantes);
             return Ok(maping);
         }
+        [HttpGet("listarRolPaginaHabilitada")] //lista la tabla de romperompe
+
+        public async Task<ActionResult<IReadOnlyList<RolPaginaWebDto>>> GetHabilitadaRolesPaginas()
+        {
+            var spec = new RolPaginasRelationCondition();
+            var participantes = await _rolPaginasRepository.GetAllAsync(spec);
+            var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_RolPaginas>, IReadOnlyList<RolPaginaWebDto>>(participantes);
+            return Ok(maping);
+        }
         [HttpPost("AsignarRolPagina")]
         public async Task<IActionResult> AsignarRolPagina(AsignarRolPaginaDto asignarPagina)
         {
