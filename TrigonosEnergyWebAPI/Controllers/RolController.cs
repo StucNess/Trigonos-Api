@@ -42,7 +42,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         }
        
         [HttpPost("Agregar")]
-        public async Task<ActionResult<RolDto>> AgregarRol(AgregarRolDto agregarRolDto)
+        public async Task<ActionResult<Rol>> AgregarRol(AgregarRolDto agregarRolDto)
         {
             var rol = new Rol
             {
@@ -57,7 +57,14 @@ namespace TrigonosEnergyWebAPI.Controllers
             {
                 return BadRequest(new CodeErrorResponse(500, "Error no se ha agregado el rol"));
             }
-            return Ok();
+            else
+            {
+                //var role = await _rolManager.FindByNameAsync(agregarRolDto.Name);
+
+                return rol;
+            }
+            
+            
         }
 
 
