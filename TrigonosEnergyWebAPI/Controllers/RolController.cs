@@ -68,7 +68,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         }
 
 
-        [HttpPatch("Actualizar")]
+        [HttpPost("Actualizar/{id}")]
 
         public async Task<ActionResult<RolDto>> Actualizar(string id, AgregarRolDto parametros)
         {
@@ -80,9 +80,16 @@ namespace TrigonosEnergyWebAPI.Controllers
                 return NotFound(new CodeErrorResponse(404, "El Rol no existe"));
 
             }
-            rol.Name = parametros.Name;
-            rol.Descripcion = parametros.Descripcion;
-            rol.Bhabilitado = parametros.Bhabilitado;
+            if(parametros.Name != null)
+            {
+                rol.Name = parametros.Name;
+            }
+            if (parametros.Descripcion != null)
+            {
+                rol.Descripcion = parametros.Descripcion;
+            }
+           
+            //rol.Bhabilitado = parametros.Bhabilitado;
             var resultado = await _rolManager.UpdateAsync(rol);
 
             if (!resultado.Succeeded)
