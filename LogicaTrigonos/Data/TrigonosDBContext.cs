@@ -38,11 +38,13 @@ namespace LogicaTrigonos.Data
         public DbSet<REACT_TRGNS_PaginasWeb> REACT_TRGNS_PaginasWeb { get; set; }
         public DbSet<REACT_TRGNS_RolPaginas> REACT_TRGNS_RolPaginas { get; set; }
         public DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<CEN_billing_windows>().ToTable("CEN_billing_windows");
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.Entity<AspNetUserRoles>().HasNoKey();
 
         }
     }

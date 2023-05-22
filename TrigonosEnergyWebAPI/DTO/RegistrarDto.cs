@@ -11,5 +11,7 @@
         public string Password { get; set; }
 
         public string Rol { get; set; }
+        public List<int> ListIdProyects { get; set; }
+
     }
 }

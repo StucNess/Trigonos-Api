@@ -38,6 +38,8 @@ builder.Services.AddScoped(typeof(IGenericSecurityRepository<>), (typeof(Generic
 builder.Services.AddScoped(typeof(IGenericRepositoryRole<>), (typeof(GenericSecRespositoryRol<>)));
 
 builder.Services.AddScoped<IRepositoryUsuario,UsuarioRepository>();
+
+builder.Services.AddScoped<IRepositoryRolesUser, RolesUsuarioRepository>();
 //builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 //var builder = WebApplication.CreateBuilder(args);
 

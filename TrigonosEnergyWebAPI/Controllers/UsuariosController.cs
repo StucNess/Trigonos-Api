@@ -16,6 +16,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication;
 using LogicaTrigonos.Logic;
+using System.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
@@ -27,11 +30,13 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly ITokenService _tokenService;
         private readonly IPasswordHasher<Usuarios> _passwordHasher;
         private readonly IGenericSecurityRepository<Usuarios> _seguridadRepository;
+        private readonly IRepositoryRolesUser _repoRolesUser;
+
         private readonly IMapper _mapper;
         private readonly RoleManager<Rol> _roleManager;
         private readonly IGenericRepository<REACT_TRGNS_UserProyects> _userProyects;
       
-        public UsuariosController(UserManager<Usuarios> userManager, SignInManager<Usuarios> signInManager, ITokenService tokenService, IPasswordHasher<Usuarios> passwordHasher, IGenericSecurityRepository<Usuarios> seguridadRepository, IMapper mapper, RoleManager<Rol> roleManager, IGenericRepository<REACT_TRGNS_UserProyects> userProyects)
+        public UsuariosController(IRepositoryRolesUser repo,UserManager<Usuarios> userManager, SignInManager<Usuarios> signInManager, ITokenService tokenService, IPasswordHasher<Usuarios> passwordHasher, IGenericSecurityRepository<Usuarios> seguridadRepository, IMapper mapper, RoleManager<Rol> roleManager, IGenericRepository<REACT_TRGNS_UserProyects> userProyects)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -41,6 +46,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             _mapper = mapper;
             _roleManager = roleManager;
             _userProyects = userProyects;
+            _repoRolesUser = repo;
         }
         /// <summary>
         /// Devuelve datos de usuario al logearse con su token
@@ -98,6 +104,17 @@ namespace TrigonosEnergyWebAPI.Controllers
                     PageSize = usuarioParams.PageSize,
                 }
                 );
+        }
+        [HttpGet("rolesUsers")]
+
+
+        public  IReadOnlyList<AspNetUserRolesDto> GetUseRoles()
+        {
+        
+            var participantes = _repoRolesUser.GetRolesUsuarios().ToList() ;  
+
+            var maping = _mapper.Map<IReadOnlyList<AspNetUserRoles>, IReadOnlyList<AspNetUserRolesDto>>(participantes);
+            return maping;
         }
         /// <summary>
         /// Obtener datos del usuario con su id
@@ -208,6 +225,8 @@ namespace TrigonosEnergyWebAPI.Controllers
                 Role = registrarDto.Rol
             };
 
+            
+
             var resultado = await _userManager.CreateAsync(usuario, registrarDto.Password);
 
             var resultado1 = await _userManager.AddToRoleAsync(usuario, registrarDto.Rol);
@@ -215,19 +234,44 @@ namespace TrigonosEnergyWebAPI.Controllers
             {
                 return BadRequest(new CodeErrorResponse(400));
             }
-            return new UsuariosDto
-
+            else
             {
-                Id = usuario.Id,
-                Nombre = usuario.Nombre,
-                Apellido = usuario.Apellido,
-                Token = _tokenService.CreateToken(usuario, registrarDto.Rol),
-                Email = usuario.Email,
-                Username = usuario.UserName,
-                IdEmpresa = usuario.IdEmpresa,
-                Pais = usuario.Pais,
-                Role = registrarDto.Rol
-            };
+       
+
+                List<REACT_TRGNS_UserProyects> listaNueva = registrarDto.ListIdProyects.Select(listitem =>
+                new REACT_TRGNS_UserProyects
+                {
+                    idProyect = listitem,
+                    idUser = usuario.Id
+                }).ToList();
+                if (!await _userProyects.SaveRangeBD(listaNueva))
+                {
+                    return BadRequest(new CodeErrorResponse(500, "No se logro eliminar el proyecto del usuario"));
+                }
+                else
+                {
+
+                    return new UsuariosDto
+
+                    {
+                        Id = usuario.Id,
+                        Nombre = usuario.Nombre,
+                        Apellido = usuario.Apellido,
+                        Token = _tokenService.CreateToken(usuario, registrarDto.Rol),
+                        Email = usuario.Email,
+                        Username = usuario.UserName,
+                        IdEmpresa = usuario.IdEmpresa,
+                        Pais = usuario.Pais,
+                        Role = registrarDto.Rol
+                    };
+                }
+
+
+             
+            }
+
+
+            
         }
         /// <summary>
         /// Actualizar datos de un usuario
@@ -236,7 +280,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// <param name="registrarDto"></param>
         /// <returns></returns>
         [HttpPost("actualizar/{id}")]
-        public async Task<ActionResult<UsuariosDto>> Actualizar(string id, RegistrarDto registrarDto)
+        public async Task<ActionResult<UsuariosDto>> Actualizar(string id, ActualizarUserDto actualizarDto)
         {
             var usuario = await _userManager.FindByIdAsync(id);
             if (usuario == null)
@@ -244,38 +288,195 @@ namespace TrigonosEnergyWebAPI.Controllers
                 return NotFound(new CodeErrorResponse(404, "El usuario no existe"));
 
             }
-            usuario.Nombre = registrarDto.Nombre;
-            usuario.Apellido = registrarDto.Apellido;
-            usuario.Email = registrarDto.Email;
-            usuario.UserName = registrarDto.Username;
-            usuario.IdEmpresa = registrarDto.IdEmpresa;
-            usuario.Pais = registrarDto.Pais;
-            usuario.Role = registrarDto.Rol;
-
-            if (!string.IsNullOrEmpty(registrarDto.Password))
+            if (actualizarDto.Nombre != null)
             {
-                usuario.PasswordHash = _passwordHasher.HashPassword(usuario, registrarDto.Password);
+                usuario.Nombre = actualizarDto.Nombre;
+            }
+            if (actualizarDto.Apellido != null)
+            {
+                usuario.Apellido = actualizarDto.Apellido;
+            }
+            if (actualizarDto.Email != null)
+            {
+                usuario.Email = actualizarDto.Email;
+            }
+            if (actualizarDto.Username != null)
+            {
+                usuario.UserName = actualizarDto.Username;
+            }
+            if (actualizarDto.IdEmpresa != null)
+            {
+                usuario.IdEmpresa = actualizarDto.IdEmpresa;
+            }
+            if (actualizarDto.Pais != null)
+            {
+                usuario.Pais = actualizarDto.Pais;
+            }
+            if(actualizarDto.ListDeleteProyecto != null)
+            {
+                //List<ActualizarUserDto> deleteListUserProyects= actualizarDto.ListDeleteProyecto.ToList();
+
+                try
+                {
+                    List<REACT_TRGNS_UserProyects> listaParaRemover = actualizarDto.ListDeleteProyecto.Select(listitem =>
+                       new REACT_TRGNS_UserProyects
+                       {
+                           idProyect = listitem.idProyect,
+                           idUser = listitem.idUser
+                       }).ToList();
+                    var entityToDelete = await _userProyects.GetAllAsync();
+
+                    List<REACT_TRGNS_UserProyects> elementosCoincidentes = entityToDelete.Where(elementoLista1 =>
+                                listaParaRemover.Any(elementoLista2 => elementoLista1.idProyect == elementoLista2.idProyect &&
+                                                              elementoLista1.idUser == elementoLista2.idUser)
+                            ).ToList();
+
+                    if (!await _userProyects.RemoveRangeBD(elementosCoincidentes))
+                    {
+                        return BadRequest(new CodeErrorResponse(500, "No se logro eliminar el proyecto del usuario"));
+                    }
+
+
+                }
+                catch (Exception)
+                {
+                    return BadRequest(new CodeErrorResponse(500, "No se logro eliminar el proyecto del usuario"));
+                }
+               
+              
+
+                //List<REACT_TRGNS_UserProyects> listaParaRemover = actualizarDto.ListDeleteProyecto.Select(listitem =>
+                //new REACT_TRGNS_UserProyects
+                //{
+                //   idProyect = listitem.idProyect,
+                //   idUser = listitem.idUser
+                //}).ToList();
+                //if (!await _userProyects.RemoveRangeBD(listaParaRemover))
+                //{
+                //    return BadRequest(new CodeErrorResponse(500, "No se logro eliminar el proyecto del usuario"));
+                //}
+               
+
+            }
+            if (actualizarDto.ListNewProyecto != null)
+            {
+                
+
+                List<REACT_TRGNS_UserProyects> listaNueva = actualizarDto.ListNewProyecto.Select(listitem =>
+                new REACT_TRGNS_UserProyects
+                {
+                    idProyect = listitem.idProyect,
+                    idUser = listitem.idUser
+                }).ToList();
+                if (!await _userProyects.SaveRangeBD(listaNueva))
+                {
+                    return BadRequest(new CodeErrorResponse(500, "No se logro eliminar el proyecto del usuario"));
+                }
+              
+
             }
 
-            var resultado = await _userManager.UpdateAsync(usuario);
 
-            if (!resultado.Succeeded)
+            if (actualizarDto.RolIdNuevo != null)
             {
-                return BadRequest(new CodeErrorResponse(400, "No se pudo actualizar el usuario"));
+                var RoleAnterior = await _roleManager.FindByIdAsync(actualizarDto.RolIdAnterior);
+                var RoleNuevo = await _roleManager.FindByIdAsync(actualizarDto.RolIdNuevo);
+
+
+
+                if (RoleAnterior == null)
+                {
+                    return NotFound(new CodeErrorResponse(404, "El Rol no existe"));
+
+                }
+                else
+                {
+                    var removeRole = await _userManager.RemoveFromRoleAsync(usuario, RoleAnterior.Name);
+                    if (!removeRole.Succeeded)
+                    {
+                        return BadRequest(new CodeErrorResponse(400, "No se pudo remover el rol actual"));
+                    }
+                    else
+                    {
+                        if (RoleNuevo == null)
+                        {
+                            return NotFound(new CodeErrorResponse(404, "El Rol no existe"));
+                        }
+                        else
+                        {
+                            var addnewrol = await _userManager.AddToRoleAsync(usuario, RoleNuevo.Name);
+                            if (!addnewrol.Succeeded)
+                            {
+
+                                return BadRequest(new CodeErrorResponse(400, "No se pudo agregar el nuevo rol"));
+
+                            }
+                            else
+                            {
+                                usuario.Role = RoleNuevo.Name;
+                                var resultado1 = await _userManager.UpdateAsync(usuario);
+
+                                if (!resultado1.Succeeded)
+                                {
+                                    return BadRequest(new CodeErrorResponse(400, "No se pudo actualizar el usuario"));
+                                }
+                                var roless = await _userManager.GetRolesAsync(usuario);
+                                return new UsuariosDto
+                                {
+                                    Id = usuario.Id,
+                                    Nombre = usuario.Nombre,
+                                    Apellido = usuario.Apellido,
+                                    Email = usuario.Email,
+                                    Username = usuario.UserName,
+                                    IdEmpresa = actualizarDto.IdEmpresa,
+                                    Pais = actualizarDto.Pais,
+                                    Token = _tokenService.CreateToken(usuario, roless[0]),
+                                    Role = roless[0]
+                                };
+                            }
+                        }
+
+                    }
+                }
             }
-            var roles = await _userManager.GetRolesAsync(usuario);
-            return new UsuariosDto
+            else
             {
-                Id = usuario.Id,
-                Nombre = usuario.Nombre,
-                Apellido = usuario.Apellido,
-                Email = usuario.Email,
-                Username = usuario.UserName,
-                IdEmpresa = registrarDto.IdEmpresa,
-                Pais = registrarDto.Pais,
-                Token = _tokenService.CreateToken(usuario, roles[0]),
-                Role = roles[0]
-            };
+                var resultado = await _userManager.UpdateAsync(usuario);
+
+                if (!resultado.Succeeded)
+                {
+                    return BadRequest(new CodeErrorResponse(400, "No se pudo actualizar el usuario"));
+                }
+                var roles = await _userManager.GetRolesAsync(usuario);
+                return new UsuariosDto
+                {
+                    Id = usuario.Id,
+                    Nombre = usuario.Nombre,
+                    Apellido = usuario.Apellido,
+                    Email = usuario.Email,
+                    Username = usuario.UserName,
+                    IdEmpresa = actualizarDto.IdEmpresa,
+                    Pais = actualizarDto.Pais,
+                    Token = _tokenService.CreateToken(usuario, roles[0]),
+                    Role = roles[0]
+                };
+            }
+
+
+
+            //Evaluar si lleva password o no yo creo que esto lo separare
+            //if (!string.IsNullOrEmpty(registrarDto.Password))
+            //{
+            //    usuario.PasswordHash = _passwordHasher.HashPassword(usuario, registrarDto.Password);
+            //}
+
+
+           
+
+
+
+
+
         }
 
         /// <summary>

@@ -85,5 +85,17 @@ namespace LogicaTrigonos.Logic
             _context.SaveChanges();
             return true;
         }
+        public async Task<bool> RemoveRangeBD(IEnumerable<T> BD)
+        {
+            _context.Set<T>().RemoveRange(BD);
+            _context.SaveChanges();
+            return true;
+        }
+        public async Task<bool> SaveRangeBD(IEnumerable<T> BD)
+        {
+            _context.Set<T>().AddRange(BD);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

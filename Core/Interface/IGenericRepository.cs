@@ -22,5 +22,8 @@ namespace Core.Interface
         Task<int> CountAsync(ISpecifications<T> spec);
         Task<bool> SaveBD(T BD);
         Task<bool> RemoveBD(T BD);
+        Task<bool> RemoveRangeBD(IEnumerable<T> BD);
+        Task<bool> SaveRangeBD(IEnumerable<T> BD);
+
     }
 }

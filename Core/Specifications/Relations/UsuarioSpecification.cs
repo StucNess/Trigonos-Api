@@ -18,6 +18,7 @@ namespace Core.Specifications.Relations
 
         )
         {
+         
             ApplyPaging(usuarioParams.PageSize * (usuarioParams.PageIndex - 1), usuarioParams.PageSize);
             if (string.IsNullOrEmpty(usuarioParams.Sort))
             {

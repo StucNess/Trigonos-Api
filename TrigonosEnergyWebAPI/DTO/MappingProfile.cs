@@ -200,6 +200,7 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.label, x => x.MapFrom(a => a.natural_key));
 
             CreateMap<REACT_TRGNS_Datos_Facturacion, Datos_Facturacion_DTO>();
+            CreateMap<AspNetUserRoles, AspNetUserRolesDto>();
 
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
             CreateMap<Rol, RolDto>().ReverseMap();

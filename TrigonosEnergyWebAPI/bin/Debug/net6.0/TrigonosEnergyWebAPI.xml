@@ -92,7 +92,7 @@
             <param name="registrarDto"></param>
             <returns></returns>
         </member>
-        <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.Actualizar(System.String,TrigonosEnergyWebAPI.DTO.RegistrarDto)">
+        <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.Actualizar(System.String,TrigonosEnergyWebAPI.DTO.ActualizarUserDto)">
             <summary>
             Actualizar datos de un usuario
             </summary>
