@@ -83,27 +83,61 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// </summary>
         /// <param name="usuarioParams"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("pagination")]
         public async Task<ActionResult<Pagination<UsuariosDto>>> GetUsuarios([FromQuery] UsuarioSpecificationParams usuarioParams)
         {
-            var spec = new UsuarioSpecification(usuarioParams);
-            var usuarios = await _seguridadRepository.GetAllAsync(spec);
-            var specCount = new UsuarioForCountingSpecification(usuarioParams);
-            var totalUsuarios = await _seguridadRepository.CountAsync(specCount);
-            var rounded = Math.Ceiling(Convert.ToDecimal(totalUsuarios) / Convert.ToDecimal(usuarioParams.PageSize));
-            var totalPages = Convert.ToInt32(rounded);
-            var data = _mapper.Map<IReadOnlyList<Usuarios>, IReadOnlyList<UsuariosDto>>(usuarios);
-            return Ok(
-                new Pagination<UsuariosDto>
-                {
 
-                    count = totalUsuarios,
-                    Data = data,
-                    PageCount = totalPages,
-                    PageIndex = usuarioParams.PageIndex,
-                    PageSize = usuarioParams.PageSize,
-                }
-                );
+            var currentRol = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+
+            if(currentRol == "Administrador")
+            {
+                var spec = new UsuarioSpecification(usuarioParams, currentRol);
+                var usuarios = await _seguridadRepository.GetAllAsync(spec);
+                var specCount = new UsuarioForCountingSpecification(usuarioParams);
+                var totalUsuarios = await _seguridadRepository.CountAsync(specCount);
+                var rounded = Math.Ceiling(Convert.ToDecimal(totalUsuarios) / Convert.ToDecimal(usuarioParams.PageSize));
+                var totalPages = Convert.ToInt32(rounded);
+                var data = _mapper.Map<IReadOnlyList<Usuarios>, IReadOnlyList<UsuariosDto>>(usuarios);
+                return Ok(
+                    new Pagination<UsuariosDto>
+                    {
+
+                        count = totalUsuarios,
+                        Data = data,
+                        PageCount = totalPages,
+                        PageIndex = usuarioParams.PageIndex,
+                        PageSize = usuarioParams.PageSize,
+                    }
+                    );
+            }else if (currentRol == "Admin Jefe")
+            {
+                var spec = new UsuarioSpecification(usuarioParams, currentRol);
+                var usuarios = await _seguridadRepository.GetAllAsync(spec);
+                var specCount = new UsuarioForCountingSpecification(usuarioParams);
+                var totalUsuarios = await _seguridadRepository.CountAsync(specCount);
+                var rounded = Math.Ceiling(Convert.ToDecimal(totalUsuarios) / Convert.ToDecimal(usuarioParams.PageSize));
+                var totalPages = Convert.ToInt32(rounded);
+                var data = _mapper.Map<IReadOnlyList<Usuarios>, IReadOnlyList<UsuariosDto>>(usuarios);
+                return Ok(
+                    new Pagination<UsuariosDto>
+                    {
+
+                        count = totalUsuarios,
+                        Data = data,
+                        PageCount = totalPages,
+                        PageIndex = usuarioParams.PageIndex,
+                        PageSize = usuarioParams.PageSize,
+                    }
+                    );
+            }
+            else
+            {
+                return NotFound(new CodeErrorResponse(404, "No tiene permisos, debe autenticarse"));
+            }
+
+
+            
         }
         [HttpGet("rolesUsers")]
 
