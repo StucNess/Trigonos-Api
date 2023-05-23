@@ -57,7 +57,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                
 
                 var datos = await _rolManager.Roles.ToListAsync();
-                List<Rol> datosCondition = datos.Where(elementoLista1 => elementoLista1.Name != "Administrador" && elementoLista1.Name != "Admin Jefe").ToList();
+                List<Rol> datosCondition = datos.Where(elementoLista1 =>  elementoLista1.Name != "Administrador" && elementoLista1.Name != "Admin Jefe").ToList();
                 var maping = _mapper.Map<IReadOnlyList<Rol>, IReadOnlyList<RolDto>>(datosCondition);
                 return Ok(maping);
             }
