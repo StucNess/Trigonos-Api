@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using Core.Entities;
 using Core.Interface;
+using Core.Specifications.Counting;
 using Core.Specifications.Relations;
 using LogicaTrigonos.Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.WsTrust;
+using System.Security.Claims;
 using TrigonosEnergy.Controllers;
 using TrigonosEnergy.DTO;
 using TrigonosEnergyWebAPI.DTO;
@@ -31,16 +34,50 @@ namespace TrigonosEnergyWebAPI.Controllers
             _paginasWebRepository= paginasWebRepository;
             _rolPaginasRepository = rolPaginasRepository;
         }
-
         [HttpGet]
-
         public async Task<ActionResult<IReadOnlyList<RolDto>>> GetRoles()
         {
-            var datos =  await _rolManager.Roles.ToListAsync();
+            var datos = await _rolManager.Roles.ToListAsync();
             var maping = _mapper.Map<IReadOnlyList<Rol>, IReadOnlyList<RolDto>>(datos);
             return Ok(maping);
+
+
+        }
+        [Authorize]
+        [HttpGet("Token")]
+        public async Task<ActionResult<IReadOnlyList<RolDto>>> GetRolesAuthorize()
+        {
+            var currentRol = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+
+        
+
+            if (currentRol == "Administrador")
+            {
+
+               
+
+                var datos = await _rolManager.Roles.ToListAsync();
+                List<Rol> datosCondition = datos.Where(elementoLista1 => elementoLista1.Name != "Administrador" && elementoLista1.Name != "Admin Jefe").ToList();
+                var maping = _mapper.Map<IReadOnlyList<Rol>, IReadOnlyList<RolDto>>(datosCondition);
+                return Ok(maping);
+            }
+            else if (currentRol == "Admin Jefe")
+            {
+                var datos = await _rolManager.Roles.ToListAsync();
+                List<Rol> datosCondition = datos.Where(elementoLista1 => elementoLista1.Name != "Admin Jefe").ToList();
+                var maping = _mapper.Map<IReadOnlyList<Rol>, IReadOnlyList<RolDto>>(datosCondition);
+                return Ok(maping);
+            }
+            else
+            {
+                return NotFound(new CodeErrorResponse(404, "No tiene permisos"));
+            }
+
+
+        
         }
        
+
         [HttpPost("Agregar")]
         public async Task<ActionResult<Rol>> AgregarRol(AgregarRolDto agregarRolDto)
         {
