@@ -8,8 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Core
-<<<<<<< HEAD
 build_property.ProjectDir = C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\
-=======
-build_property.ProjectDir = C:\Users\Edgar\source\repos\TrigonosAPI\Core\
->>>>>>> cc7c132bf6b0bf23093dd618980a6bb5bcc9b50c
