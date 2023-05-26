@@ -82,3 +82,15 @@ C:\Users\Edgar\source\repos\11-51 19-05\TrigonosAPI\Core\obj\Debug\net6.0\Core.d
 C:\Users\Edgar\source\repos\11-51 19-05\TrigonosAPI\Core\obj\Debug\net6.0\refint\Core.dll
 C:\Users\Edgar\source\repos\11-51 19-05\TrigonosAPI\Core\obj\Debug\net6.0\Core.pdb
 C:\Users\Edgar\source\repos\11-51 19-05\TrigonosAPI\Core\obj\Debug\net6.0\ref\Core.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\bin\Debug\net6.0\Core.deps.json
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\bin\Debug\net6.0\Core.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\bin\Debug\net6.0\Core.pdb
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\obj\Debug\net6.0\Core.csproj.AssemblyReference.cache
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\obj\Debug\net6.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\obj\Debug\net6.0\Core.AssemblyInfoInputs.cache
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\obj\Debug\net6.0\Core.AssemblyInfo.cs
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\obj\Debug\net6.0\Core.csproj.CoreCompileInputs.cache
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\obj\Debug\net6.0\Core.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\obj\Debug\net6.0\refint\Core.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\obj\Debug\net6.0\Core.pdb
+C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\Core\obj\Debug\net6.0\ref\Core.dll

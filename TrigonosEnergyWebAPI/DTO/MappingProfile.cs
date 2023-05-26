@@ -43,7 +43,8 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.Bills_contact_phones, x => x.MapFrom(a => a.cEN_Participants.Bills_contact_phones))
                 .ForMember(p => p.Bills_contact_email, x => x.MapFrom(a => a.cEN_Participants.Bills_contact_email))
                 .ForMember(p => p.Created_ts, x => x.MapFrom(a => a.cEN_Participants.Created_ts))
-                .ForMember(p => p.Updated_ts, x => x.MapFrom(a => a.cEN_Participants.Updated_ts));
+                .ForMember(p => p.Updated_ts, x => x.MapFrom(a => a.cEN_Participants.Updated_ts))
+                .ForMember(p => p.trgns_erp, x => x.MapFrom(a => a.cEN_Participants.trgns_erp));
 
             CreateMap<REACT_TRGNS_UserProyects, ParticipantesDTO>()
                 .ForMember(p => p.Id, x => x.MapFrom(a => a.cEN_Participants.ID))
@@ -71,7 +72,8 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.Bills_contact_phones, x => x.MapFrom(a => a.cEN_Participants.Bills_contact_phones))
                 .ForMember(p => p.Bills_contact_email, x => x.MapFrom(a => a.cEN_Participants.Bills_contact_email))
                 .ForMember(p => p.Created_ts, x => x.MapFrom(a => a.cEN_Participants.Created_ts))
-                .ForMember(p => p.Updated_ts, x => x.MapFrom(a => a.cEN_Participants.Updated_ts));
+                .ForMember(p => p.Updated_ts, x => x.MapFrom(a => a.cEN_Participants.Updated_ts))
+                .ForMember(p => p.trgns_erp, x => x.MapFrom(a => a.cEN_Participants.trgns_erp));
 
             CreateMap<REACT_CEN_Participants, RutDto>()
                 .ForMember(p => p.label, x => x.MapFrom(a => String.Concat(a.Rut, '-', a.Verification_Code)));
@@ -95,6 +97,8 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.Acreedor, x => x.MapFrom(a => a.CEN_instruction.Participants_creditor.ID))
                 .ForMember(p => p.RutAcreedor, x => x.MapFrom(a => String.Concat(a.CEN_instruction.Participants_creditor.Rut,'-',a.CEN_instruction.Participants_creditor.Verification_Code)))
                 .ForMember(p => p.NombreDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Business_Name))
+                .ForMember(p => p.GiroDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Commercial_Business))
+                .ForMember(p => p.DireccionDeudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.Postal_address))
                 .ForMember(p => p.Deudor, x => x.MapFrom(a => a.CEN_instruction.Participants_debtor.ID))
                 .ForMember(p => p.RutDeudor, x => x.MapFrom(a => String.Concat(a.CEN_instruction.Participants_debtor.Rut, '-', a.CEN_instruction.Participants_debtor.Verification_Code)))
                 .ForMember(p => p.Concepto, x => x.MapFrom(a => a.CEN_instruction.Payment_matrix_concept))
