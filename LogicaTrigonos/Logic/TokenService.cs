@@ -44,7 +44,7 @@ namespace LogicaTrigonos.Logic
             var tokenConfiguration = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(5),
+                Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = credentials,
                 Issuer = _config["AppSettings:Token:Issuer"]
 

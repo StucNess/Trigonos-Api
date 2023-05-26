@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\Core\\Core.csproj": {}
   },
   "projects": {
@@ -15,6 +16,22 @@
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+    "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj",
+        "projectName": "Core",
+        "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\Edgar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Edgar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> cc7c132bf6b0bf23093dd618980a6bb5bcc9b50c
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

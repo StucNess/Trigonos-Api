@@ -307,6 +307,65 @@ namespace TrigonosEnergyWebAPI.Controllers
 
             
         }
+
+
+
+        [HttpPost("Desactivar")]
+        public async Task<bool> DesactivarUsuario(string usuarioId)
+        {
+            var usuario = await _userManager.FindByIdAsync(usuarioId);
+
+            if (usuario == null)
+            {
+                return false;
+            }
+            usuario.LockoutEnabled = true;
+            usuario.LockoutEnd = DateTimeOffset.MaxValue;
+
+            //usuario.LockoutEnd = DateTimeOffset.UtcNow.AddDays(-1);
+
+            var resultado = await _userManager.UpdateAsync(usuario);
+
+            if (resultado.Succeeded)
+            {
+                
+                return true;
+            }
+            else
+            {
+               
+                return false;
+            }
+
+        }
+        [HttpPost("Activar")]
+        public async Task<bool> ActivarUsuario(string usuarioId)
+        {
+            var usuario = await _userManager.FindByIdAsync(usuarioId);
+
+            if (usuario == null)
+            {
+                return false;
+            }
+            usuario.LockoutEnabled = true;
+            usuario.LockoutEnd = null;
+
+            //usuario.LockoutEnd = DateTimeOffset.UtcNow.AddDays(-1);
+
+            var resultado = await _userManager.UpdateAsync(usuario);
+
+            if (resultado.Succeeded)
+            {
+
+                return true;
+            }
+            else
+            {
+
+                return false;
+            }
+
+        }
         /// <summary>
         /// Actualizar datos de un usuario
         /// </summary>
