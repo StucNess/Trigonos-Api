@@ -3381,19 +3381,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\neidr\\.nuget\\packages\\": {}
+    "C:\\Users\\andre\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+      "projectUniqueName": "C:\\Users\\andre\\source\\repos\\APIHOY_26_05\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
       "projectName": "LogicaTrigonos",
-      "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
-      "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\LogicaTrigonos\\obj\\",
+      "projectPath": "C:\\Users\\andre\\source\\repos\\APIHOY_26_05\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+      "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\andre\\source\\repos\\APIHOY_26_05\\TrigonosAPI\\LogicaTrigonos\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3407,8 +3412,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\Core\\Core.csproj": {
-              "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\Core\\Core.csproj"
+            "C:\\Users\\andre\\source\\repos\\APIHOY_26_05\\TrigonosAPI\\Core\\Core.csproj": {
+              "projectPath": "C:\\Users\\andre\\source\\repos\\APIHOY_26_05\\TrigonosAPI\\Core\\Core.csproj"
             }
           }
         }
@@ -3474,16 +3479,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\LogicaTrigonos\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
