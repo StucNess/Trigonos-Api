@@ -121,6 +121,30 @@
             <param name="parametros"></param>
             <returns></returns>
         </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.ProyectosById(System.Int32)">
+            <summary>
+            Retorna si es de bluetree o es externo
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.ActivarProyectoById(System.Int32)">
+            <summary>
+            actualización dinamica de los clientes vhabilitado 0 o 1
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.ActualizarProyectoById(System.Int32)">
+            <summary>
+            actualiza para agregar como bluetree
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.DesactivarProyectoById(System.Int32)">
+            <summary>
+            actualiza para eliminar de clientes bluetree (desactivar)
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:TrigonosEnergy.Controllers.ParticipantesController.PRUEBA">
             <summary>
             Obtener el nombre comercial de todos los participantes

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrigonosEnergy.DTO;
 using TrigonosEnergyWebAPI.DTO;
+using TrigonosEnergyWebAPI.Errors;
 
 namespace TrigonosEnergy.Controllers
 {
@@ -110,6 +111,152 @@ namespace TrigonosEnergy.Controllers
                     );
             }
             
+        }
+        /// <summary>
+        /// Retorna si es de bluetree o es externo
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("ProyectosBy/{id}")]
+        public async Task<ActionResult<REACT_TRGNS_PROYECTOS>> ProyectosById(int id)
+        {
+            var datos = await _proyectosRepository.GetAllAsync();
+
+
+           
+            var busqueda = datos.FirstOrDefault(i => i.Id_participants == id);
+            if (busqueda == null)
+            {
+                return NotFound(new CodeErrorResponse(404, "La pagina web no existe"));
+            }
+            else
+            {
+                return busqueda;
+            }
+
+        
+        }
+        /// <summary>
+        /// actualización dinamica de los clientes vhabilitado 0 o 1
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("ActualizarTipoCliente/{id}")]
+        public async Task<ActionResult<bool>> ActivarProyectoById(int id)
+        {
+            var datos = await _proyectosRepository.GetAllAsync();
+
+
+
+            var busqueda = datos.FirstOrDefault(i => i.Id_participants == id);
+
+            if (busqueda == null)
+            {
+                return NotFound(new CodeErrorResponse(404, "el proyecto no existe"));
+            }
+            else
+            {
+                if (busqueda.vHabilitado == 0)
+                {
+                    busqueda.vHabilitado = 1;
+                    if (!await _proyectosRepository.UpdateeAsync(busqueda))
+                    {
+                        return StatusCode(500);
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    busqueda.vHabilitado = 0;
+                    if (!await _proyectosRepository.UpdateeAsync(busqueda))
+                    {
+                        return StatusCode(500);
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+              
+
+                
+
+            }
+
+
+        }
+        /// <summary>
+        /// actualiza para agregar como bluetree
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("ActHabilitadoProyect/{id}")]
+        public async Task<ActionResult<bool>> ActualizarProyectoById(int id)
+        {
+            var datos = await _proyectosRepository.GetAllAsync();
+
+
+
+            var busqueda = datos.FirstOrDefault(i => i.Id_participants == id);
+
+            if (busqueda == null)
+            {
+                return NotFound(new CodeErrorResponse(404, "el proyecto no existe"));
+            }
+            else
+            {
+                busqueda.vHabilitado = 1;
+
+                if (!await _proyectosRepository.UpdateeAsync(busqueda))
+                {
+                    return StatusCode(500);
+                }
+                else
+                {
+                    return true;
+                }
+
+            }
+
+
+        }
+        /// <summary>
+        /// actualiza para eliminar de clientes bluetree (desactivar)
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("DesacHabilitadoProyect/{id}")]
+        public async Task<ActionResult<bool>> DesactivarProyectoById(int id)
+        {
+            var datos = await _proyectosRepository.GetAllAsync();
+
+
+
+            var busqueda = datos.FirstOrDefault(i => i.Id_participants == id);
+
+            if (busqueda == null)
+            {
+                return NotFound(new CodeErrorResponse(404, "el proyecto no existe"));
+            }
+            else
+            {
+                busqueda.vHabilitado = 0;
+
+                if (!await _proyectosRepository.UpdateeAsync(busqueda))
+                {
+                    return StatusCode(500);
+                }
+                else
+                {
+                    return true;
+                }
+
+            }
+
+
         }
         /// <summary>
         /// Obtener el nombre comercial de todos los participantes

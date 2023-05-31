@@ -1,0 +1,6 @@
+﻿
+
+namespace TrigonosEnergyWebAPI.DTO
+{
+   
+}

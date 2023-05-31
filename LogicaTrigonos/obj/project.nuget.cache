@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "X8LU6xLGtzhF1KkzE0N16RrzG6FgImD4/rdBNn0Mu52eJoyVhxfVR4+VpDVEVgFM0RC2/QFsR1pC0blzlhSmkw==",
+  "dgSpecHash": "PbiadZ5/uXZX+Hz3/gTVDYkdCfaVUQ5ENHAY3mMMM8kyqEGKquHBFZW47m8ZJbnDbb17qvGuCY8ocjmifCVb7g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\andre\\source\\repos\\APIHOY_26_05\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+  "projectFilePath": "C:\\Users\\andre\\source\\repos\\Hoy\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\andre\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
