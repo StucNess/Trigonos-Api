@@ -20,14 +20,17 @@ namespace TrigonosEnergy.Controllers
         private readonly IGenericRepository<REACT_TRGNS_PROYECTOS> _proyectosRepository;
         private readonly IGenericRepository<REACT_TRGNS_UserProyects> _proyectosUserRepository;
         private readonly IGenericRepository<REACT_TRGNS_H_CEN_participants> _pruebaRepo;
+        private readonly IGenericRepository<REACT_TRGNS_FACTCLDATA> _factClRepository;
+
         private readonly IMapper _mapper;
-        public ParticipantesController(IGenericRepository<REACT_CEN_Participants> participantesRepository, IMapper mapper, IGenericRepository<REACT_TRGNS_PROYECTOS> proyectosRepository,IGenericRepository<REACT_TRGNS_H_CEN_participants> pruebaRepo, IGenericRepository<REACT_TRGNS_UserProyects> proyectosUserRepository)
+        public ParticipantesController(IGenericRepository<REACT_CEN_Participants> participantesRepository, IMapper mapper, IGenericRepository<REACT_TRGNS_PROYECTOS> proyectosRepository,IGenericRepository<REACT_TRGNS_H_CEN_participants> pruebaRepo, IGenericRepository<REACT_TRGNS_UserProyects> proyectosUserRepository, IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository)
         {
             _participantesRepository = participantesRepository;
             _mapper = mapper;
             _proyectosRepository = proyectosRepository;
             _pruebaRepo = pruebaRepo;
             _proyectosUserRepository = proyectosUserRepository;
+            _factClRepository = factClRepository;
         }
        /// <summary>
        /// Obtener a los participantes de TRGNS o a todos los del CEN
@@ -137,18 +140,60 @@ namespace TrigonosEnergy.Controllers
         
         }
         /// <summary>
-        /// actualización dinamica de los clientes vhabilitado 0 o 1
+        /// Retorna todos los si es de bluetree o es externo
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
-        [Route("ActualizarTipoCliente/{id}")]
-        public async Task<ActionResult<bool>> ActivarProyectoById(int id)
+        [HttpGet]
+        [Route("Proyectos")]
+        public async Task<IReadOnlyList<REACT_TRGNS_PROYECTOS>> GetAllProyectos()
         {
             var datos = await _proyectosRepository.GetAllAsync();
 
 
 
-            var busqueda = datos.FirstOrDefault(i => i.Id_participants == id);
+            var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_PROYECTOS>, IReadOnlyList<REACT_TRGNS_PROYECTOS>>(datos);
+            return maping;
+
+
+
+        }
+        [HttpGet("PaginationProyectos")]
+        public async Task<ActionResult<Pagination<TrgnsProyectosDto>>> GetPaginationEncodeFacturacionCl([FromQuery] ProyectosSpecificationParams proyecParams)
+        {
+
+            var spec = new ProyectosSpecification(proyecParams);
+
+            var datos = await _proyectosRepository.GetAllAsync(spec);
+            var total = datos.Count();
+            var rounded = Math.Ceiling(Convert.ToDecimal(total / proyecParams.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_PROYECTOS>, IReadOnlyList<TrgnsProyectosDto>>(datos);
+            return Ok(
+                new Pagination<TrgnsProyectosDto>
+                {
+                    count = total,
+                    Data = data,
+                    PageCount = totalPages + 1,
+                    PageIndex = proyecParams.PageIndex,
+                    PageSize = proyecParams.PageSize,
+                }
+                );
+        }
+
+        /// <summary>
+        /// actualización dinamica de los participantes en la tabla proyectos
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("ActualizarProyecto")]
+        public async Task<ActionResult<bool>> ActivarProyectoById(ActualizarProyectos actproyect)
+        {
+            var datos = await _proyectosRepository.GetAllAsync();
+
+
+
+            var busqueda = datos.FirstOrDefault(i => i.Id_participants == actproyect.Id_participants);
+
 
             if (busqueda == null)
             {
@@ -156,33 +201,34 @@ namespace TrigonosEnergy.Controllers
             }
             else
             {
-                if (busqueda.vHabilitado == 0)
+                if (actproyect.Erp !=5) //se elimina de la tabla de fact .cl debo consultar
                 {
-                    busqueda.vHabilitado = 1;
-                    if (!await _proyectosRepository.UpdateeAsync(busqueda))
+                    try
                     {
-                        return StatusCode(500);
+                        var lista = await _factClRepository.GetAllAsync();
+                        var eliminar = lista.FirstOrDefault(i => i.IdParticipante == actproyect.Id_participants);
+                        var resp = await _factClRepository.RemoveBD(eliminar);
                     }
-                    else
+                    catch (Exception)
                     {
-                        return true;
+
+                        throw;
                     }
+                   
+                }
+
+                busqueda.Erp = actproyect.Erp != null ? actproyect.Erp : busqueda.Erp;
+                busqueda.vHabilitado = actproyect.vHabilitado != null ? (busqueda.vHabilitado == 0 ? 1 : 0 ): busqueda.vHabilitado ;
+                busqueda.Id_nomina_pago = actproyect.Id_nomina_pago != null ? actproyect.Id_nomina_pago : busqueda.Id_nomina_pago;
+
+                if (!await _proyectosRepository.UpdateeAsync(busqueda))
+                {
+                    return StatusCode(500);
                 }
                 else
                 {
-                    busqueda.vHabilitado = 0;
-                    if (!await _proyectosRepository.UpdateeAsync(busqueda))
-                    {
-                        return StatusCode(500);
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-              
-
-                
 
             }
 

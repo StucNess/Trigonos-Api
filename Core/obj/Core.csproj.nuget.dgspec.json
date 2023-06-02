@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\andre\\source\\repos\\Hoy\\TrigonosAPI\\Core\\Core.csproj": {}
+    "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\andre\\source\\repos\\Hoy\\TrigonosAPI\\Core\\Core.csproj": {
+    "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\andre\\source\\repos\\Hoy\\TrigonosAPI\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\Users\\andre\\source\\repos\\Hoy\\TrigonosAPI\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\andre\\source\\repos\\Hoy\\TrigonosAPI\\Core\\obj\\",
+        "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\Edgar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Edgar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -97,5 +97,11 @@ namespace LogicaTrigonos.Logic
             _context.SaveChanges();
             return true;
         }
+        public async Task<bool> UpdateRangeBD(IEnumerable<T> BD)
+        {
+            _context.Set<T>().UpdateRange(BD);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

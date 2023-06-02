@@ -132,6 +132,24 @@ builder.Services.AddSwaggerGen(options =>
         }
 
     });
+    options.SwaggerDoc("APIFacturacionCl", new OpenApiInfo()
+    {
+        Title = "API TRGNS",
+        Version = "v1",
+        Description = "Backend .NET CORE 6",
+        Contact = new OpenApiContact()
+        {
+            Email = "TRIGONOS@bluetreeam.com",
+            Name = "Equipo Informatico TRGNS",
+            Url = new Uri("https://bluetreeam.com/?lang=es")
+        },
+        License = new OpenApiLicense()
+        {
+            Name = "MIT License",
+            Url = new Uri("https://es.wikipedia.org/wiki/Licencia_MIT")
+        }
+
+    });
     options.SwaggerDoc("APIUsuarios", new OpenApiInfo()
     {
         Title = "API TRGNS",
@@ -319,6 +337,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/APIInstrucciones/swagger.json", "API Instrucciones");
     options.SwaggerEndpoint("/swagger/APIComboBox/swagger.json", "API ComboBox");
     options.SwaggerEndpoint("/swagger/APIParticipantes/swagger.json", "API Participantes");
+    options.SwaggerEndpoint("/swagger/APIFacturacionCl/swagger.json", "API FacturacionCl");
     options.SwaggerEndpoint("/swagger/APIUsuarios/swagger.json", "API Usuarios");
     options.SwaggerEndpoint("/swagger/APIRol/swagger.json", "API Rol");
     options.SwaggerEndpoint("/swagger/APIEmpresas/swagger.json", "API Empresas");

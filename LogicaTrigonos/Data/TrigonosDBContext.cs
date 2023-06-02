@@ -37,6 +37,9 @@ namespace LogicaTrigonos.Data
         public DbSet<REACT_TRGNS_UserProyects> REACT_TRGNS_UserProyects { get; set; }
         public DbSet<REACT_TRGNS_PaginasWeb> REACT_TRGNS_PaginasWeb { get; set; }
         public DbSet<REACT_TRGNS_RolPaginas> REACT_TRGNS_RolPaginas { get; set; }
+        public DbSet<REACT_TRGNS_FACTCLDATA> REACT_TRGNS_FACTCLDATA { get; set; }
+        public DbSet<REACT_TRGNS_NominaPagos> REACT_TRGNS_NominaPagos { get; set; }
+        public DbSet<REACT_TRGNS_Erp> REACT_TRGNS_Erp { get; set; }
         public DbSet<AspNetRoles> AspNetRoles { get; set; }
         public DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -8,8 +8,10 @@ using Core.Specifications.Params;
 using Core.Specifications.Relations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using TrigonosEnergy.Controllers;
 using TrigonosEnergyWebAPI.DTO;
+using TrigonosEnergyWebAPI.Errors;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
@@ -359,5 +361,32 @@ namespace TrigonosEnergyWebAPI.Controllers
 
 
 
+        }
+        /// <summary>
+        /// Actualizar estado emsion
+        /// </summary>
+
+        [HttpPost("ActualizarEstEmision")]
+        public async Task<ActionResult> ActualizarFacturacion(List<int?> ListIdInstrucctions, int estadoEmision)
+        {
+            var entityToUpdate = await _instruccionesRepository.GetAllAsync();
+
+            var filteredList = entityToUpdate.Where(item => ListIdInstrucctions.Any(id => id == item.id_instructions)).ToList().Select(item =>
+            {
+                item.Estado_emision = estadoEmision;
+                return item;
+            }).ToList();
+            
+            
+
+
+            if (!await _instruccionesRepository.UpdateRangeBD(filteredList))
+            {
+                return BadRequest(new CodeErrorResponse(500, "No se logro realizar la operación"));
+            }
+            else
+            {
+                return Ok();
+            }
         }
     } }

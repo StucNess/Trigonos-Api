@@ -192,6 +192,22 @@ namespace TrigonosEnergy.DTO
               .ForMember(d => d.Bhabilitado, x => x.MapFrom(a => a.Bhabilitado))
              
               ;
+
+
+            CreateMap<REACT_TRGNS_FACTCLDATA, FacturacionClDto>()
+              .ForMember(d => d.ID, x => x.MapFrom(a => a.ID))
+              .ForMember(d => d.IdParticipante, x => x.MapFrom(a => a.IdParticipante))
+              .ForMember(d => d.Usuario64, x => x.MapFrom(a => a.Usuario64))
+              .ForMember(d => d.RUT64, x => x.MapFrom(a => a.RUT64))
+              .ForMember(d => d.Clave64, x => x.MapFrom(a => a.Clave64))
+              .ForMember(d => d.Puerto64, x => x.MapFrom(a => a.Puerto64))
+              .ForMember(d => d.IncluyeLink64, x => x.MapFrom(a => a.IncluyeLink64))
+              .ForMember(d => d.UsuarioTest, x => x.MapFrom(a => a.UsuarioTest))
+              .ForMember(d => d.ClaveTest, x => x.MapFrom(a => a.ClaveTest))
+              .ForMember(d => d.RutTest, x => x.MapFrom(a => a.RutTest))
+              .ForMember(d => d.Phabilitado, x => x.MapFrom(a => a.Phabilitado))
+
+              ;
             //CreateMap<Rol, RolDto>()
             // .ForMember(d => d.Id, x => x.MapFrom(a => a.Id))
             // .ForMember(d => d.Name, x => x.MapFrom(a => a.Name))
@@ -199,11 +215,18 @@ namespace TrigonosEnergy.DTO
             // .ForMember(d => d.Bhabilitado, x => x.MapFrom(a => a.Bhabilitado));
 
 
-
+            CreateMap<REACT_TRGNS_PROYECTOS, TrgnsProyectosDto>()
+             .ForMember(d => d.ID, x => x.MapFrom(a => a.ID))
+             .ForMember(d => d.Id_participants, x => x.MapFrom(a => a.Id_participants))
+             .ForMember(d => d.vHabilitado, x => x.MapFrom(a => a.vHabilitado))
+             .ForMember(d => d.Erp, x => x.MapFrom(a => a.Erp))
+             .ForMember(d => d.Id_nomina_pago, x => x.MapFrom(a => a.Id_nomina_pago));
             CreateMap<REACT_CEN_billing_windows, Concepto>()
                 .ForMember(p => p.label, x => x.MapFrom(a => a.natural_key));
 
             CreateMap<REACT_TRGNS_Datos_Facturacion, Datos_Facturacion_DTO>();
+            CreateMap<REACT_TRGNS_NominaPagos, NominaPagosDto>();
+            CreateMap<REACT_TRGNS_Erp, FacturadorErpDto>();
             CreateMap<AspNetUserRoles, AspNetUserRolesDto>();
 
             CreateMap<Usuario, UsuarioDto>().ReverseMap();

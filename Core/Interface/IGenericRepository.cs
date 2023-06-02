@@ -24,6 +24,8 @@ namespace Core.Interface
         Task<bool> RemoveBD(T BD);
         Task<bool> RemoveRangeBD(IEnumerable<T> BD);
         Task<bool> SaveRangeBD(IEnumerable<T> BD);
+        Task<bool> UpdateRangeBD(IEnumerable<T> BD);
+
 
     }
 }
