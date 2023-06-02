@@ -103,6 +103,28 @@ namespace TrigonosEnergyWebAPI.Controllers
             
             
         }
+        [HttpPost("ActDesactDinamicRol/{id}")]
+        public async Task<ActionResult<RolDto>> ActDesactDinamicRol(string id)
+        {
+
+
+            var rol = await _rolManager.FindByIdAsync(id);
+            if (rol == null)
+            {
+                return NotFound(new CodeErrorResponse(404, "El Rol no existe"));
+
+            }
+            rol.Bhabilitado = rol.Bhabilitado == 0 ? 1 : 0; 
+
+            //rol.Bhabilitado = parametros.Bhabilitado;
+            var resultado = await _rolManager.UpdateAsync(rol);
+
+            if (!resultado.Succeeded)
+            {
+                return BadRequest(new CodeErrorResponse(400, "No se pudo actualizar el Rol"));
+            }
+            return Ok();
+        }
 
 
         [HttpPost("Actualizar/{id}")]
