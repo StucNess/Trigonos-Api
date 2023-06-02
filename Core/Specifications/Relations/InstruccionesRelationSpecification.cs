@@ -161,7 +161,6 @@ namespace Core.Specifications.Relations
             AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
             AddInclude(p => p.CEN_instruction.Participants_creditor);
             AddInclude(p => p.CEN_instruction.Participants_debtor);
-
             ApplyPaging(productoParams.PageSize * (productoParams.PageIndex - 1), productoParams.PageSize);
         }
         public InstruccionesRelationSpecification(int id,int pa ,InstruccionesSpecificationParams productoParams)

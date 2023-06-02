@@ -5,9 +5,9 @@ namespace TrigonosEnergyWebAPI.DTO
     public class ssFiltros
     {
 
-        public IList<String> label { get; set; }
-        public IList<String> Carta { get; set; }
-        public IList<String> CodRef { get; set; }
+        public IReadOnlyList<probandoMapper> label { get; set; }
+        public IReadOnlyList<probandoMapper> Carta { get; set; }
+        public IReadOnlyList<probandoMapper> CodRef { get; set; }
 
     }
 }

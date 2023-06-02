@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Relations
 {
-    public class PruebaParams : BaseSpecification<REACT_TRGNS_Datos_Facturacion>
+    public class PruebaParams : BaseSpecification<REACT_CEN_instructions_Def>
     {
         public PruebaParams(int id/*, InstruccionesSpecificationParams productoParams*/)
 
 
-           : base(x => x.id_instructions == id)
+           : base(x => x.ID == id)
 
         {
         }
