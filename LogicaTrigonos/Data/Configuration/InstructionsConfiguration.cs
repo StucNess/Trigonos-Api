@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LogicaTrigonos.Data.Configuration
 {
-    internal class InstruccionsConfiguration : IEntityTypeConfiguration<REACT_CEN_instructions>
+    internal class InstructionsConfiguration : IEntityTypeConfiguration<REACT_CEN_instructions_Def>
     {
-        public void Configure(EntityTypeBuilder<REACT_CEN_instructions> builder)
+        public void Configure(EntityTypeBuilder<REACT_CEN_instructions_Def> builder)
 
         {
             builder.HasOne(m => m.cEN_Payment_Matrices).WithMany().HasForeignKey(p => p.Payment_matrix);
@@ -33,6 +33,19 @@ namespace LogicaTrigonos.Data.Configuration
             builder.Property(p => p.Created_ts).HasMaxLength(500);
             builder.Property(p => p.Updated_ts).HasMaxLength(500);
             builder.Property(p => p.Trgns_Status_Instructions);
+
+
+            builder.HasOne(b => b.CEN_billing_status_type).WithMany().HasForeignKey(p => p.Estado_emision);
+            builder.HasOne(r => r.TRGNS_dte_reception_status).WithMany().HasForeignKey(p => p.Estado_recepcion);
+            builder.HasOne(o => o.CEN_payment_status_type).WithMany().HasForeignKey(p => p.Estado_pago);
+            builder.HasOne(a => a.CEN_dte_acceptance_status).WithMany().HasForeignKey(p => p.Estado_aceptacion);
+            builder.HasOne(a => a.CEN_nonconformities).WithMany().HasForeignKey(p => p.nonconformitie);
+            builder.Property(p => p.Fecha_emision);
+            builder.Property(p => p.Fecha_recepcion);
+            builder.Property(p => p.Fecha_pago);
+            builder.Property(p => p.Fecha_aceptacion);
+            builder.Property(p => p.tipo_instructions);
+            builder.Property(p => p.Folio);
         }
     }
 }

@@ -20,17 +20,19 @@ namespace TrigonosEnergyWebAPI.Controllers
     public class InstruccionesController : BaseApiController
     {
         private readonly IGenericRepository<REACT_TRGNS_Datos_Facturacion> _instruccionesRepository;
+        private readonly IGenericRepository<REACT_CEN_instructions_Def> _instruccionesDefRepository;
         private readonly IGenericRepository<REACT_CEN_payment_matrices> _matricesRepository;
         private readonly IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> _historificacionInstruccionesRepository;
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
 
-        public InstruccionesController(IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
+        public InstruccionesController(IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository,IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
             _mapper = mapper;
             _matricesRepository = matricesRepository;
             _historificacionInstruccionesRepository = historificacionInstruccionesRepository;
+            _instruccionesDefRepository = instruccionesDefRepository;
         }
         /// <summary>
         /// Obtener la glosa de todas las instrucciones
@@ -70,6 +72,38 @@ namespace TrigonosEnergyWebAPI.Controllers
 
             return Ok(
                 new Pagination<InstruccionesDTO>
+                {
+                    count = totalinstrucciones,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+
+
+
+                }
+                );
+        }
+
+        [HttpGet]
+        [Route("InstruccionesDef/{id}")]
+        [ProducesResponseType(200, Type = typeof(Pagination<InstruccionesDefDTO>))]
+        [ProducesResponseType(400)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<Pagination<InstruccionesDefDTO>>> GetInstruccionesDef(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+            var spec = new InstruccionesDefRelationSpecification(id, parametros);
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            var specCount = new InstruccionesDefRelationSpecification(id, parametros);
+            var totalinstrucciones = await _instruccionesDefRepository.CountAsync(specCount);
+            var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<InstruccionesDefDTO>>(instrucciones);
+
+
+            return Ok(
+                new Pagination<InstruccionesDefDTO>
                 {
                     count = totalinstrucciones,
                     Data = data,

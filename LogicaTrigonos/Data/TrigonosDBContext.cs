@@ -18,6 +18,7 @@ namespace LogicaTrigonos.Data
         public DbSet<REACT_CEN_billing_windows> REACT_CEN_billing_windows { get; set; }
         public DbSet<REACT_CEN_dte_acceptance_status> REACT_CEN_dte_acceptance_status { get; set; }
         public DbSet<REACT_CEN_instructions> REACT_CEN_instructions { get; set; }
+        public DbSet<REACT_CEN_instructions_Def> REACT_CEN_instructions_Def { get; set; }
         public DbSet<REACT_CEN_Participants> REACT_CEN_Participants { get; set; }
         public DbSet<REACT_CEN_payment_due_type> REACT_CEN_payment_due_type { get; set; }
         public DbSet<REACT_CEN_payment_matrices> REACT_CEN_payment_matrices { get; set; }
