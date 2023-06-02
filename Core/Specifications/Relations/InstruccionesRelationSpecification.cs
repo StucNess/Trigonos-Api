@@ -58,8 +58,8 @@ namespace Core.Specifications.Relations
             (!productoParams.Acreedor.HasValue || x.CEN_instruction.Creditor == productoParams.Acreedor) &&
             (!productoParams.Deudor.HasValue || x.CEN_instruction.Debtor == productoParams.Deudor) &&
 
-            (!productoParams.MontoNeto.HasValue || x.CEN_instruction.Amount == productoParams.MontoNeto) &&
-            (!productoParams.MontoBruto.HasValue || x.CEN_instruction.Amount_Gross == productoParams.MontoBruto) &&
+            (!productoParams.MontoNeto.HasValue || x.CEN_instruction.Amount >= productoParams.MontoNeto) &&
+            (!productoParams.MontoBruto.HasValue || x.CEN_instruction.Amount_Gross >= productoParams.MontoBruto) &&
             (!productoParams.Folio.HasValue || x.Folio == productoParams.Folio)
 
             )
@@ -186,8 +186,8 @@ namespace Core.Specifications.Relations
             (!productoParams.Acreedor.HasValue || x.CEN_instruction.Creditor == productoParams.Acreedor) &&
             (!productoParams.Deudor.HasValue || x.CEN_instruction.Debtor == productoParams.Deudor) &&
 
-            (!productoParams.MontoNeto.HasValue || x.CEN_instruction.Amount == productoParams.MontoNeto) &&
-            (!productoParams.MontoBruto.HasValue || x.CEN_instruction.Amount_Gross == productoParams.MontoBruto) &&
+            (!productoParams.MontoNeto.HasValue || x.CEN_instruction.Amount >= productoParams.MontoNeto) &&
+            (!productoParams.MontoBruto.HasValue || x.CEN_instruction.Amount_Gross >= productoParams.MontoBruto) &&
             (!productoParams.Folio.HasValue || x.Folio == productoParams.Folio)
              &&
              (
