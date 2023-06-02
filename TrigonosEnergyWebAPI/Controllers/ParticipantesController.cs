@@ -201,21 +201,26 @@ namespace TrigonosEnergy.Controllers
             }
             else
             {
-                if (actproyect.Erp !=5) //se elimina de la tabla de fact .cl debo consultar
+                var lista = await _factClRepository.GetAllAsync();
+                var eliminar = lista.FirstOrDefault(i => i.IdParticipante == actproyect.Id_participants);
+                if(eliminar != null)
                 {
-                    try
+                    if (actproyect.Erp != 5) //se elimina de la tabla de fact .cl debo consultar
                     {
-                        var lista = await _factClRepository.GetAllAsync();
-                        var eliminar = lista.FirstOrDefault(i => i.IdParticipante == actproyect.Id_participants);
-                        var resp = await _factClRepository.RemoveBD(eliminar);
-                    }
-                    catch (Exception)
-                    {
+                        try
+                        {
 
-                        throw;
+                            var resp = await _factClRepository.RemoveBD(eliminar);
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+
                     }
-                   
                 }
+                
 
                 busqueda.Erp = actproyect.Erp != null ? actproyect.Erp : busqueda.Erp;
                 busqueda.vHabilitado = actproyect.vHabilitado != null ? (busqueda.vHabilitado == 0 ? 1 : 0 ): busqueda.vHabilitado ;

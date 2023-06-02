@@ -28,6 +28,36 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.FacturacionClController.GetPaginationFacturacionCl(System.Int32,System.Int32)">
+            <summary>
+            Obtener la facturacion cl con paginacion
+            </summary>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.FacturacionClController.GetAllEncodeFacturacionCl">
+            <summary>
+            Obtener la facturacion cl sin paginacion y sin decodificacion
+            </summary>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.FacturacionClController.GetAllDecodeFacturacionCl">
+            <summary>
+            obtener sin paginacion y decodificado
+            </summary>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.FacturacionClController.AgregarFacturacion(TrigonosEnergyWebAPI.DTO.AgregarFactCl)">
+            <summary>
+            agregar la facturacion cl 
+            </summary>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.FacturacionClController.ActualizarFacturacion(TrigonosEnergyWebAPI.DTO.AgregarFactCl)">
+            <summary>
+            Actualizar la facturacion cl 
+            </summary>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.FacturacionClController.GetDecodeFacturacionCl(System.Int32)">
+            <summary>
+            obtener una facturacion especifica por id de participante
+            </summary>
+        </member>
         <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.PRUEBA1">
             <summary>
             Obtener la glosa de todas las instrucciones
@@ -50,6 +80,21 @@
             <param name="id">ID de la instruccion</param>
             <param name="parametros"> hola </param>
             <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.ActualizarFacturacion(System.Collections.Generic.List{System.Nullable{System.Int32}},System.Int32)">
+            <summary>
+            Actualizar estado emsion
+            </summary>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.NominasController.GetAllNominaPago">
+            <summary>
+            Obtener nominas que trabaja Prisma
+            </summary>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.NominasController.GetAllFacturadorERP">
+            <summary>
+            Obtener nominas que trabaja Prisma
+            </summary>
         </member>
         <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.GetUsuario">
             <summary>
@@ -92,7 +137,7 @@
             <param name="registrarDto"></param>
             <returns></returns>
         </member>
-        <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.Actualizar(System.String,TrigonosEnergyWebAPI.DTO.RegistrarDto)">
+        <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.Actualizar(System.String,TrigonosEnergyWebAPI.DTO.ActualizarUserDto)">
             <summary>
             Actualizar datos de un usuario
             </summary>
@@ -119,6 +164,36 @@
             Obtener a los participantes de TRGNS o a todos los del CEN
             </summary>
             <param name="parametros"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.ProyectosById(System.Int32)">
+            <summary>
+            Retorna si es de bluetree o es externo
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.GetAllProyectos">
+            <summary>
+            Retorna todos los si es de bluetree o es externo
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.ActivarProyectoById(TrigonosEnergyWebAPI.DTO.ActualizarProyectos)">
+            <summary>
+            actualización dinamica de los participantes en la tabla proyectos
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.ActualizarProyectoById(System.Int32)">
+            <summary>
+            actualiza para agregar como bluetree
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.DesactivarProyectoById(System.Int32)">
+            <summary>
+            actualiza para eliminar de clientes bluetree (desactivar)
+            </summary>
             <returns></returns>
         </member>
         <member name="M:TrigonosEnergy.Controllers.ParticipantesController.PRUEBA">
