@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Relations
 {
-    public class NominasRelationSpecification:BaseSpecification<REACT_TRGNS_Datos_Facturacion>
+    public class NominasRelationSpecification:BaseSpecification<REACT_CEN_instructions_Def>
     {
 
 
         public NominasRelationSpecification(int id, NominasParamsSpecification parametros)
             : base
             (x => 
-            x.CEN_instruction.Debtor == id &&
-            x.Estado_aceptacion == 1 &&
-            (string.IsNullOrEmpty(parametros.Glosa) || x.CEN_instruction.Payment_matrix_natural_key.Contains(parametros.Glosa)) &&
+            x.Debtor == id &&
+            x.Estado_emision == 2 &&
+            (string.IsNullOrEmpty(parametros.Glosa) || x.Payment_matrix_natural_key.Contains(parametros.Glosa)) &&
             ((string.IsNullOrEmpty(parametros.Disc) && string.IsNullOrEmpty(x.CEN_nonconformities.created_ts)) || (!string.IsNullOrEmpty(parametros.Disc) && !string.IsNullOrEmpty(x.CEN_nonconformities.created_ts)))
             
             )
@@ -28,13 +28,12 @@ namespace Core.Specifications.Relations
             AddInclude(p => p.CEN_payment_status_type);
             AddInclude(p => p.CEN_billing_status_type);
             AddInclude(p => p.CEN_nonconformities);
-            AddInclude(p => p.CEN_instruction.Participants_creditor.CEN_banks);
-            AddInclude(p => p.CEN_instruction);
-            AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
-            AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows);
-            AddInclude(p => p.CEN_instruction.Participants_creditor);
+            AddInclude(p => p.Participants_creditor.CEN_banks);
+            AddInclude(p => p.cEN_Payment_Matrices);
+            AddInclude(p => p.cEN_Payment_Matrices.CEN_billing_windows);
+            AddInclude(p => p.Participants_creditor);
             AddOrderByDescending(p => p.CEN_nonconformities.created_ts);
-            AddInclude(p => p.CEN_instruction.Participants_debtor);
+            AddInclude(p => p.Participants_debtor);
             AddOrderBy(p => p.CEN_nonconformities.created_ts);
 
         }

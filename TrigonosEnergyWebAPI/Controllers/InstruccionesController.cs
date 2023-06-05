@@ -468,9 +468,9 @@ namespace TrigonosEnergyWebAPI.Controllers
         [HttpPost("ActualizarEstEmision")]
         public async Task<ActionResult> ActualizarFacturacion(List<int?> ListIdInstrucctions, int estadoEmision)
         {
-            var entityToUpdate = await _instruccionesRepository.GetAllAsync();
+            var entityToUpdate = await _instruccionesDefRepository.GetAllAsync();
 
-            var filteredList = entityToUpdate.Where(item => ListIdInstrucctions.Any(id => id == item.id_instructions)).ToList().Select(item =>
+            var filteredList = entityToUpdate.Where(item => ListIdInstrucctions.Any(id => id == item.ID)).ToList().Select(item =>
             {
                 item.Estado_emision = estadoEmision;
                 return item;
@@ -479,7 +479,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             
 
 
-            if (!await _instruccionesRepository.UpdateRangeBD(filteredList))
+            if (!await _instruccionesDefRepository.UpdateRangeBD(filteredList))
             {
                 return BadRequest(new CodeErrorResponse(500, "No se logro realizar la operación"));
             }

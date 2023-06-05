@@ -8,24 +8,23 @@ using System.Threading.Tasks;
 
 namespace Core.Specifications.Counting
 {
-    public class NominasForCountingSpecification : BaseSpecification<REACT_TRGNS_Datos_Facturacion>
+    public class NominasForCountingSpecification : BaseSpecification<REACT_CEN_instructions_Def>
     {
         public NominasForCountingSpecification(int id, NominasParamsSpecification parametros)
-            : base(x => x.CEN_instruction.Debtor == id &&
-            x.Estado_aceptacion == 1 &&
-            (string.IsNullOrEmpty(parametros.Glosa) || x.CEN_instruction.Payment_matrix_natural_key.Contains(parametros.Glosa)))
+            : base(x => x.Debtor == id &&
+            x.Estado_emision == 2 &&
+            (string.IsNullOrEmpty(parametros.Glosa) || x.Payment_matrix_natural_key.Contains(parametros.Glosa)))
         {
             AddInclude(p => p.CEN_dte_acceptance_status);
             AddInclude(p => p.TRGNS_dte_reception_status);
             AddInclude(p => p.CEN_payment_status_type);
             AddInclude(p => p.CEN_billing_status_type);
             AddInclude(p => p.CEN_nonconformities);
-            AddInclude(p => p.CEN_instruction);
-            AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices);
-            AddInclude(p => p.CEN_instruction.cEN_Payment_Matrices.CEN_billing_windows);
-            AddInclude(p => p.CEN_instruction.Participants_creditor);
+            AddInclude(p => p.cEN_Payment_Matrices);
+            AddInclude(p => p.cEN_Payment_Matrices.CEN_billing_windows);
+            AddInclude(p => p.Participants_creditor);
 
-            AddInclude(p => p.CEN_instruction.Participants_debtor);
+            AddInclude(p => p.Participants_debtor);
         }
     }
 }
