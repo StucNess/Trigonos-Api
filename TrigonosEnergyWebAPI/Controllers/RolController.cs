@@ -49,22 +49,15 @@ namespace TrigonosEnergyWebAPI.Controllers
         {
             var currentRol = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
 
-        
 
-            if (currentRol == "Administrador")
+
+            if (currentRol == "Administrador" || currentRol == "Admin Jefe")
             {
 
-               
+
 
                 var datos = await _rolManager.Roles.ToListAsync();
-                List<Rol> datosCondition = datos.Where(elementoLista1 =>  elementoLista1.Name != "Administrador" && elementoLista1.Name != "Admin Jefe").ToList();
-                var maping = _mapper.Map<IReadOnlyList<Rol>, IReadOnlyList<RolDto>>(datosCondition);
-                return Ok(maping);
-            }
-            else if (currentRol == "Admin Jefe")
-            {
-                var datos = await _rolManager.Roles.ToListAsync();
-                List<Rol> datosCondition = datos.Where(elementoLista1 => elementoLista1.Name != "Admin Jefe").ToList();
+                List<Rol> datosCondition = datos.Where(elementoLista1 => currentRol == "Administrador" ? elementoLista1.Name != "Admin Jefe": elementoLista1.Name == elementoLista1.Name).ToList();
                 var maping = _mapper.Map<IReadOnlyList<Rol>, IReadOnlyList<RolDto>>(datosCondition);
                 return Ok(maping);
             }

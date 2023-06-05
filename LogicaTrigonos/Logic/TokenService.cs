@@ -35,6 +35,7 @@ namespace LogicaTrigonos.Logic
                 new Claim(JwtRegisteredClaimNames.Name, usuarios.Nombre),
                 new Claim(JwtRegisteredClaimNames.FamilyName, usuarios.Apellido),
                 new Claim("username",usuarios.UserName),
+                new Claim("ID",usuarios.Id),
             };
             if (!string.IsNullOrEmpty(rol))
             {
@@ -61,6 +62,7 @@ namespace LogicaTrigonos.Logic
                 new Claim(JwtRegisteredClaimNames.Name, usuarios.Nombre),
                 new Claim(JwtRegisteredClaimNames.FamilyName, usuarios.Apellido),
                 new Claim("username",usuarios.UserName),
+
             };
             claims.Add(new Claim(ClaimTypes.Role, ""));
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

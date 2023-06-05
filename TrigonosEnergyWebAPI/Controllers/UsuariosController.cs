@@ -89,10 +89,11 @@ namespace TrigonosEnergyWebAPI.Controllers
         {
 
             var currentRol = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+            var id = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == "ID")?.Value;
 
-            if(currentRol == "Administrador")
+            if (currentRol == "Administrador")
             {
-                var spec = new UsuarioSpecification(usuarioParams, currentRol);
+                var spec = new UsuarioSpecification(usuarioParams, currentRol, id);
                 var usuarios = await _seguridadRepository.GetAllAsync(spec);
                 var specCount = new UsuarioForCountingSpecification(usuarioParams);
                 var totalUsuarios = await _seguridadRepository.CountAsync(specCount);
@@ -112,7 +113,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                     );
             }else if (currentRol == "Admin Jefe")
             {
-                var spec = new UsuarioSpecification(usuarioParams, currentRol);
+                var spec = new UsuarioSpecification(usuarioParams, currentRol, id);
                 var usuarios = await _seguridadRepository.GetAllAsync(spec);
                 var specCount = new UsuarioForCountingSpecification(usuarioParams);
                 var totalUsuarios = await _seguridadRepository.CountAsync(specCount);
