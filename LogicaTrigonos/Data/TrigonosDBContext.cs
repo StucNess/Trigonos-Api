@@ -29,7 +29,7 @@ namespace LogicaTrigonos.Data
         
         public DbSet<REACT_TRGNS_PROYECTOS> REACT_TRGNS_PROYECTOS { get; set; }
         public DbSet<REACT_TRGNS_H_CEN_participants> REACT_TRGNS_H_CEN_participants { get; set; }
-
+        public DbSet<REACT_TRGNS_Excel_History> REACT_TRGNS_Excel_History { get; set; }
         public DbSet<REACT_TRGNS_dte_reception_status> REACT_TRGNS_dte_reception_status { get; set; }
         public DbSet<REACT_TRGNS_Empresas> REACT_TRGNS_Empresas { get; set; }
 

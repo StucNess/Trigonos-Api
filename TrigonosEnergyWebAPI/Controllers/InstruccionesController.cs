@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Execution;
 using Core.Entities;
 
 using Core.Interface;
@@ -9,6 +10,9 @@ using Core.Specifications.Relations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using TrigonosEnergy.Controllers;
 using TrigonosEnergyWebAPI.DTO;
 using TrigonosEnergyWebAPI.Errors;
@@ -23,17 +27,76 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly IGenericRepository<REACT_CEN_instructions_Def> _instruccionesDefRepository;
         private readonly IGenericRepository<REACT_CEN_payment_matrices> _matricesRepository;
         private readonly IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> _historificacionInstruccionesRepository;
+        private readonly IGenericRepository<REACT_TRGNS_Excel_History> _excelHistoryRepository;
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
 
-        public InstruccionesController(IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository,IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
+        public InstruccionesController(IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository,IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository,IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
             _mapper = mapper;
             _matricesRepository = matricesRepository;
             _historificacionInstruccionesRepository = historificacionInstruccionesRepository;
             _instruccionesDefRepository = instruccionesDefRepository;
+            _excelHistoryRepository = excelHistoryRepository;
         }
+        [HttpPost("Agregar")]
+        public async Task<IActionResult> AgregarExcel([FromBody] agregarExcelDto agregarExcel)
+        {
+            var excel = new REACT_TRGNS_Excel_History
+            {
+                excelName = agregarExcel.excelName,
+                status = agregarExcel.status,
+                date = DateTime.Now,
+                idParticipant = agregarExcel.idParticipant,
+                type = agregarExcel.type,
+                description = agregarExcel.description,
+
+            };
+
+            if (!await _excelHistoryRepository.SaveBD(excel))
+            {
+                return BadRequest(new CodeErrorResponse(500, "Error no se ha agregado la empresa"));
+            }
+            return Ok();
+        }
+        [HttpGet]
+        [Route("/excelHistory")]
+        public async Task<ActionResult<IReadOnlyList<excelHistoryDto>>> excelHistory([FromQuery] excelHistoryParams parametros)
+        {
+            var spec = new excelHistorySpecification(parametros);
+            var producto = await _excelHistoryRepository.GetAllAsync(spec);
+            //var producto1 = producto.DistinctBy(a => a.Participants_creditor.Rut).ToList();
+           
+
+          
+        
+            var specCount = new excelHistoryForCounting(parametros);
+            var totalinstrucciones = await _excelHistoryRepository.CountAsync(specCount);
+            var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Excel_History>, IReadOnlyList<excelHistoryDto>>(producto);
+
+
+            return Ok(
+                new Pagination<excelHistoryDto>
+                {
+                    count = totalinstrucciones,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+
+
+
+                }
+                );
+
+        }
+
+
+
         /// <summary>
         /// Obtener la glosa de todas las instrucciones
         /// </summary>
@@ -461,15 +524,60 @@ namespace TrigonosEnergyWebAPI.Controllers
 
 
         }
-        /// <summary>
-        /// Actualizar estado emsion
-        /// </summary>
+    
+    [HttpPost("ActuralizarFacturacion")]
 
-        [HttpPost("ActualizarEstEmision")]
+    public async Task<ActionResult> ActualizarFacturacion(List<Dictionary<string,object>> ListIdInstrucctions)
+    {
+            //var entityToUpdate = await _instruccionesDefRepository.GetAllAsync();
+            //var filteredList = entityToUpdate.Where(item => ListIdInstrucctions.Any(id => id[0] == item.ID)).ToList().Select(item =>
+            //{
+            //    item.Estado_emision = 3;
+            //    return item;
+            //}).ToList();
+            List<int> numberList = new List<int>();
+            foreach (var i in ListIdInstrucctions)
+            {
+                try
+                {   
+                    var bdc = await _instruccionesDefRepository.GetByClienteIDAsync(int.Parse(i["id_instruccion"].ToString()));
+                    bdc.Folio = int.Parse(i["folio"].ToString());
+                    bdc.Fecha_emision = Convert.ToDateTime(i["emission_dt"].ToString());
+                    bdc.Fecha_pago = DateTime.FromOADate(Convert.ToInt32(i["payment_dt"].ToString()));
+                    if (!await _instruccionesDefRepository.UpdateeAsync(bdc))
+                    {
+                        return StatusCode(500);
+                    }
+                }
+                catch (Exception)
+                {
+                    numberList.Add(int.Parse(i["id_instruccion"].ToString()));
+                    
+                }
+                
+            }
+            if (numberList.Count > 0) {
+                string lista = String.Join(",", numberList);    
+
+                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con id ", lista))); ;
+            }
+            return Ok();
+        }
+    /// <summary>
+    /// Actualizar estado emsion
+    /// </summary>
+
+    [HttpPost("ActualizarEstEmision")]
         public async Task<ActionResult> ActualizarFacturacion(List<int?> ListIdInstrucctions, int estadoEmision)
         {
             var entityToUpdate = await _instruccionesDefRepository.GetAllAsync();
 
+            for (var i = 0; i < estadoEmision; i++)
+            {
+
+
+
+            }
             var filteredList = entityToUpdate.Where(item => ListIdInstrucctions.Any(id => id == item.ID)).ToList().Select(item =>
             {
                 item.Estado_emision = estadoEmision;
@@ -488,4 +596,5 @@ namespace TrigonosEnergyWebAPI.Controllers
                 return Ok();
             }
         }
+        
     } }
