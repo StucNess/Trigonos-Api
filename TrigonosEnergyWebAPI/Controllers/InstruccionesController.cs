@@ -527,7 +527,7 @@ namespace TrigonosEnergyWebAPI.Controllers
     
     [HttpPost("ActuralizarFacturacion")]
 
-    public async Task<ActionResult> ActualizarFacturacion(List<Dictionary<string,object>> ListIdInstrucctions)
+    public async Task<ActionResult> ActualizarFacturacion(int id,List<Dictionary<string,object>> ListIdInstrucctions)
     {
             //var entityToUpdate = await _instruccionesDefRepository.GetAllAsync();
             //var filteredList = entityToUpdate.Where(item => ListIdInstrucctions.Any(id => id[0] == item.ID)).ToList().Select(item =>
@@ -541,13 +541,24 @@ namespace TrigonosEnergyWebAPI.Controllers
                 try
                 {   
                     var bdc = await _instruccionesDefRepository.GetByClienteIDAsync(int.Parse(i["id_instruccion"].ToString()));
-                    bdc.Folio = int.Parse(i["folio"].ToString());
-                    bdc.Fecha_emision = Convert.ToDateTime(i["emission_dt"].ToString());
-                    bdc.Fecha_pago = DateTime.FromOADate(Convert.ToInt32(i["payment_dt"].ToString()));
-                    if (!await _instruccionesDefRepository.UpdateeAsync(bdc))
+                    if (bdc.Creditor == id)
                     {
-                        return StatusCode(500);
+                        bdc.Folio = int.Parse(i["folio"].ToString());
+                        bdc.Fecha_emision = Convert.ToDateTime(i["emission_dt"].ToString());
+                        bdc.Fecha_pago = DateTime.FromOADate(Convert.ToInt32(i["payment_dt"].ToString()));
+                        if (!await _instruccionesDefRepository.UpdateeAsync(bdc))
+                        {
+                            return StatusCode(500);
+                        }
+
                     }
+                    else
+                    {
+                        return NotFound(new CodeErrorResponse(400, String.Concat("El excel es del acreedor ",bdc.Creditor," y usted selecciono al acreedor ", id)));
+                    }
+
+                    
+                    
                 }
                 catch (Exception)
                 {
@@ -559,7 +570,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             if (numberList.Count > 0) {
                 string lista = String.Join(",", numberList);    
 
-                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con id ", lista))); ;
+                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con id ", lista))); 
             }
             return Ok();
         }
