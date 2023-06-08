@@ -7,6 +7,7 @@ using Core.Specifications;
 using Core.Specifications.Counting;
 using Core.Specifications.Params;
 using Core.Specifications.Relations;
+using LogicaTrigonos.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -30,8 +31,8 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly IGenericRepository<REACT_TRGNS_Excel_History> _excelHistoryRepository;
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
-
-        public InstruccionesController(IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository,IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository,IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
+        private readonly TrigonosDBContext _context;
+        public InstruccionesController(TrigonosDBContext context, IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository, IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository, IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
             _mapper = mapper;
@@ -39,6 +40,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             _historificacionInstruccionesRepository = historificacionInstruccionesRepository;
             _instruccionesDefRepository = instruccionesDefRepository;
             _excelHistoryRepository = excelHistoryRepository;
+            _context = context;
         }
         [HttpPost("Agregar")]
         public async Task<IActionResult> AgregarExcel([FromBody] agregarExcelDto agregarExcel)
@@ -67,10 +69,10 @@ namespace TrigonosEnergyWebAPI.Controllers
             var spec = new excelHistorySpecification(parametros);
             var producto = await _excelHistoryRepository.GetAllAsync(spec);
             //var producto1 = producto.DistinctBy(a => a.Participants_creditor.Rut).ToList();
-           
 
-          
-        
+
+
+
             var specCount = new excelHistoryForCounting(parametros);
             var totalinstrucciones = await _excelHistoryRepository.CountAsync(specCount);
             var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
@@ -130,7 +132,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
             var totalPages = Convert.ToInt32(rounded);
 
-            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<InstruccionesDTO>>(producto); 
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_Datos_Facturacion>, IReadOnlyList<InstruccionesDTO>>(producto);
 
 
             return Ok(
@@ -196,26 +198,26 @@ namespace TrigonosEnergyWebAPI.Controllers
             var bd = await _instruccionesDefRepository.GetByClienteIDAsync(spec);
             var bdh = new REACT_TRGNS_H_Datos_Facturacion();
 
-            bdh.id_instruction= id;
+            bdh.id_instruction = id;
             bdh.date = DateTime.Now;
             bdh.emission_status_old = 0;
             bdh.reception_status_old = 0;
             bdh.payment_status_old = 0;
             bdh.aceptation_status_old = 0;
-            bdh.emission_date_old = new DateTime(1999,01,01);
-            bdh.reception_date_old = new DateTime(1999,01,01);
-            bdh.payment_date_old = new DateTime(1999,01,01);
-            bdh.aceptation_date_old = new DateTime(1999,01,01);
+            bdh.emission_date_old = new DateTime(1999, 01, 01);
+            bdh.reception_date_old = new DateTime(1999, 01, 01);
+            bdh.payment_date_old = new DateTime(1999, 01, 01);
+            bdh.aceptation_date_old = new DateTime(1999, 01, 01);
             bdh.tipo_instruction_old = 0;
             bdh.folio_old = 0;
             bdh.emission_status_new = 0;
             bdh.reception_status_new = 0;
             bdh.payment_status_new = 0;
             bdh.aceptation_status_new = 0;
-            bdh.emission_date_new = new DateTime(1999,01,01);
-            bdh.reception_date_new = new DateTime(1999,01,01);
-            bdh.payment_date_new = new DateTime(1999,01,01);
-            bdh.aceptation_date_new = new DateTime(1999,01,01);
+            bdh.emission_date_new = new DateTime(1999, 01, 01);
+            bdh.reception_date_new = new DateTime(1999, 01, 01);
+            bdh.payment_date_new = new DateTime(1999, 01, 01);
+            bdh.aceptation_date_new = new DateTime(1999, 01, 01);
             bdh.tipo_instruction_new = 0;
             bdh.folio_new = 0;
             var condicional = 0;
@@ -284,7 +286,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 bdh.payment_date_new = parametros.FechaPago;
                 bdh.payment_status_old = bd.Estado_pago;
                 bd.Estado_pago = 2;
-                bdh.payment_status_new =2;
+                bdh.payment_status_new = 2;
                 condicional = 1;
             }
             if (parametros.FechaRecepcion != bd.Fecha_recepcion && parametros.FechaRecepcion != null)
@@ -328,21 +330,21 @@ namespace TrigonosEnergyWebAPI.Controllers
             //}
             if (parametros.Editor != "Masivo")
             {
-                if(condicional == 1)
+                if (condicional == 1)
                 {
-                 var guardar = await _historificacionInstruccionesRepository.SaveBD(bdh);
+                    var guardar = await _historificacionInstruccionesRepository.SaveBD(bdh);
                 }
-                
+
 
             }
-            
+
             return NoContent();
         }
         [HttpGet]
         [Route("/sFiltros")]
         public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltros(int id, int pa, [FromQuery] InstruccionesSpecificationParams parametros)
         {
-            var spec = new InstruccionesRelationSpecification(id,pa, parametros);
+            var spec = new InstruccionesRelationSpecification(id, pa, parametros);
             var producto = await _instruccionesRepository.GetAllInstrucctionByIdAsync(spec);
             //var specCount = new InstruccionesForCountingSpecification(id, parametros);
             //var totalinstrucciones = await _instruccionesRepository.CountAsync(specCount);
@@ -362,7 +364,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             //    );
 
 
-    }
+        }
         //[HttpGet]
         //[Route("/ssFiltros")]
         //public async Task<ActionResult<IReadOnlyList<ssFiltros>>> ssFiltros(int id, int pa, [FromQuery] InstruccionesSpecificationParams parametros)
@@ -462,7 +464,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         //    var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
         //    var producto1 = producto.DistinctBy(p => p.Payment_matrix_natural_key).ToList();
         //    var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<probandoMapper>>(producto1);
-   
+
         //    return Ok(data);
 
 
@@ -515,7 +517,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         [Route("/sFiltrosNameDebtor")]
         public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosNameDebtor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
-            var spec = new InstruccionesDefRelationSpecification(id,1, parametros);
+            var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
             var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
             var producto1 = producto.DistinctBy(a => a.Participants_debtor.Business_Name).ToList();
             var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosNameDebtor>>(producto1);
@@ -524,22 +526,16 @@ namespace TrigonosEnergyWebAPI.Controllers
 
 
         }
-    
-    [HttpPost("ActuralizarFacturacion")]
 
-    public async Task<ActionResult> ActualizarFacturacion(int id,List<Dictionary<string,object>> ListIdInstrucctions)
-    {
-            //var entityToUpdate = await _instruccionesDefRepository.GetAllAsync();
-            //var filteredList = entityToUpdate.Where(item => ListIdInstrucctions.Any(id => id[0] == item.ID)).ToList().Select(item =>
-            //{
-            //    item.Estado_emision = 3;
-            //    return item;
-            //}).ToList();
+        [HttpPost("ActuralizarFacturacion")]
+
+        public async Task<ActionResult> ActualizarFacturacion(int id, List<Dictionary<string, object>> ListIdInstrucctions)
+        {
             List<int> numberList = new List<int>();
             foreach (var i in ListIdInstrucctions)
             {
                 try
-                {   
+                {
                     var bdc = await _instruccionesDefRepository.GetByClienteIDAsync(int.Parse(i["id_instruccion"].ToString()));
                     if (bdc.Creditor == id)
                     {
@@ -554,31 +550,168 @@ namespace TrigonosEnergyWebAPI.Controllers
                     }
                     else
                     {
-                        return NotFound(new CodeErrorResponse(400, String.Concat("El excel es del acreedor ",bdc.Creditor," y usted selecciono al acreedor ", id)));
+                        return NotFound(new CodeErrorResponse(400, String.Concat("El excel es del acreedor ", bdc.Creditor, " y usted selecciono al acreedor ", id)));
                     }
 
-                    
-                    
+
+
                 }
                 catch (Exception)
                 {
                     numberList.Add(int.Parse(i["id_instruccion"].ToString()));
-                    
-                }
-                
-            }
-            if (numberList.Count > 0) {
-                string lista = String.Join(",", numberList);    
 
-                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con id ", lista))); 
+                }
+
+            }
+            if (numberList.Count > 0)
+            {
+                string lista = String.Join(",", numberList);
+
+                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con id ", lista)));
             }
             return Ok();
         }
-    /// <summary>
-    /// Actualizar estado emsion
-    /// </summary>
+        /// <summary>
+        /// Actualizar estado emsion
+        /// </summary>
+        [HttpPost("ActuralizarFacturacionnnn")]
 
-    [HttpPost("ActualizarEstEmision")]
+        public async Task<ActionResult> FacturacionMasiva(int id, List<Dictionary<string, object>> ListIdInstrucctions)
+        {
+            List<int> numberList = new List<int>();
+            var BDD = _context.Set<REACT_CEN_instructions_Def>()
+                .Where(e => e.Folio == 0)
+                .Where(e => e.Amount > 9);
+            var conditional = 0;
+
+            try
+            {
+                foreach (var i in ListIdInstrucctions)
+                {
+                    var montoNetoAbastible = int.Parse(i["neto"].ToString());
+                    try
+                    {
+                        var glosaAbastible = i["RazonReferencia"].ToString();
+                        var folioAbastible = int.Parse(i["Folio"].ToString());
+                        var FechaEmisionAbastible = i["FechaEmision"].ToString();
+                        var rutAbastible = i["Rut"].ToString().Substring(0, 8);
+                        var itemAbastible = BDD
+                            //.Where(e => e.Creditor == id).
+                            .Where(e => e.Payment_matrix_natural_key == glosaAbastible && e.Amount == montoNetoAbastible && e.Participants_debtor.Rut.Contains(rutAbastible)).Select(item => item.ID).ToList()[0];
+                        var bdAbastible = await _instruccionesDefRepository.GetByClienteIDAsync(itemAbastible);
+                        bdAbastible.Estado_emision = 2;
+                        bdAbastible.Folio = folioAbastible;
+                        bdAbastible.Fecha_emision = Convert.ToDateTime(FechaEmisionAbastible);
+                        conditional = 1;
+                        if (!await _instruccionesDefRepository.UpdateeAsync(bdAbastible))
+                        {
+                            return StatusCode(500);
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                        numberList.Add(montoNetoAbastible);
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            if (conditional == 0)
+            {
+                try
+                {
+                    foreach (var i in ListIdInstrucctions)
+                    {
+                        var montoNetoDefontana = int.Parse(i["Afecto"].ToString());
+                        try
+                        {
+                            var glosaDefontana = i["CodigodelProducto"].ToString();
+
+                            var folioDefontana = int.Parse(i["NúmeroCorrelativo"].ToString());
+                            var FechaEmisionDefontana = i["Fech"].ToString();
+                            var rutDefontana = i["CódigodelCliente"].ToString().Substring(0, 8);
+                            var itemDefontana = BDD/*.Where(e => e.Creditor == id)*/.Where(e => e.Payment_matrix_natural_key == glosaDefontana && e.Amount == montoNetoDefontana && e.Participants_debtor.Rut.Contains(rutDefontana)).Select(item => item.ID).ToList()[0];
+                            var bdDefontana = await _instruccionesDefRepository.GetByClienteIDAsync(itemDefontana);
+                            bdDefontana.Estado_emision = 2;
+                            bdDefontana.Folio = folioDefontana;
+                            bdDefontana.Fecha_emision = Convert.ToDateTime(FechaEmisionDefontana);
+                            conditional = 1;
+                            if (!await _instruccionesDefRepository.UpdateeAsync(bdDefontana))
+                            {
+                                return StatusCode(500);
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            numberList.Add(montoNetoDefontana);
+                        }
+
+                    }
+                }
+                catch (Exception)
+                {
+
+
+                }
+            }
+            if (conditional == 0)
+            {
+                try
+                {
+
+                    foreach (var i in ListIdInstrucctions)
+                    {
+                        var montoNetoNubox = int.Parse(i["Precio"].ToString());
+                        try
+                        {
+                            var glosaNubox = i["Producto"].ToString();
+
+                            var folioNubox = int.Parse(i["FOLIO"].ToString());
+                            var FechaEmisionNubox = i["Fecha Emision"].ToString();
+                            var rutNubox = i["Rut"].ToString().Substring(0, 8);
+                            var itemNubox = BDD/*.Where(e => e.Creditor == id)*/.Where(e => e.Payment_matrix_natural_key == glosaNubox && e.Amount == montoNetoNubox && e.Participants_debtor.Rut.Contains(rutNubox)).Select(item => item.ID).ToList()[0];
+                            var bdNubox = await _instruccionesDefRepository.GetByClienteIDAsync(itemNubox);
+                            bdNubox.Estado_emision = 2;
+                            bdNubox.Folio = folioNubox;
+                            bdNubox.Fecha_emision = Convert.ToDateTime(FechaEmisionNubox);
+
+                            if (!await _instruccionesDefRepository.UpdateeAsync(bdNubox))
+                            {
+                                return StatusCode(500);
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            numberList.Add(montoNetoNubox);
+                        }
+
+                    }
+                }
+                catch (Exception)
+                {
+
+
+                }
+            }
+            if (numberList.Count > 0)
+            {
+                string lista = String.Join(",", numberList);
+
+                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con montoNeto ", lista)));
+            }
+            
+            return Ok();
+
+
+        }
+        [HttpPost("ActualizarEstEmision")]
         public async Task<ActionResult> ActualizarFacturacion(List<int?> ListIdInstrucctions, int estadoEmision)
         {
             var entityToUpdate = await _instruccionesDefRepository.GetAllAsync();
@@ -594,8 +727,8 @@ namespace TrigonosEnergyWebAPI.Controllers
                 item.Estado_emision = estadoEmision;
                 return item;
             }).ToList();
-            
-            
+
+
 
 
             if (!await _instruccionesDefRepository.UpdateRangeBD(filteredList))
@@ -607,5 +740,6 @@ namespace TrigonosEnergyWebAPI.Controllers
                 return Ok();
             }
         }
-        
-    } }
+
+    }
+}
