@@ -10,6 +10,7 @@ using Core.Specifications.Relations;
 using LogicaTrigonos.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -157,6 +158,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult<Pagination<InstruccionesDefDTO>>> GetInstruccionesDef(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
+
             var spec = new InstruccionesDefRelationSpecification(id, parametros);
             var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
             var specCount = new InstruccionesDefForCountingSpecification(id, parametros);
@@ -422,9 +424,9 @@ namespace TrigonosEnergyWebAPI.Controllers
             var Carta = instrucciones.DistinctBy(p => p.cEN_Payment_Matrices.Letter_code).ToList();
             var CodRef = instrucciones.DistinctBy(p => p.cEN_Payment_Matrices.Reference_code).ToList();
 
-            var listConcept = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<probandoMapper>>(Concepto);
-            var listCarta = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<probandoMapper>>(Carta);
-            var listCodRef = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<probandoMapper>>(CodRef);
+            var listConcept = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<ConceptoMapper>>(Concepto);
+            var listCarta = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<CartaMapper>>(Carta);
+            var listCodRef = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<CodRefMapper>>(CodRef);
 
 
             return Ok(
@@ -571,6 +573,88 @@ namespace TrigonosEnergyWebAPI.Controllers
             }
             return Ok();
         }
+
+        [HttpPost("ActualizarFacDeudor")]
+
+        public async Task<ActionResult> ActualizarFacDeudor(int id, List<Dictionary<string, object>> ListIdInstrucctions)
+        {
+            CultureInfo europeanCulture = new CultureInfo("en-GB");
+            List<int> numberList = new List<int>();
+            List<int> idTrigonosList = new List<int>();
+            var BDDTrigonos = _context.Set<REACT_TRGNS_PROYECTOS>()
+                .Where(e => e.vHabilitado == 1).Select(item => item.Id_participants).ToList();
+            foreach (var i in BDDTrigonos)
+            {
+                idTrigonosList.Add(i);
+            }
+            var BDD = _context.Set<REACT_CEN_instructions_Def>()
+                .Where(e => e.Folio == 0)
+                .Where(e => e.Amount > 9);
+            var conditional = 0;
+            try
+            {
+                foreach (var i in ListIdInstrucctions)
+                {
+                    var idInstruccion = int.Parse(i["ID Instruccion"].ToString());
+                    try
+                    {
+                        var montoNeto = int.Parse(i["Monto"].ToString());
+                        var glosa = i["Concepto"].ToString();
+                        var folio = int.Parse(i["Folio"].ToString());
+                        var FechaRecepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0,10));/*.ToString("yyyy/MM/dd/")*/
+                        //var FechaRecepcion = i["Fecha Aceptacion"].ToString();
+                        var rut = i["Rut"].ToString().Substring(0, 8);
+                        var item2 = BDD.Where(e => /*e.Creditor == id &&*/ e.Payment_matrix_natural_key == glosa && e.Amount == montoNeto && e.ID == idInstruccion)
+                       .ToList()[0];
+                        var bd = await _instruccionesDefRepository.GetByClienteIDAsync(item2.ID);
+                        if (idTrigonosList.Contains(int.Parse(item2.Creditor.ToString())))
+                        {
+                            bd.Estado_emision = 2;
+                            bd.Estado_recepcion = 1;
+                            bd.Estado_aceptacion = 1;
+                            bd.Fecha_aceptacion = FechaRecepcion;
+                            bd.Fecha_emision = FechaRecepcion;
+                            bd.Fecha_recepcion = FechaRecepcion;
+                            bd.Folio = folio;
+                        }
+                        else
+                        {
+                            bd.Estado_emision = 2;
+                            bd.Estado_recepcion = 1;
+                            bd.Estado_aceptacion = 1;
+                            bd.Fecha_aceptacion = FechaRecepcion;
+                            bd.Fecha_recepcion = FechaRecepcion;
+                            //bd.Fecha_recepcion =
+                            bd.Folio = folio;
+                        }
+                      
+                        //conditional = 1;
+                        if (!await _instruccionesDefRepository.UpdateeAsync(bd))
+                        {
+                            return StatusCode(500);
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                        numberList.Add(idInstruccion);
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            if (numberList.Count > 0)
+            {
+                string lista = String.Join(",", numberList);
+
+                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con id ", lista)));
+            }
+            return Ok();
+        }
         /// <summary>
         /// Actualizar estado emsion
         /// </summary>
@@ -578,6 +662,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
         public async Task<ActionResult> FacturacionMasiva(int id, List<Dictionary<string, object>> ListIdInstrucctions)
         {
+          
             List<int> numberList = new List<int>();
             var BDD = _context.Set<REACT_CEN_instructions_Def>()
                 .Where(e => e.Folio == 0)
@@ -591,13 +676,12 @@ namespace TrigonosEnergyWebAPI.Controllers
                     var montoNetoAbastible = int.Parse(i["neto"].ToString());
                     try
                     {
+
                         var glosaAbastible = i["RazonReferencia"].ToString();
                         var folioAbastible = int.Parse(i["Folio"].ToString());
                         var FechaEmisionAbastible = i["FechaEmision"].ToString();
                         var rutAbastible = i["Rut"].ToString().Substring(0, 8);
-                        var itemAbastible = BDD
-                            //.Where(e => e.Creditor == id).
-                            .Where(e => e.Payment_matrix_natural_key == glosaAbastible && e.Amount == montoNetoAbastible && e.Participants_debtor.Rut.Contains(rutAbastible)).Select(item => item.ID).ToList()[0];
+                        var itemAbastible = BDD.Where(e => e.Creditor == id && e.Payment_matrix_natural_key == glosaAbastible && e.Amount == montoNetoAbastible && e.Participants_debtor.Rut.Contains(rutAbastible)).Select(item => item.ID).ToList()[0];
                         var bdAbastible = await _instruccionesDefRepository.GetByClienteIDAsync(itemAbastible);
                         bdAbastible.Estado_emision = 2;
                         bdAbastible.Folio = folioAbastible;
@@ -706,7 +790,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
                 return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con montoNeto ", lista)));
             }
-            
+
             return Ok();
 
 
