@@ -16,5 +16,19 @@ namespace Core.Specifications.Counting
         {
            
         }
+
+        public InstruccionesMetrics(int id, bool? is_creditor, int? est_recepcion)
+            : base(x => is_creditor == null ? (x.Creditor == id || x.Debtor == id) && (est_recepcion != null ? x.Estado_recepcion == est_recepcion : x.Estado_recepcion == x.Estado_recepcion) : is_creditor == true ? (x.Creditor == id && (est_recepcion != null ? x.Estado_recepcion == est_recepcion : x.Estado_recepcion == x.Estado_recepcion)) :
+            (x.Debtor == id && (est_recepcion != null ? x.Estado_recepcion == est_recepcion : x.Estado_recepcion == x.Estado_recepcion)))
+        {
+
+        }
+
+        public InstruccionesMetrics(bool? is_creditor,int id, int? est_facturacion)
+            : base(x => is_creditor == null ? (x.Creditor == id || x.Debtor == id) && (est_facturacion != null ? x.Status_billed == est_facturacion : x.Status_billed == x.Status_billed) : is_creditor == true ? (x.Creditor == id && (est_facturacion != null ? x.Status_billed == est_facturacion : x.Status_billed == x.Status_billed)) :
+            (x.Debtor == id && (est_facturacion != null ? x.Status_billed == est_facturacion : x.Status_billed == x.Status_billed)))
+        {
+
+        }
     }
 }

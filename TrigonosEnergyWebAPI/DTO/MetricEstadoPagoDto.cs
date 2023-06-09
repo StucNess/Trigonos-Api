@@ -1,6 +1,6 @@
 ﻿namespace TrigonosEnergyWebAPI.DTO
 {
-    public class MetricInstruccionDto
+    public class MetricEstadoPagoDto
     {
         public int IDParticipante { get; set; }
         public int TotalNoPagado { get; set; }
