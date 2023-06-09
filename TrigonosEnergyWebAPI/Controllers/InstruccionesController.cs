@@ -581,7 +581,8 @@ namespace TrigonosEnergyWebAPI.Controllers
             List<int> numberList = new List<int>();
             var BDD = _context.Set<REACT_CEN_instructions_Def>()
                 .Where(e => e.Folio == 0)
-                .Where(e => e.Amount > 9);
+                .Where(e => e.Amount > 9)
+                .Where(e => e.Creditor == id);
             var conditional = 0;
 
             try
