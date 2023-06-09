@@ -1,6 +1,6 @@
 ﻿namespace TrigonosEnergyWebAPI.DTO
 {
-    public class ConceptoMapper
+    public class CartaMapper
     {
         public string label { get; set; }
     }
