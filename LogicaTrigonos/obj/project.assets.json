@@ -3381,19 +3381,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\neidr\\.nuget\\packages\\": {}
+    "C:\\Users\\Edgar\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+      "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
       "projectName": "LogicaTrigonos",
-      "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
-      "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\LogicaTrigonos\\obj\\",
+      "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+      "packagesPath": "C:\\Users\\Edgar\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Edgar\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3407,8 +3407,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\Core\\Core.csproj": {
-              "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\Core\\Core.csproj"
+            "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj": {
+              "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj"
             }
           }
         }
@@ -3474,7 +3474,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }
