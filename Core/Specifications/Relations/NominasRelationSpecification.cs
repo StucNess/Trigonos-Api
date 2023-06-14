@@ -32,9 +32,10 @@ namespace Core.Specifications.Relations
             AddInclude(p => p.cEN_Payment_Matrices);
             AddInclude(p => p.cEN_Payment_Matrices.CEN_billing_windows);
             AddInclude(p => p.Participants_creditor);
-            AddOrderByDescending(p => p.CEN_nonconformities.created_ts);
+            //AddOrderByDescending(p => p.CEN_nonconformities.created_ts);
             AddInclude(p => p.Participants_debtor);
             AddOrderBy(p => p.CEN_nonconformities.created_ts);
+            ApplyPaging(parametros.PageSize * (parametros.PageIndex - 1), parametros.PageSize);
 
         }
     }

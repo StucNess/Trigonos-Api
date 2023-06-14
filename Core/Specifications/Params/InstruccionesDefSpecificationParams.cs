@@ -27,6 +27,7 @@ namespace Core.Specifications.Params
         public string? EstadoPago { get; set; }
         public string? RutAcreedor { get; set; }
         public string? RutDeudor { get; set; }
+        public string? conFolio { get; set; }
         public int? Folio { get; set; }
         public string? NombreAcreedor { get; set; }
         public string? NombreDeudor { get; set; }

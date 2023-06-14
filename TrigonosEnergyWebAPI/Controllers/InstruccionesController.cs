@@ -29,11 +29,13 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly IGenericRepository<REACT_CEN_instructions_Def> _instruccionesDefRepository;
         private readonly IGenericRepository<REACT_CEN_payment_matrices> _matricesRepository;
         private readonly IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> _historificacionInstruccionesRepository;
+        private readonly IGenericRepository<REACT_CEN_Participants> _participantesRepository;
+
         private readonly IGenericRepository<REACT_TRGNS_Excel_History> _excelHistoryRepository;
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
         private readonly TrigonosDBContext _context;
-        public InstruccionesController(TrigonosDBContext context, IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository, IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository, IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
+        public InstruccionesController(IGenericRepository<REACT_CEN_Participants> participantesRepository, TrigonosDBContext context, IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository, IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository, IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
             _mapper = mapper;
@@ -42,6 +44,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             _instruccionesDefRepository = instruccionesDefRepository;
             _excelHistoryRepository = excelHistoryRepository;
             _context = context;
+            _participantesRepository = participantesRepository;
         }
         [HttpPost("Agregar")]
         public async Task<IActionResult> AgregarExcel([FromBody] agregarExcelDto agregarExcel)
@@ -529,32 +532,36 @@ namespace TrigonosEnergyWebAPI.Controllers
 
         }
 
-        [HttpPost("ActuralizarFacturacion")]
+        [HttpPost("CuadreMasivoAcreedor")]
 
-        public async Task<ActionResult> ActualizarFacturacion(int id, List<Dictionary<string, object>> ListIdInstrucctions)
+        public async Task<ActionResult> CuadreMasivoAcreedor(int id, List<Dictionary<string, object>> ListIdInstrucctions)
         {
             List<int> numberList = new List<int>();
+            var conditional = 0;
             foreach (var i in ListIdInstrucctions)
             {
                 try
                 {
-                    var bdc = await _instruccionesDefRepository.GetByClienteIDAsync(int.Parse(i["id_instruccion"].ToString()));
-                    if (bdc.Creditor == id)
+                    Console.WriteLine(int.Parse(i["ID Instruccion"].ToString()));
+                    var bd = await _instruccionesDefRepository.GetByClienteIDAsync(int.Parse(i["ID Instruccion"].ToString()));
+
+                    if (conditional == 0)
                     {
-                        bdc.Folio = int.Parse(i["folio"].ToString());
-                        bdc.Fecha_emision = Convert.ToDateTime(i["emission_dt"].ToString());
-                        bdc.Fecha_pago = DateTime.FromOADate(Convert.ToInt32(i["payment_dt"].ToString()));
-                        if (!await _instruccionesDefRepository.UpdateeAsync(bdc))
+                        if (bd.Creditor != id)
                         {
-                            return StatusCode(500);
-                        }
-
+                            var clienteReal = _participantesRepository.GetByClienteIDAsync(int.Parse(bd.Creditor.ToString()));
+                            //var clienteInst = bd.Debtor;
+                            return NotFound(new CodeErrorResponse(400, String.Concat("Error, Acreedor excel :", clienteReal.Result.Business_Name)));
+                        };
+                        conditional = 1;
                     }
-                    else
+                    bd.Fecha_pago = Convert.ToDateTime(i["Fecha de Pago"].ToString());
+                    bd.Estado_pago = 2;
+                    bd.Is_paid = true;
+                    if (!await _instruccionesDefRepository.UpdateeAsync(bd))
                     {
-                        return NotFound(new CodeErrorResponse(400, String.Concat("El excel es del acreedor ", bdc.Creditor, " y usted selecciono al acreedor ", id)));
+                        return StatusCode(500);
                     }
-
 
 
                 }
@@ -563,7 +570,6 @@ namespace TrigonosEnergyWebAPI.Controllers
                     numberList.Add(int.Parse(i["id_instruccion"].ToString()));
 
                 }
-
             }
             if (numberList.Count > 0)
             {
@@ -575,59 +581,51 @@ namespace TrigonosEnergyWebAPI.Controllers
         }
 
         [HttpPost("ActualizarFacDeudor")]
-
         public async Task<ActionResult> ActualizarFacDeudor(int id, List<Dictionary<string, object>> ListIdInstrucctions)
         {
-            CultureInfo europeanCulture = new CultureInfo("en-GB");
+            //CultureInfo europeanCulture = new CultureInfo("en-GB");
             List<int> numberList = new List<int>();
-            List<int> idTrigonosList = new List<int>();
+            //List<int> idTrigonosList = new List<int>();
+            var conditional = 0;
             var BDDTrigonos = _context.Set<REACT_TRGNS_PROYECTOS>()
                 .Where(e => e.vHabilitado == 1).Select(item => item.Id_participants).ToList();
-            foreach (var i in BDDTrigonos)
-            {
-                idTrigonosList.Add(i);
-            }
-            var BDD = _context.Set<REACT_CEN_instructions_Def>()
-                .Where(e => e.Folio == 0)
-                .Where(e => e.Amount > 9);
-            var conditional = 0;
             try
             {
                 foreach (var i in ListIdInstrucctions)
                 {
-                    var idInstruccion = int.Parse(i["ID Instruccion"].ToString());
+
                     try
                     {
-                        var montoNeto = int.Parse(i["Monto"].ToString());
-                        var glosa = i["Concepto"].ToString();
-                        var folio = int.Parse(i["Folio"].ToString());
-                        var FechaRecepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0,10));/*.ToString("yyyy/MM/dd/")*/
-                        //var FechaRecepcion = i["Fecha Aceptacion"].ToString();
-                        var rut = i["Rut"].ToString().Substring(0, 8);
-                        var item2 = BDD.Where(e => /*e.Creditor == id &&*/ e.Payment_matrix_natural_key == glosa && e.Amount == montoNeto && e.ID == idInstruccion)
-                       .ToList()[0];
-                        var bd = await _instruccionesDefRepository.GetByClienteIDAsync(item2.ID);
-                        if (idTrigonosList.Contains(int.Parse(item2.Creditor.ToString())))
+                        var bd = await _instruccionesDefRepository.GetByClienteIDAsync(int.Parse(i["ID Instruccion"].ToString()));
+                        if (conditional == 0)
+                        {
+                            if (bd.Debtor != id)
+                            {
+                                var clienteReal = _participantesRepository.GetByClienteIDAsync(id);
+                                //var clienteInst = bd.Debtor;
+                                return NotFound(new CodeErrorResponse(400, String.Concat("Error, Deudor excel :", clienteReal.Result.Business_Name)));
+                            };
+                            conditional = 1;
+                        }
+                        if (BDDTrigonos.Contains(int.Parse(bd.Creditor.ToString())))
                         {
                             bd.Estado_emision = 2;
                             bd.Estado_recepcion = 1;
                             bd.Estado_aceptacion = 1;
-                            bd.Fecha_aceptacion = FechaRecepcion;
-                            bd.Fecha_emision = FechaRecepcion;
-                            bd.Fecha_recepcion = FechaRecepcion;
-                            bd.Folio = folio;
+                            bd.Fecha_aceptacion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
+                            bd.Fecha_emision = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
+                            bd.Fecha_recepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
+                            bd.Folio = int.Parse(i["Folio"].ToString());
                         }
                         else
                         {
                             bd.Estado_emision = 2;
                             bd.Estado_recepcion = 1;
                             bd.Estado_aceptacion = 1;
-                            bd.Fecha_aceptacion = FechaRecepcion;
-                            bd.Fecha_recepcion = FechaRecepcion;
-                            //bd.Fecha_recepcion =
-                            bd.Folio = folio;
+                            bd.Fecha_aceptacion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10)); ;
+                            bd.Fecha_recepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10)); ;
+                            bd.Folio = int.Parse(i["Folio"].ToString()); ;
                         }
-                      
                         //conditional = 1;
                         if (!await _instruccionesDefRepository.UpdateeAsync(bd))
                         {
@@ -637,7 +635,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                     catch (Exception)
                     {
 
-                        numberList.Add(idInstruccion);
+                        numberList.Add(int.Parse(i["ID Instruccion"].ToString()));
                     }
 
                 }
@@ -660,9 +658,9 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// </summary>
         [HttpPost("ActuralizarFacturacionnnn")]
 
+
         public async Task<ActionResult> FacturacionMasiva(int id, List<Dictionary<string, object>> ListIdInstrucctions)
         {
-          
             List<int> numberList = new List<int>();
             var BDD = _context.Set<REACT_CEN_instructions_Def>()
                 .Where(e => e.Folio == 0)
@@ -683,6 +681,17 @@ namespace TrigonosEnergyWebAPI.Controllers
                         var rutAbastible = i["Rut"].ToString().Substring(0, 8);
                         var itemAbastible = BDD.Where(e => e.Creditor == id && e.Payment_matrix_natural_key == glosaAbastible && e.Amount == montoNetoAbastible && e.Participants_debtor.Rut.Contains(rutAbastible)).Select(item => item.ID).ToList()[0];
                         var bdAbastible = await _instruccionesDefRepository.GetByClienteIDAsync(itemAbastible);
+                        if (conditional == 0)
+                        {
+                            if (bdAbastible.Creditor != id)
+                            {
+                                var clienteReal = _participantesRepository.GetByClienteIDAsync(int.Parse(bdAbastible.Creditor.ToString()));
+
+                                return NotFound(new CodeErrorResponse(400, String.Concat("Error, Acreedor" +
+                                    " excel :", clienteReal.Result.Business_Name)));
+                            };
+                            conditional = 1;
+                        }
                         bdAbastible.Estado_emision = 2;
                         bdAbastible.Folio = folioAbastible;
                         bdAbastible.Fecha_emision = Convert.ToDateTime(FechaEmisionAbastible);
@@ -717,10 +726,20 @@ namespace TrigonosEnergyWebAPI.Controllers
                             var glosaDefontana = i["CodigodelProducto"].ToString();
 
                             var folioDefontana = int.Parse(i["NúmeroCorrelativo"].ToString());
-                            var FechaEmisionDefontana = i["Fech"].ToString();
+                            var FechaEmisionDefontana = i["Fecha"].ToString();
                             var rutDefontana = i["CódigodelCliente"].ToString().Substring(0, 8);
                             var itemDefontana = BDD/*.Where(e => e.Creditor == id)*/.Where(e => e.Payment_matrix_natural_key == glosaDefontana && e.Amount == montoNetoDefontana && e.Participants_debtor.Rut.Contains(rutDefontana)).Select(item => item.ID).ToList()[0];
                             var bdDefontana = await _instruccionesDefRepository.GetByClienteIDAsync(itemDefontana);
+                            if (conditional == 0)
+                            {
+                                if (bdDefontana.Creditor != id)
+                                {
+                                    var clienteReal = _participantesRepository.GetByClienteIDAsync(int.Parse(bdDefontana.Creditor.ToString()));
+
+                                    return NotFound(new CodeErrorResponse(400, String.Concat("Error, Acreedor excel :", clienteReal.Result.Business_Name)));
+                                };
+                                conditional = 1;
+                            }
                             bdDefontana.Estado_emision = 2;
                             bdDefontana.Folio = folioDefontana;
                             bdDefontana.Fecha_emision = Convert.ToDateTime(FechaEmisionDefontana);
@@ -761,6 +780,16 @@ namespace TrigonosEnergyWebAPI.Controllers
                             var rutNubox = i["Rut"].ToString().Substring(0, 8);
                             var itemNubox = BDD/*.Where(e => e.Creditor == id)*/.Where(e => e.Payment_matrix_natural_key == glosaNubox && e.Amount == montoNetoNubox && e.Participants_debtor.Rut.Contains(rutNubox)).Select(item => item.ID).ToList()[0];
                             var bdNubox = await _instruccionesDefRepository.GetByClienteIDAsync(itemNubox);
+                            if (conditional == 0)
+                            {
+                                if (bdNubox.Creditor != id)
+                                {
+                                    var clienteReal = _participantesRepository.GetByClienteIDAsync(int.Parse(bdNubox.Creditor.ToString()));
+
+                                    return NotFound(new CodeErrorResponse(400, String.Concat("Error, Acreedor excel :", clienteReal.Result.Business_Name)));
+                                };
+                                conditional = 1;
+                            }
                             bdNubox.Estado_emision = 2;
                             bdNubox.Folio = folioNubox;
                             bdNubox.Fecha_emision = Convert.ToDateTime(FechaEmisionNubox);

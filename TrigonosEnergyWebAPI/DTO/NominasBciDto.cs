@@ -3,7 +3,7 @@
     public class NominasBciDto
     {
         public int ID { get; set; }
-        public int? id_instruccions { get; set; }
+        //public int? id_instruccions { get; set; }
         public string? Glosa { get; set; }
         public string? rutDeudor { get; set; }
         public string? rutAcreedor { get; set; }

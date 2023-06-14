@@ -143,7 +143,7 @@ namespace TrigonosEnergy.DTO
               .ForMember(p => p.CodigoRef, x => x.MapFrom(a => a.cEN_Payment_Matrices.Reference_code));
             CreateMap<REACT_CEN_instructions_Def, NominasBciDto>()
               .ForMember(p => p.ID, x => x.MapFrom(a => a.ID))
-              .ForMember(p => p.id_instruccions, x => x.MapFrom(a => a.ID))
+              //.ForMember(p => p.id_instruccions, x => x.MapFrom(a => a.ID))
               .ForMember(p => p.Glosa, x => x.MapFrom(a => a.Payment_matrix_natural_key))
               .ForMember(p => p.rutDeudor, x => x.MapFrom(a => String.Concat(a.Participants_debtor.Rut, '-', a.Participants_debtor.Verification_Code)))
               .ForMember(p => p.rutAcreedor, x => x.MapFrom(a => String.Concat(a.Participants_creditor.Rut, '-', a.Participants_creditor.Verification_Code)))
