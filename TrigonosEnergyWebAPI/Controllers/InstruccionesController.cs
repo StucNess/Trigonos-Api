@@ -444,42 +444,80 @@ namespace TrigonosEnergyWebAPI.Controllers
 
 
         }
-        //[HttpGet]
-        //[Route("/FiltroCarta")]
-        //public async Task<ActionResult<IReadOnlyList<filtross>>> FiltroCarta(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
-        //{
-        //    //.Server.ScriptTimeout = 300;
+
+        /// <summary>
+        /// Obtener El concepto de un participante especifico
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/ConceptFilter")]
+        public async Task<ActionResult<IReadOnlyList<ConceptoDto>>> ConceptFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+            //.Server.ScriptTimeout = 300;
+
+            var spec = new InstruccionesDefRelationSpecification(id, pa, parametros);
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            var Concepto = instrucciones.DistinctBy(p => p.Payment_matrix_natural_key).ToList();
+            var listConcept = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<ConceptoMapper>>(Concepto);
+            return Ok(
+                new ConceptoDto
+                {
+                    label = listConcept,
+
+                }
+                );
 
 
-        //    var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
-        //    var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
-        //    var producto1 = producto.DistinctBy(p => p.cEN_Payment_Matrices.Letter_code).ToList();
-        //    var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<probandoMapper>>(producto1);
+        }
+        /// <summary>
+        /// Obtener la carta de un participante especifico
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/CartaFilter")]
+        public async Task<ActionResult<IReadOnlyList<CartaDto>>> CartaFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+            //.Server.ScriptTimeout = 300;
 
-        //    return Ok(data);
+            var spec = new InstruccionesDefRelationSpecification(id, pa, parametros);
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            var carta = instrucciones.DistinctBy(p => p.cEN_Payment_Matrices.Letter_code).ToList();
+            var listCarta = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<CartaMapper>>(carta);
+            return Ok(
+                new CartaDto
+                {
+                    Carta = listCarta
 
-        //}
-        //[HttpGet]
-        //[Route("/FiltroConcepto")]
-        //public async Task<ActionResult<IReadOnlyList<filtross>>> FiltroConcepto(int id,  [FromQuery] InstruccionesDefSpecificationParams parametros)
-        //{
-
-
-        //    var spec = new InstruccionesDefRelationSpecification(id,1, parametros);
-        //    var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
-        //    var producto1 = producto.DistinctBy(p => p.Payment_matrix_natural_key).ToList();
-        //    var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<probandoMapper>>(producto1);
-
-        //    return Ok(data);
-
-
-        //}
-
+                }
+                );
 
 
+        }
+        /// <summary>
+        /// Obtener el codigo de referencia de un participante especifico
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/CodRefFilter")]
+        public async Task<ActionResult<IReadOnlyList<CodRefDto>>> CodRefFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+            //.Server.ScriptTimeout = 300;
+
+            var spec = new InstruccionesDefRelationSpecification(id, pa, parametros);
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            var codref = instrucciones.DistinctBy(p => p.cEN_Payment_Matrices.Reference_code).ToList();
+            var listCodRef = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<CodRefMapper>>(codref);
+            return Ok(
+                new CodRefDto
+                {
+                    label = listCodRef,
+
+                }
+                );
 
 
-        //}
+        }
+       
         [HttpGet]
         [Route("/sFiltrosRutCreditor")]
         public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosRutCreditor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
