@@ -34,6 +34,7 @@ namespace Core.Specifications.Relations
             (!parametros.Deudor.HasValue || x.Debtor == parametros.Deudor) &&
 
             (!parametros.MontoNeto.HasValue || x.Amount >= parametros.MontoNeto) &&
+           (!parametros.Pagada.HasValue || x.Is_paid == parametros.Pagada) &&
             (!parametros.MontoBruto.HasValue || x.Amount_Gross >= parametros.MontoBruto) &&
             (!parametros.Folio.HasValue || x.Folio == parametros.Folio)
              &&
@@ -162,7 +163,7 @@ namespace Core.Specifications.Relations
            (!parametros.FechaAceptacion.HasValue || x.Fecha_recepcion == parametros.FechaAceptacion) &&
            (!parametros.FechaPago.HasValue || x.Fecha_recepcion == parametros.FechaPago) &&
            (!parametros.FechaEmision.HasValue || x.Fecha_recepcion == parametros.FechaEmision) &&
-
+          (!parametros.Pagada.HasValue || x.Is_paid == parametros.Pagada) &&
            (!parametros.Acreedor.HasValue || x.Creditor == parametros.Acreedor) &&
            (!parametros.Deudor.HasValue || x.Debtor == parametros.Deudor) &&
 

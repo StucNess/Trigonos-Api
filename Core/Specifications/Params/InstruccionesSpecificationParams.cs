@@ -19,6 +19,7 @@ namespace Core.Specifications.Params
         public string? Concepto { get; set; }
         public string? EstadoAceptacion { get; set; }
         public string? EstadoRecepcion { get; set; }
+        public bool? Pagada { get; set; }
         public int? Acreedor { get; set; }
         public int? Deudor { get; set; }
         public int? MontoNeto { get; set; }

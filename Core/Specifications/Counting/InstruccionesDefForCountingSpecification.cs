@@ -28,7 +28,7 @@ namespace Core.Specifications.Counting
             (!parametros.FechaAceptacion.HasValue || x.Fecha_recepcion == parametros.FechaAceptacion) &&
             (!parametros.FechaPago.HasValue || x.Fecha_recepcion == parametros.FechaPago) &&
             (!parametros.FechaEmision.HasValue || x.Fecha_recepcion == parametros.FechaEmision) &&
-
+              (!parametros.Pagada.HasValue || x.Is_paid == parametros.Pagada) &&
             (!parametros.Acreedor.HasValue || x.Creditor == parametros.Acreedor) &&
             (!parametros.Deudor.HasValue || x.Debtor == parametros.Deudor) &&
 
