@@ -2,7 +2,7 @@
 {
     public class CodRefDto
     {
-        public IReadOnlyList<CodRefMapper> label { get; set; }
+        public IReadOnlyList<CodRefMapper> CodRef { get; set; }
 
     }
 }

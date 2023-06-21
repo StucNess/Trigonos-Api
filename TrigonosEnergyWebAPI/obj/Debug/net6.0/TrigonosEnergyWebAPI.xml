@@ -87,15 +87,15 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.CartaFilter(System.Int32,System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
+        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.CodRefFilter(System.Int32,System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
             <summary>
-            Obtener la carta de un participante especifico
+            Obtener El concepto de un participante especifico
             </summary>
             <returns></returns>
         </member>
-        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.CodRefFilter(System.Int32,System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
+        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.CartaFilter(System.Int32,System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
             <summary>
-            Obtener el codigo de referencia de un participante especifico
+            Obtener la carta de un participante especifico
             </summary>
             <returns></returns>
         </member>

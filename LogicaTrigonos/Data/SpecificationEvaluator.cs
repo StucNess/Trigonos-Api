@@ -26,13 +26,17 @@ namespace LogicaTrigonos.Data
                 inputQuery = inputQuery.OrderByDescending(spec.OrderByDescending);
             }
 
+            
+
+            inputQuery = spec.Includes.Aggregate(inputQuery, (current, include) => current.Include(include));
+            if (spec.DistinctBy != null)
+            {
+                inputQuery = inputQuery.GroupBy(spec.DistinctBy).Select(query => query.First());
+            }
             if (spec.IsPagingEnabled)
             {
                 inputQuery = inputQuery.Skip(spec.Skip).Take(spec.Take);
             }
-
-            inputQuery = spec.Includes.Aggregate(inputQuery, (current, include) => current.Include(include));
-
             return inputQuery;
         }
     }

@@ -451,23 +451,85 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/ConceptFilter")]
-        public async Task<ActionResult<IReadOnlyList<ConceptoDto>>> ConceptFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        public async Task<ActionResult<Pagination<ConceptoMapper>>> ConceptFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
-            //.Server.ScriptTimeout = 300;
-
-            var spec = new InstruccionesDefRelationSpecification(id, pa, parametros);
+            //ERROR AQUI NO FUNCIONA LA CONDICION PUEDE SER EL COUNT
+            var spec = new InstruccionesDefRelationSpecification(id, parametros, 1, "Payment_matrix_natural_key");
             var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
-            var Concepto = instrucciones.DistinctBy(p => p.Payment_matrix_natural_key).ToList();
-            var listConcept = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<ConceptoMapper>>(Concepto);
-            return Ok(
-                new ConceptoDto
-                {
-                    label = listConcept,
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Payment_matrix_natural_key");
 
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            var datacount = 0;
+            if (count != null)
+            {
+                datacount = count.Count();
+            }
+            var rounded = Math.Ceiling(Convert.ToDecimal(datacount / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<ConceptoMapper>>(instrucciones);
+            
+            return Ok(
+                new Pagination<ConceptoMapper>
+                {
+                    count = datacount,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
                 }
                 );
 
 
+
+
+
+        }
+        [HttpGet]
+        [Route("/CountingConcept")]
+        public async Task<ActionResult<int>> CountingConcept(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Payment_matrix_natural_key");
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            return count.Count();
+
+        }
+        /// <summary>
+        /// Obtener El concepto de un participante especifico
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/CodRefFilter")]
+        public async Task<ActionResult<Pagination<CodRefMapper>>> CodRefFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+
+
+            var spec = new InstruccionesDefRelationSpecification(id, parametros, 1, "cEN_Payment_Matrices.Reference_code");
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "cEN_Payment_Matrices.Reference_code");
+
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            var datacount = 0;
+            if (count != null)
+            {
+                datacount = count.Count();
+            }
+            var rounded = Math.Ceiling(Convert.ToDecimal(datacount / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+
+            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<CodRefMapper>>(instrucciones);
+            return Ok(
+                new Pagination<CodRefMapper>
+                {
+                    count = datacount,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+                }
+                );
         }
         /// <summary>
         /// Obtener la carta de un participante especifico
@@ -475,98 +537,209 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/CartaFilter")]
-        public async Task<ActionResult<IReadOnlyList<CartaDto>>> CartaFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        public async Task<ActionResult<Pagination<CartaMapper>>> CartaFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
-            //.Server.ScriptTimeout = 300;
 
-            var spec = new InstruccionesDefRelationSpecification(id, pa, parametros);
+            var spec = new InstruccionesDefRelationSpecification(id, parametros, 1, "cEN_Payment_Matrices.Letter_code");
             var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
-            var carta = instrucciones.DistinctBy(p => p.cEN_Payment_Matrices.Letter_code).ToList();
-            var listCarta = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<CartaMapper>>(carta);
-            return Ok(
-                new CartaDto
-                {
-                    Carta = listCarta
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "cEN_Payment_Matrices.Letter_code");
 
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            var datacount = 0;
+            if (count != null)
+            {
+                datacount = count.Count();
+            }
+            var rounded = Math.Ceiling(Convert.ToDecimal(datacount / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+
+            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<CartaMapper>>(instrucciones);
+            return Ok(
+                new Pagination<CartaMapper>
+                {
+                    count = datacount,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
                 }
                 );
-
-
         }
-        /// <summary>
-        /// Obtener el codigo de referencia de un participante especifico
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
-        [Route("/CodRefFilter")]
-        public async Task<ActionResult<IReadOnlyList<CodRefDto>>> CodRefFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        [Route("/CountingRutCreditor")]
+        public async Task<ActionResult<int>> CountingRutCreditor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
-            //.Server.ScriptTimeout = 300;
-
-            var spec = new InstruccionesDefRelationSpecification(id, pa, parametros);
-            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
-            var codref = instrucciones.DistinctBy(p => p.cEN_Payment_Matrices.Reference_code).ToList();
-            var listCodRef = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<CodRefMapper>>(codref);
-            return Ok(
-                new CodRefDto
-                {
-                    label = listCodRef,
-
-                }
-                );
-
+            
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Participants_creditor.Rut");
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            return count.Count();
 
         }
-       
+        [HttpGet]
+        [Route("/CountingRutDeudor")]
+        public async Task<ActionResult<int>> CountingRutDeudor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Participants_debtor.Rut");
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            return count.Count();
+
+        }
         [HttpGet]
         [Route("/sFiltrosRutCreditor")]
-        public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosRutCreditor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        public async Task<ActionResult<Pagination<sFiltrosRutCreditor>>> sFiltrosRutCreditor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
-            var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
-            var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
-            var producto1 = producto.DistinctBy(a => a.Participants_creditor.Rut).ToList();
-            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosRutCreditor>>(producto1);
+            //Task<ActionResult<Pagination<sFiltrosRutCreditor>>>
+            //Task<ActionResult<IReadOnlyList<sFiltros>>>
+            //var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
+            //var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            //var producto1 = producto.DistinctBy(a => a.Participants_creditor.Rut).ToList();
+            //var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosRutCreditor>>(producto1);
 
-            return Ok(data);
+            //return Ok(data);
+
+
+            var spec = new InstruccionesDefRelationSpecification(id, parametros, 1, "Participants_creditor.Rut");
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Participants_creditor.Rut");
+
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            var datacount = 0;
+            if (count != null)
+            {
+                datacount = count.Count();
+            }
+            var rounded = Math.Ceiling(Convert.ToDecimal(datacount / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+
+            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosRutCreditor>>(instrucciones);
+            return Ok(
+                new Pagination<sFiltrosRutCreditor>
+                {
+                    count = datacount,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+                }
+                );
 
         }
         [HttpGet]
         [Route("/sFiltrosRutDeudor")]
-        public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosRutDeudor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        public async Task<ActionResult<Pagination<sFiltrosRutDeudor>>> sFiltrosRutDeudor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
-            var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
-            var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
-            var producto1 = producto.DistinctBy(a => a.Participants_debtor.Rut).ToList();
-            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosRutDeudor>>(producto1);
-            return Ok(data);
+            //var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
+
+            //var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+
+            //var producto1 = producto.DistinctBy(a => a.Participants_debtor.Rut).ToList();
+            //var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosRutDeudor>>(producto1);
+            //return Ok(data);
 
 
+            var spec = new InstruccionesDefRelationSpecification(id, parametros, 1, "Participants_debtor.Rut");
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Participants_debtor.Rut");
+
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            var datacount = 0;
+            if (count != null)
+            {
+                datacount = count.Count();
+            }
+            var rounded = Math.Ceiling(Convert.ToDecimal(datacount / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+
+            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosRutDeudor>>(instrucciones);
+            return Ok(
+                new Pagination<sFiltrosRutDeudor>
+                {
+                    count = datacount,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+                }
+                );
 
         }
         [HttpGet]
         [Route("/sFiltrosNameCreditor")]
-        public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosNameCreditor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        public async Task<ActionResult<Pagination<sFiltrosRutDeudor>>> sFiltrosNameCreditor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
-            var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
-            var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
-            var producto1 = producto.DistinctBy(a => a.Participants_creditor.Business_Name).ToList();
-            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosNameCreditor>>(producto1);
-            return Ok(data);
+            //var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
+            //var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            //var producto1 = producto.DistinctBy(a => a.Participants_creditor.Business_Name).ToList();
+            //var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosNameCreditor>>(producto1);
+            //return Ok(data);
 
+            var spec = new InstruccionesDefRelationSpecification(id, parametros, 1, "Participants_creditor.Business_Name");
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Participants_creditor.Business_Name");
+
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            var datacount = 0;
+            if (count != null)
+            {
+                datacount = count.Count();
+            }
+            var rounded = Math.Ceiling(Convert.ToDecimal(datacount / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+
+            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosNameCreditor>>(instrucciones);
+            return Ok(
+                new Pagination<sFiltrosNameCreditor>
+                {
+                    count = datacount,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+                }
+                );
 
 
         }
         [HttpGet]
         [Route("/sFiltrosNameDebtor")]
-        public async Task<ActionResult<IReadOnlyList<sFiltros>>> sFiltrosNameDebtor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        public async Task<ActionResult<Pagination<sFiltrosRutDeudor>>> sFiltrosNameDebtor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
-            var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
-            var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
-            var producto1 = producto.DistinctBy(a => a.Participants_debtor.Business_Name).ToList();
-            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosNameDebtor>>(producto1);
-            return Ok(data);
+            //var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
+            //var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            //var producto1 = producto.DistinctBy(a => a.Participants_debtor.Business_Name).ToList();
+            //var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosNameDebtor>>(producto1);
+            //return Ok(data);
+
+            var spec = new InstruccionesDefRelationSpecification(id, parametros, 1, "Participants_debtor.Business_Name");
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Participants_debtor.Business_Name");
+
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            var datacount = 0;
+            if (count != null)
+            {
+                datacount = count.Count();
+            }
+            var rounded = Math.Ceiling(Convert.ToDecimal(datacount / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
 
 
+            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosNameDebtor>>(instrucciones);
+            return Ok(
+                new Pagination<sFiltrosNameDebtor>
+                {
+                    count = datacount,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+                }
+                );
 
         }
 

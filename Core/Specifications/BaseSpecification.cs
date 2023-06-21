@@ -26,6 +26,11 @@ namespace Core.Specifications
         {
             Includes.Add(includeExpression);
         }
+        public Expression<Func<T, object>> DistinctBy { get; private set; }
+        protected void AddDistinctBy(Expression<Func<T, object>> DistinctByExpression)
+        {
+            DistinctBy = DistinctByExpression;
+        }
         public Expression<Func<T, object>> OrderBy { get; private set; }
 
         public Expression<Func<T, object>> OrderByDescending { get; private set; }
