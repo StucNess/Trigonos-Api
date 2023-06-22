@@ -81,6 +81,24 @@
             <param name="parametros"> hola </param>
             <returns></returns>
         </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.ConceptFilter(System.Int32,System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
+            <summary>
+            Obtener El concepto de un participante especifico
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.CodRefFilter(System.Int32,System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
+            <summary>
+            Obtener El concepto de un participante especifico
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.CartaFilter(System.Int32,System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
+            <summary>
+            Obtener la carta de un participante especifico
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.FacturacionMasiva(System.Int32,System.Collections.Generic.List{System.Collections.Generic.Dictionary{System.String,System.Object}})">
             <summary>
             Actualizar estado emsion
