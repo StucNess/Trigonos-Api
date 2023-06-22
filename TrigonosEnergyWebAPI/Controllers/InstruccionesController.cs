@@ -549,9 +549,9 @@ namespace TrigonosEnergyWebAPI.Controllers
                     {
                         if (bd.Creditor != id)
                         {
-                            var clienteReal = _participantesRepository.GetByClienteIDAsync(int.Parse(bd.Creditor.ToString()));
+                            var clienteReal = _participantesRepository.GetByClienteIDAsync(id);
                             //var clienteInst = bd.Debtor;
-                            return NotFound(new CodeErrorResponse(400, String.Concat("Error, Acreedor excel :", clienteReal.Result.Business_Name)));
+                            return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece a ", clienteReal.Result.Business_Name)));
                         };
                         conditional = 1;
                     }
@@ -603,7 +603,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                             {
                                 var clienteReal = _participantesRepository.GetByClienteIDAsync(id);
                                 //var clienteInst = bd.Debtor;
-                                return NotFound(new CodeErrorResponse(400, String.Concat("Error, Deudor excel :", clienteReal.Result.Business_Name)));
+                                return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece a ", clienteReal.Result.Business_Name)));
                             };
                             conditional = 1;
                         }
