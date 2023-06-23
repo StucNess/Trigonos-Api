@@ -5967,19 +5967,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Edgar\\.nuget\\packages\\": {}
+    "C:\\Users\\andre\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\1906hoy\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
+      "projectUniqueName": "C:\\Users\\andre\\source\\repos\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
       "projectName": "TrigonosEnergyWebAPI",
-      "projectPath": "C:\\Users\\Edgar\\source\\repos\\1906hoy\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
-      "packagesPath": "C:\\Users\\Edgar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Edgar\\source\\repos\\1906hoy\\TrigonosAPI\\TrigonosEnergyWebAPI\\obj\\",
+      "projectPath": "C:\\Users\\andre\\source\\repos\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
+      "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\andre\\source\\repos\\TrigonosAPI\\TrigonosEnergyWebAPI\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Edgar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5993,8 +5998,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Edgar\\source\\repos\\1906hoy\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
-              "projectPath": "C:\\Users\\Edgar\\source\\repos\\1906hoy\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj"
+            "C:\\Users\\andre\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
+              "projectPath": "C:\\Users\\andre\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj"
             }
           }
         }

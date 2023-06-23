@@ -81,6 +81,24 @@
             <param name="parametros"> hola </param>
             <returns></returns>
         </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.CountingConcept(System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
+            <summary>
+            Obtener la cantidad del concepto para luego iterar y saber cuantas llamadas hacer al filtro
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.CountingCodRef(System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
+            <summary>
+            Obtener la cantidad del Cod Ref para luego iterar y saber cuantas llamadas hacer al filtro
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.CountingCarta(System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
+            <summary>
+            Obtener la cantidad de la carta para luego iterar y saber cuantas llamadas hacer al filtro
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.ConceptFilter(System.Int32,System.Int32,Core.Specifications.Params.InstruccionesDefSpecificationParams)">
             <summary>
             Obtener El concepto de un participante especifico
