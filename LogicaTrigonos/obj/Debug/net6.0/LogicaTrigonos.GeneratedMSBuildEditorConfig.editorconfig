@@ -8,4 +8,8 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = LogicaTrigonos
+<<<<<<< HEAD
+build_property.ProjectDir = C:\Users\andre\source\repos\TrigonosAPI\LogicaTrigonos\
+=======
 build_property.ProjectDir = C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\LogicaTrigonos\
+>>>>>>> f1e8ea30bf38f0fc8303d84abab22c28043accfe

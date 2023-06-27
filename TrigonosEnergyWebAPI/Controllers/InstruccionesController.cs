@@ -444,7 +444,66 @@ namespace TrigonosEnergyWebAPI.Controllers
 
 
         }
+        /// <summary>
+        /// Obtener la cantidad del concepto para luego iterar y saber cuantas llamadas hacer al filtro
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/CountingConcept")]
+        public async Task<ActionResult<int>> CountingConcept(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
 
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Payment_matrix_natural_key");
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            return count.Count();
+
+        }
+        /// <summary>
+        /// Obtener la cantidad del Cod Ref para luego iterar y saber cuantas llamadas hacer al filtro
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/CountingCodRef")]
+        public async Task<ActionResult<int>> CountingCodRef(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "cEN_Payment_Matrices.Reference_code");
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+
+            if (count != null)
+            {
+                return Ok(count.Count());
+            }
+            else
+            {
+                return 0;
+            }
+
+
+        }
+        /// <summary>
+        /// Obtener la cantidad de la carta para luego iterar y saber cuantas llamadas hacer al filtro
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/CountingCarta")]
+        public async Task<ActionResult<int>> CountingCarta(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "cEN_Payment_Matrices.Letter_code");
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+
+            if (count != null)
+            {
+                return Ok(count.Count());
+            }
+            else
+            {
+                return 0;
+            }
+
+
+        }
         /// <summary>
         /// Obtener El concepto de un participante especifico
         /// </summary>
@@ -485,16 +544,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
 
         }
-        [HttpGet]
-        [Route("/CountingConcept")]
-        public async Task<ActionResult<int>> CountingConcept(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
-        {
-
-            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Payment_matrix_natural_key");
-            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
-            return count.Count();
-
-        }
+      
         /// <summary>
         /// Obtener El concepto de un participante especifico
         /// </summary>
@@ -531,6 +581,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 }
                 );
         }
+      
         /// <summary>
         /// Obtener la carta de un participante especifico
         /// </summary>
@@ -567,11 +618,21 @@ namespace TrigonosEnergyWebAPI.Controllers
                 );
         }
         [HttpGet]
-        [Route("/CountingRutCreditor")]
-        public async Task<ActionResult<int>> CountingRutCreditor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        [Route("/CountingRutAcreedor")]
+        public async Task<ActionResult<int>> CountingRutAcreedor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
             
             var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Participants_creditor.Rut");
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            return count.Count();
+
+        }
+        [HttpGet]
+        [Route("/CountingNombreAcreedor")]
+        public async Task<ActionResult<int>> CountingNombreAcreedor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Participants_creditor.Business_Name");
             var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
             return count.Count();
 
@@ -586,6 +647,17 @@ namespace TrigonosEnergyWebAPI.Controllers
             return count.Count();
 
         }
+        [HttpGet]
+        [Route("/CountingNombreDeudor")]
+        public async Task<ActionResult<int>> CountingNombreDeudor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Participants_debtor.Business_Name");
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            return count.Count();
+
+        }
+       
         [HttpGet]
         [Route("/sFiltrosRutCreditor")]
         public async Task<ActionResult<Pagination<sFiltrosRutCreditor>>> sFiltrosRutCreditor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)

@@ -4677,19 +4677,40 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\neidr\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\andre\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+>>>>>>> fb0cd3ab2e8da81ddc45ba9941a71cf156866b0e
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
       "projectName": "LogicaTrigonos",
       "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
       "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\LogicaTrigonos\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\andre\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+      "projectName": "LogicaTrigonos",
+      "projectPath": "C:\\Users\\andre\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+      "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\andre\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\obj\\",
+>>>>>>> fb0cd3ab2e8da81ddc45ba9941a71cf156866b0e
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+        "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+>>>>>>> fb0cd3ab2e8da81ddc45ba9941a71cf156866b0e
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4703,8 +4724,13 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+<<<<<<< HEAD
             "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\Core\\Core.csproj": {
               "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TrigonosAPI\\Core\\Core.csproj"
+=======
+            "C:\\Users\\andre\\source\\repos\\TrigonosAPI\\Core\\Core.csproj": {
+              "projectPath": "C:\\Users\\andre\\source\\repos\\TrigonosAPI\\Core\\Core.csproj"
+>>>>>>> fb0cd3ab2e8da81ddc45ba9941a71cf156866b0e
             }
           }
         }
