@@ -99,11 +99,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:TrigonosEnergyWebAPI.Controllers.InstruccionesController.FacturacionMasiva(System.Int32,System.Collections.Generic.List{System.Collections.Generic.Dictionary{System.String,System.Object}})">
-            <summary>
-            Actualizar estado emsion
-            </summary>
-        </member>
         <member name="M:TrigonosEnergyWebAPI.Controllers.NominasController.GetAllNominaPago">
             <summary>
             Obtener nominas que trabaja Prisma

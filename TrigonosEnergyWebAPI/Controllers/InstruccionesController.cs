@@ -744,7 +744,6 @@ namespace TrigonosEnergyWebAPI.Controllers
         }
 
         [HttpPost("CuadreMasivoAcreedor")]
-
         public async Task<ActionResult> CuadreMasivoAcreedor(int id, List<Dictionary<string, object>> ListIdInstrucctions)
         {
             List<int> numberList = new List<int>();
@@ -768,6 +767,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                     }
                     bd.Fecha_pago = Convert.ToDateTime(i["Fecha de Pago"].ToString());
                     bd.Estado_pago = 2;
+                    bd.Folio = int.Parse(i["Folio"].ToString());
                     bd.Is_paid = true;
                     if (!await _instruccionesDefRepository.UpdateeAsync(bd))
                     {
@@ -864,12 +864,8 @@ namespace TrigonosEnergyWebAPI.Controllers
             }
             return Ok();
         }
-        /// <summary>
-        /// Actualizar estado emsion
-        /// </summary>
-        [HttpPost("ActuralizarFacturacionnnn")]
-
-
+    
+        [HttpPost("FacturacionMasiva")]
         public async Task<ActionResult> FacturacionMasiva(int id, List<Dictionary<string, object>> ListIdInstrucctions)
         {
             List<int> numberList = new List<int>();
@@ -896,10 +892,11 @@ namespace TrigonosEnergyWebAPI.Controllers
                         {
                             if (bdAbastible.Creditor != id)
                             {
-                                var clienteReal = _participantesRepository.GetByClienteIDAsync(int.Parse(bdAbastible.Creditor.ToString()));
 
-                                return NotFound(new CodeErrorResponse(400, String.Concat("Error, Acreedor" +
-                                    " excel :", clienteReal.Result.Business_Name)));
+                                //var clienteReal = _participantesRepository.GetByClienteIDAsync(id);
+                                //var clienteInst = bd.Debtor;
+                                //return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece a ", clienteReal.Result.Business_Name)));
+                                return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece al cliente seleccionado")));
                             };
                             conditional = 1;
                         }
@@ -945,9 +942,9 @@ namespace TrigonosEnergyWebAPI.Controllers
                             {
                                 if (bdDefontana.Creditor != id)
                                 {
-                                    var clienteReal = _participantesRepository.GetByClienteIDAsync(int.Parse(bdDefontana.Creditor.ToString()));
-
-                                    return NotFound(new CodeErrorResponse(400, String.Concat("Error, Acreedor excel :", clienteReal.Result.Business_Name)));
+                                    //var clienteReal = _participantesRepository.GetByClienteIDAsync(id);
+                                    //var clienteInst = bd.Debtor;
+                                    return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece al cliente seleccionado")));
                                 };
                                 conditional = 1;
                             }
@@ -995,9 +992,10 @@ namespace TrigonosEnergyWebAPI.Controllers
                             {
                                 if (bdNubox.Creditor != id)
                                 {
-                                    var clienteReal = _participantesRepository.GetByClienteIDAsync(int.Parse(bdNubox.Creditor.ToString()));
 
-                                    return NotFound(new CodeErrorResponse(400, String.Concat("Error, Acreedor excel :", clienteReal.Result.Business_Name)));
+                                    //var clienteReal = _participantesRepository.GetByClienteIDAsync(id);
+                                    //var clienteInst = bd.Debtor;
+                                    return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece al cliente seleccionado")));
                                 };
                                 conditional = 1;
                             }
@@ -1036,7 +1034,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
         }
         [HttpPost("ActualizarEstEmision")]
-        public async Task<ActionResult> ActualizarFacturacion(List<int?> ListIdInstrucctions, int estadoEmision)
+        public async Task<ActionResult> ActualizarEstEmision(List<int?> ListIdInstrucctions, int estadoEmision)
         {
             var entityToUpdate = await _instruccionesDefRepository.GetAllAsync();
 
