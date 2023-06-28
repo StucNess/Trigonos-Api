@@ -1,1 +1,7 @@
 /.vs
+/Core/bin/
+/Core/obj/
+/LogicaTrigonos/bin/
+/LogicaTrigonos/obj/
+/TrigonosEnergyWebAPI/bin/
+/TrigonosEnergyWebAPI/obj/
