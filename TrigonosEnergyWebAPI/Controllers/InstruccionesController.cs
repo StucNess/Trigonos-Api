@@ -843,7 +843,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                     }
                     catch
                     {
-                        Fecha_pago = Convert.ToDateTime(int.Parse(i["Fecha de Pago"].ToString()));
+                        Fecha_pago = DateTime.FromOADate(int.Parse(i["Fecha de Pago"].ToString()));
                     }
                     bd.Fecha_pago = Fecha_pago;
                     bd.Estado_pago = 2;
