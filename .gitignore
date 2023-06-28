@@ -5,3 +5,13 @@
 /LogicaTrigonos/obj/
 /TrigonosEnergyWebAPI/bin/
 /TrigonosEnergyWebAPI/obj/
+/Core/bin/*
+/Core/obj/*
+/LogicaTrigonos/bin/*
+/LogicaTrigonos/obj/*
+/TrigonosEnergyWebAPI/bin/*/
+/TrigonosEnergyWebAPI/obj/*/
+/LogicaTrigonos/bin/*/
+/LogicaTrigonos/obj/*/
+/TrigonosEnergyWebAPI/bin/*/
+/TrigonosEnergyWebAPI/obj/*/
