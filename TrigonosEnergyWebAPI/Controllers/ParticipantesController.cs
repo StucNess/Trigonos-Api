@@ -349,14 +349,34 @@ namespace TrigonosEnergy.Controllers
         }
 
         [HttpGet]
-        [Route("/Historificacion")]
-        public async Task<ActionResult<REACT_TRGNS_H_CEN_participants>> GetParticipanteHistorico(int id)
+        [Route("/Historificacion/{id}")]
+        public async Task<ActionResult<Pagination<HistorificacionDto>>> GetParticipanteHistorico(int id, [FromQuery] HistorificacionParams parametros)
         {
 
-            var spec = new HistorificacionParticipantesSpecification(id);
-            var producto = await _pruebaRepo.GetAllAsync(spec);
-            return Ok(producto);
-            //return _mapper.Map<REACT_CEN_Participants, ParticipantesDTO>(producto);
+            var spec = new HistorificacionParticipantesSpecification(id, parametros);
+            var datos = await _pruebaRepo.GetAllAsync(spec);
+           
+            var specCount = new HistorificacionParticipantesSpecification(id);
+            var totalHist = await _pruebaRepo.CountAsync(specCount);
+            var rounded = Math.Ceiling(Convert.ToDecimal(totalHist / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_H_CEN_participants>, IReadOnlyList<HistorificacionDto>>(datos);
+
+
+            return Ok(
+                new Pagination<HistorificacionDto>
+                {
+                    count = totalHist,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+
+
+
+                }
+                );
         }
         /// <summary>
         /// Actualizar datos de un participante
