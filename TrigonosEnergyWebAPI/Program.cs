@@ -306,6 +306,7 @@ builder.Services.AddSwaggerGen(options =>
 
         });
     });
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
 
 
 //CODIGO PARA AMENTAR EL TAMAÑO DEL BUFFER
