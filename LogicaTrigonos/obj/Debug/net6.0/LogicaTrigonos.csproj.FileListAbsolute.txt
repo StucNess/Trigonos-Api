@@ -219,3 +219,20 @@ C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Deb
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.pdb
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.genruntimeconfig.cache
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\ref\LogicaTrigonos.dll
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\bin\Debug\net6.0\LogicaTrigonos.deps.json
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\bin\Debug\net6.0\LogicaTrigonos.runtimeconfig.json
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\bin\Debug\net6.0\LogicaTrigonos.dll
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\bin\Debug\net6.0\LogicaTrigonos.pdb
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\bin\Debug\net6.0\Core.dll
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\bin\Debug\net6.0\Core.pdb
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.csproj.AssemblyReference.cache
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.AssemblyInfoInputs.cache
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.AssemblyInfo.cs
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.csproj.CoreCompileInputs.cache
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.csproj.CopyComplete
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.dll
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\refint\LogicaTrigonos.dll
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.pdb
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\LogicaTrigonos.genruntimeconfig.cache
+C:\Users\andre\source\repos\29-06\TrigonosAPI\LogicaTrigonos\obj\Debug\net6.0\ref\LogicaTrigonos.dll
