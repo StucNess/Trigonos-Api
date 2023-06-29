@@ -1709,3 +1709,16 @@ C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\o
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\obj\Debug\net6.0\TrigonosEnergyWebAPI.pdb
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\obj\Debug\net6.0\TrigonosEnergyWebAPI.genruntimeconfig.cache
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\obj\Debug\net6.0\ref\TrigonosEnergyWebAPI.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.ApplicationInsights.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.ApplicationInsights.AspNetCore.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.AI.DependencyCollector.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.AI.EventCounterCollector.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.AI.WindowsServer.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.Extensions.DiagnosticAdapter.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.Extensions.Logging.ApplicationInsights.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.Extensions.PlatformAbstractions.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\System.Diagnostics.PerformanceCounter.dll
+C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.Diagnostics.PerformanceCounter.dll
