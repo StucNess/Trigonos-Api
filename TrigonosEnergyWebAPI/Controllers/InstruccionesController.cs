@@ -1213,7 +1213,15 @@ namespace TrigonosEnergyWebAPI.Controllers
                     }
                     try
                     {
-                        Fecha_pago = Convert.ToDateTime(i["Fecha de Pago"].ToString().Substring(0, 10));
+                        try
+                        {
+                            Fecha_pago = Convert.ToDateTime(i["Fecha de Pago"].ToString().Substring(0, 10));
+                        }
+                        catch
+                        {
+                            var fechita = i["Fecha de Pago"].ToString().Substring(0, 10);
+                            Fecha_pago = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
+                        }
                     }
                     catch
                     {
@@ -1319,11 +1327,11 @@ namespace TrigonosEnergyWebAPI.Controllers
         public async Task<ActionResult> FacturacionMasiva(int id, int erp, List<Dictionary<string, object>> ListIdInstrucctions)
         {
             var conditional = 0;
-            List<string> listado = new List<string>();
+            //List<string> listado = new List<string>();
+            string pruebaa = "NADA";
             List<int> numberList = new List<int>();
             var BDD = _context.Set<REACT_CEN_instructions_Def>()
-                .Where(e => e.Folio == 0)
-                .Where(e => e.Amount > 9);
+                .Where(e => e.Folio == 0 && e.Amount > 9 && e.Creditor == id);
             if (erp == 1)
             {
                 foreach (var i in ListIdInstrucctions)
@@ -1337,7 +1345,16 @@ namespace TrigonosEnergyWebAPI.Controllers
 
                         try
                         {
-                            FechaEmisionAbastible = Convert.ToDateTime(i["FechaEmision"].ToString().Substring(0, 10));
+                            try
+                            {
+                                FechaEmisionAbastible = Convert.ToDateTime(i["FechaEmision"].ToString().Substring(0, 10));
+                            }
+                            catch
+                            {
+                                var fechita = i["FechaEmision"].ToString().Substring(0, 10);
+                                FechaEmisionAbastible = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
+                            }
+                            //FechaEmisionAbastible = Convert.ToDateTime(Convert.ToDateTime(i["FechaEmision"].ToString().Substring(0, 10)).ToString("yyyy-MM-dd", new CultureInfo("ja-JP")));
                         }
                         catch
                         {
@@ -1388,7 +1405,16 @@ namespace TrigonosEnergyWebAPI.Controllers
                         var folioDefontana = int.Parse(i["NúmeroCorrelativo"].ToString());
                         try
                         {
-                            FechaEmisionDefontana = Convert.ToDateTime(i["Fecha"].ToString().Substring(0, 10));
+                            try
+                            {
+                                FechaEmisionDefontana = Convert.ToDateTime(i["FechaEmision"].ToString().Substring(0, 10));
+                            }
+                            catch
+                            {
+                                var fechita = i["FechaEmision"].ToString().Substring(0, 10);
+                                FechaEmisionDefontana = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
+                            }
+                            //FechaEmisionDefontana = Convert.ToDateTime(Convert.ToDateTime(i["Fecha"].ToString().Substring(0, 10)).ToString("yyyy-MM-dd", new CultureInfo("ja-JP")));
                         }
                         catch
                         {
@@ -1411,7 +1437,6 @@ namespace TrigonosEnergyWebAPI.Controllers
                         bdDefontana.Estado_emision = 2;
                         bdDefontana.Folio = folioDefontana;
                         bdDefontana.Fecha_emision = FechaEmisionDefontana;
-                        conditional = 1;
                         if (!await _instruccionesDefRepository.UpdateeAsync(bdDefontana))
                         {
                             return StatusCode(500);
@@ -1430,19 +1455,42 @@ namespace TrigonosEnergyWebAPI.Controllers
                 var FechaEmisionNubox = DateTime.Now;
                 foreach (var i in ListIdInstrucctions)
                 {
+                    pruebaa = "entro 1";
                     var montoNetoNubox = int.Parse(i["Precio"].ToString());
                     try
                     {
+                        pruebaa = "entro 2";
                         var glosaNubox = i["Producto"].ToString();
+                        pruebaa = "entro 3";
                         var folioNubox = int.Parse(i["FOLIO"].ToString());
                         try
                         {
-                            FechaEmisionNubox = Convert.ToDateTime(i["Fecha Emision"].ToString());
+                            //var fechita = i["Fecha Emision"].ToString().Substring(0, 10);
+                            //Console.WriteLine(Convert.ToDateTime(i["Fecha Emision"].ToString().Substring(0, 10)).ToString("yyyy-MM-dd", new CultureInfo("ja-JP")));
+                            //Console.WriteLine(Convert.ToDateTime(Convert.ToDateTime(i["Fecha Emision"].ToString().Substring(0, 10)).ToString("yyyy-MM-dd", new CultureInfo("ja-JP"))));
+                            //Console.WriteLine();09-02-2929
+                            //DateTime fecha = DateTime.ParseExact(i["Fecha Emision"].ToString().Substring(0, 10), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                            try
+                            {
+                                FechaEmisionNubox = Convert.ToDateTime(i["FechaEmision"].ToString().Substring(0, 10));
+                            }
+                            catch
+                            {
+                                var fechita = i["FechaEmision"].ToString().Substring(0, 10);
+                                FechaEmisionNubox = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
+                            }
+                            pruebaa = "entro 4";
+
+                            //FechaEmisionNubox = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
+
                         }
                         catch
                         {
+                            pruebaa = "entro 5";
                             FechaEmisionNubox = DateTime.FromOADate(int.Parse(i["Fecha Emision"].ToString()));
                         }
+                        pruebaa = "entro 6";
                         var rutNubox = i["Rut"].ToString().Substring(0, 8);
                         var itemNubox = BDD.Where(e => e.Payment_matrix_natural_key == glosaNubox && e.Amount == montoNetoNubox && e.Participants_debtor.Rut.Contains(rutNubox)).Select(item => item.ID).ToList()[0];
                         var bdNubox = await _instruccionesDefRepository.GetByClienteIDAsync(itemNubox);
@@ -1470,10 +1518,14 @@ namespace TrigonosEnergyWebAPI.Controllers
                 }
 
             }
+            else if (conditional == 0)
+            {
+                return NotFound(new CodeErrorResponse(400, String.Concat("El cliente no tiene Facturador o Seleccione bien al cliente ")));
+            }
             if (numberList.Count > 0)
             {
                 string lista = String.Join(",", numberList);
-                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con montoNeto ", lista)));
+                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con montoNeto ", pruebaa)));
             }
             return Ok();
         }
