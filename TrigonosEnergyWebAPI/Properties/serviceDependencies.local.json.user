@@ -3,22 +3,7 @@
     "secrets1": {
       "restored": true,
       "restoreTime": "2023-06-27T14:24:53.3593404Z"
-    },
-    "appInsights1": {
-      "restored": true,
-      "restoreTime": "2023-06-27T14:25:03.8533871Z"
     }
   },
-  "parameters": {
-    "appInsights1.resourceGroupName": {
-      "Name": "appInsights1.resourceGroupName",
-      "Type": "resourceGroup",
-      "Value": "APIRest_WS"
-    },
-    "appInsights1.subscriptionId": {
-      "Name": "appInsights1.subscriptionId",
-      "Type": "subscription",
-      "Value": "bc4d0d64-cb78-4176-aebc-7c5f94c2c7a7"
-    }
-  }
+  "parameters": {}
 }

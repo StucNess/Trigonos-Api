@@ -66,3 +66,20 @@ C:\Users\Edgar\source\repos\1906hoy\TrigonosAPI\LogicaTrigonos\obj\Release\net6.
 C:\Users\Edgar\source\repos\1906hoy\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.pdb
 C:\Users\Edgar\source\repos\1906hoy\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.genruntimeconfig.cache
 C:\Users\Edgar\source\repos\1906hoy\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\ref\LogicaTrigonos.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\bin\Release\net6.0\LogicaTrigonos.deps.json
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\bin\Release\net6.0\LogicaTrigonos.runtimeconfig.json
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\bin\Release\net6.0\LogicaTrigonos.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\bin\Release\net6.0\LogicaTrigonos.pdb
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\bin\Release\net6.0\Core.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\bin\Release\net6.0\Core.pdb
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.csproj.AssemblyReference.cache
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.AssemblyInfoInputs.cache
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.AssemblyInfo.cs
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.csproj.CoreCompileInputs.cache
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.csproj.CopyComplete
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\refint\LogicaTrigonos.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.pdb
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\LogicaTrigonos.genruntimeconfig.cache
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\LogicaTrigonos\obj\Release\net6.0\ref\LogicaTrigonos.dll
