@@ -46,26 +46,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             _context = context;
             _participantesRepository = participantesRepository;
         }
-        [HttpPost("Agregar")]
-        public async Task<IActionResult> AgregarExcel([FromBody] agregarExcelDto agregarExcel)
-        {
-            var excel = new REACT_TRGNS_Excel_History
-            {
-                excelName = agregarExcel.excelName,
-                status = agregarExcel.status,
-                date = DateTime.Now,
-                idParticipant = agregarExcel.idParticipant,
-                type = agregarExcel.type,
-                description = agregarExcel.description,
 
-            };
-
-            if (!await _excelHistoryRepository.SaveBD(excel))
-            {
-                return BadRequest(new CodeErrorResponse(500, "Error no se ha agregado la empresa"));
-            }
-            return Ok();
-        }
         [HttpGet]
         [Route("/excelHistory")]
         public async Task<ActionResult<IReadOnlyList<excelHistoryDto>>> excelHistory([FromQuery] excelHistoryParams parametros)
@@ -1176,7 +1157,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         }
 
         [HttpPost("CuadreMasivoAcreedor")]
-        public async Task<ActionResult> CuadreMasivoAcreedor(int id, List<Dictionary<string, object>> ListIdInstrucctions)
+        public async Task<ActionResult> CuadreMasivoAcreedor(int id, string excelName, List<Dictionary<string, object>> ListIdInstrucctions)
         {
             var Fecha_pago = DateTime.Now;
             List<int> numberList = new List<int>();
@@ -1185,7 +1166,6 @@ namespace TrigonosEnergyWebAPI.Controllers
             {
                 try
                 {
-                    Console.WriteLine(int.Parse(i["ID Instruccion"].ToString()));
                     var bd = await _instruccionesDefRepository.GetByClienteIDAsync(int.Parse(i["ID Instruccion"].ToString()));
                     if (conditional == 0)
                     {
@@ -1230,13 +1210,47 @@ namespace TrigonosEnergyWebAPI.Controllers
             if (numberList.Count > 0)
             {
                 string lista = String.Join(",", numberList);
+                var excel = new REACT_TRGNS_Excel_History
+                {
+                    excelName = excelName,
+                    status = "ERROR",
+                    date = DateTime.Now,
+                    idParticipant = id,
+                    type = "Acreedor",
+                    description = String.Concat("Se actualizo todo menos las instrucciones con id ", lista),
 
+                };
+
+                if (!await _excelHistoryRepository.SaveBD(excel))
+                {
+                    return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en ERROR"));
+                }
+                
                 return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con id ", lista)));
             }
-            return Ok();
+            else
+            {
+
+                var excel = new REACT_TRGNS_Excel_History
+                {
+                    excelName = excelName,
+                    status = "OK",
+                    date = DateTime.Now,
+                    idParticipant = id,
+                    type = "Acreedor",
+                    description = "SE AGREGO CORRECTAMENTE",
+
+                };
+
+                if (!await _excelHistoryRepository.SaveBD(excel))
+                {
+                    return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en OK"));
+                }
+                return Ok();
+            }
         }
         [HttpPost("ActualizarFacDeudor")]
-        public async Task<ActionResult> ActualizarFacDeudor(int id, List<Dictionary<string, object>> ListIdInstrucctions)
+        public async Task<ActionResult> ActualizarFacDeudor(int id,string excelName, List<Dictionary<string, object>> ListIdInstrucctions)
         {
             //CultureInfo europeanCulture = new CultureInfo("en-GB");
             List<int> numberList = new List<int>();
@@ -1244,8 +1258,6 @@ namespace TrigonosEnergyWebAPI.Controllers
             var conditional = 0;
             var BDDTrigonos = _context.Set<REACT_TRGNS_PROYECTOS>()
                 .Where(e => e.vHabilitado == 1).Select(item => item.Id_participants).ToList();
-            try
-            {
                 foreach (var i in ListIdInstrucctions)
                 {
 
@@ -1294,23 +1306,52 @@ namespace TrigonosEnergyWebAPI.Controllers
                     }
 
                 }
-            }
-            catch (Exception)
-            {
-
-            }
 
             if (numberList.Count > 0)
             {
                 string lista = String.Join(",", numberList);
 
+                var excel = new REACT_TRGNS_Excel_History
+                {
+                    excelName = excelName,
+                    status = "ERROR",
+                    date = DateTime.Now,
+                    idParticipant = id,
+                    type = "Deudor",
+                    description = String.Concat("Se actualizo todo menos las instrucciones con id ", lista),
+
+                };
+
+                if (!await _excelHistoryRepository.SaveBD(excel))
+                {
+                    return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en ERROR"));
+                }
                 return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con id ", lista)));
             }
-            return Ok();
+            else
+            {
+                var excel = new REACT_TRGNS_Excel_History
+                {
+                    excelName = excelName,
+                    status = "OK",
+                    date = DateTime.Now,
+                    idParticipant = id,
+                    type = "Deudor",
+                    description = "SE AGREGO CORRECTAMENTE",
+
+                };
+
+                if (!await _excelHistoryRepository.SaveBD(excel))
+                {
+                    return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en OK"));
+                }
+                return Ok();
+            }
+            
         }
 
         [HttpPost("FacturacionMasiva")]
-        public async Task<ActionResult> FacturacionMasiva(int id, int erp, List<Dictionary<string, object>> ListIdInstrucctions)
+        public async Task<ActionResult> FacturacionMasiva(int id, int erp, string excelName, List<Dictionary<string, object>> ListIdInstrucctions)
         {
             var conditional = 0;
             //List<string> listado = new List<string>();
@@ -1353,10 +1394,6 @@ namespace TrigonosEnergyWebAPI.Controllers
                         {
                             if (bdAbastible.Creditor != id)
                             {
-
-                                //var clienteReal = _participantesRepository.GetByClienteIDAsync(id);
-                                //var clienteInst = bd.Debtor;
-                                //return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece a ", clienteReal.Result.Business_Name)));
                                 return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece al cliente seleccionado")));
                             };
                             conditional = 1;
@@ -1441,43 +1478,29 @@ namespace TrigonosEnergyWebAPI.Controllers
                 var FechaEmisionNubox = DateTime.Now;
                 foreach (var i in ListIdInstrucctions)
                 {
-                    pruebaa = "entro 1";
                     var montoNetoNubox = int.Parse(i["Precio"].ToString());
                     try
                     {
-                        pruebaa = "entro 2";
                         var glosaNubox = i["Producto"].ToString();
-                        pruebaa = "entro 3";
-                        var folioNubox = int.Parse(i["FOLIO"].ToString());
                         try
-                        {
-                            //var fechita = i["Fecha Emision"].ToString().Substring(0, 10);
-                            //Console.WriteLine(Convert.ToDateTime(i["Fecha Emision"].ToString().Substring(0, 10)).ToString("yyyy-MM-dd", new CultureInfo("ja-JP")));
-                            //Console.WriteLine(Convert.ToDateTime(Convert.ToDateTime(i["Fecha Emision"].ToString().Substring(0, 10)).ToString("yyyy-MM-dd", new CultureInfo("ja-JP"))));
-                            //Console.WriteLine();09-02-2929
-                            //DateTime fecha = DateTime.ParseExact(i["Fecha Emision"].ToString().Substring(0, 10), "yyyy-MM-dd", CultureInfo.InvariantCulture);
-
+                        {           
                             try
                             {
-                                FechaEmisionNubox = Convert.ToDateTime(i["FechaEmision"].ToString().Substring(0, 10));
+                                FechaEmisionNubox = Convert.ToDateTime(i["Fecha Emision"].ToString().Substring(0, 10));
                             }
                             catch
                             {
-                                var fechita = i["FechaEmision"].ToString().Substring(0, 10);
+                                var fechita = i["Fecha Emision"].ToString().Substring(0, 10);
                                 FechaEmisionNubox = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
                             }
-                            pruebaa = "entro 4";
-
-                            //FechaEmisionNubox = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
 
                         }
                         catch
                         {
-                            pruebaa = "entro 5";
                             FechaEmisionNubox = DateTime.FromOADate(int.Parse(i["Fecha Emision"].ToString()));
                         }
-                        pruebaa = "entro 6";
                         var rutNubox = i["Rut"].ToString().Substring(0, 8);
+                        var folioNubox = int.Parse(i["FOLIO"].ToString());
                         var itemNubox = BDD.Where(e => e.Payment_matrix_natural_key == glosaNubox && e.Amount == montoNetoNubox && e.Participants_debtor.Rut.Contains(rutNubox)).Select(item => item.ID).ToList()[0];
                         var bdNubox = await _instruccionesDefRepository.GetByClienteIDAsync(itemNubox);
                         if (conditional == 0)
@@ -1511,10 +1534,52 @@ namespace TrigonosEnergyWebAPI.Controllers
             if (numberList.Count > 0)
             {
                 string lista = String.Join(",", numberList);
-                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con montoNeto ", pruebaa)));
+
+
+                var excel = new REACT_TRGNS_Excel_History
+                {
+                    excelName = excelName,
+                    status = "ERROR",
+                    date = DateTime.Now,
+                    idParticipant = id,
+                    type = "Facturacion Masiva",
+                    description = String.Concat("Se actualizo todo menos las instrucciones con montoNeto ", lista),
+
+                };
+
+                if (!await _excelHistoryRepository.SaveBD(excel))
+                {
+                    return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en ERROR"));
+                }
+                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con montoNeto ", lista)));
             }
-            return Ok();
+            else
+            {
+                var excel = new REACT_TRGNS_Excel_History
+                {
+                    excelName = excelName,
+                    status = "OK",
+                    date = DateTime.Now,
+                    idParticipant = id,
+                    type = "Facturacion Masiva",
+                    description = "SE AGREGO CORRECTAMENTE",
+
+                };
+
+                if (!await _excelHistoryRepository.SaveBD(excel))
+                {
+                    return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en OK"));
+                }
+                return Ok();
+                
+            }
+            
         }
+        //[HttpPost("Agregar")]
+        //public async Task<IActionResult> AgregarExcel([FromBody] agregarExcelDto agregarExcel)
+        //{
+           
+        //}
         [HttpPost("ActualizarEstEmision")]
         public async Task<ActionResult> ActualizarEstEmision(List<int?> ListIdInstrucctions, int estadoEmision)
         {
