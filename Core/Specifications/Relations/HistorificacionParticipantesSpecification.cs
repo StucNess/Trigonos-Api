@@ -13,6 +13,7 @@ namespace Core.Specifications.Relations
 
         public HistorificacionParticipantesSpecification(int id, HistorificacionParams parametros ) :base(x => x.id_definir == id)
         {
+            AddOrderByDescending(p => p.ID);
             ApplyPaging(parametros.PageSize * (parametros.PageIndex - 1), parametros.PageSize);
             
 

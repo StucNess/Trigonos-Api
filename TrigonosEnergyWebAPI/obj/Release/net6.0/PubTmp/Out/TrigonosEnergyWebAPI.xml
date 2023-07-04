@@ -197,6 +197,24 @@
             <param name="parametros"></param>
             <returns></returns>
         </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.CantidadParticipantes">
+            <summary>
+            Cantidad de participantes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.CantidadProyectos">
+            <summary>
+            Cantidad de proyectos
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.CantidadFactCl">
+            <summary>
+            Cantidad de participantes con facturacion cl
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:TrigonosEnergy.Controllers.ParticipantesController.ProyectosById(System.Int32)">
             <summary>
             Retorna si es de bluetree o es externo
