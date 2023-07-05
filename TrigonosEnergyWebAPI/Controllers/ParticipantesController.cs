@@ -22,9 +22,10 @@ namespace TrigonosEnergy.Controllers
         private readonly IGenericRepository<REACT_TRGNS_UserProyects> _proyectosUserRepository;
         private readonly IGenericRepository<REACT_TRGNS_H_CEN_participants> _pruebaRepo;
         private readonly IGenericRepository<REACT_TRGNS_FACTCLDATA> _factClRepository;
+        private readonly IGenericRepository<REACT_TRGNS_AgentsOfParticipants> _agentsParticipantRepository;
 
         private readonly IMapper _mapper;
-        public ParticipantesController(IGenericRepository<REACT_CEN_Participants> participantesRepository, IMapper mapper, IGenericRepository<REACT_TRGNS_PROYECTOS> proyectosRepository,IGenericRepository<REACT_TRGNS_H_CEN_participants> pruebaRepo, IGenericRepository<REACT_TRGNS_UserProyects> proyectosUserRepository, IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository)
+        public ParticipantesController(IGenericRepository<REACT_CEN_Participants> participantesRepository, IGenericRepository<REACT_TRGNS_AgentsOfParticipants> agentsParticipantRepository, IMapper mapper, IGenericRepository<REACT_TRGNS_PROYECTOS> proyectosRepository,IGenericRepository<REACT_TRGNS_H_CEN_participants> pruebaRepo, IGenericRepository<REACT_TRGNS_UserProyects> proyectosUserRepository, IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository)
         {
             _participantesRepository = participantesRepository;
             _mapper = mapper;
@@ -32,6 +33,7 @@ namespace TrigonosEnergy.Controllers
             _pruebaRepo = pruebaRepo;
             _proyectosUserRepository = proyectosUserRepository;
             _factClRepository = factClRepository;
+            _agentsParticipantRepository = agentsParticipantRepository;
         }
        /// <summary>
        /// Obtener a los participantes de TRGNS o a todos los del CEN
@@ -205,6 +207,33 @@ namespace TrigonosEnergy.Controllers
             }
 
         
+        }
+        /// <summary>
+        /// Retorna los agentes asociados a un participante
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("AgentesDeParticipante")]
+        public async Task<ActionResult<Pagination<AgentsParticipantsDto>>> GetAgentesOfParticipants([FromQuery] AgentesSpecificationParams agentesParams)
+        {
+
+            var spec = new AgentesSpecification(agentesParams);
+            var specTotal = new AgentesSpecification(agentesParams.rutEmpresa);
+
+            var datos = await _agentsParticipantRepository.GetAllAsync(spec);
+            var datosTotal = await _agentsParticipantRepository.GetAllAsync(specTotal);
+            var rounded = Math.Ceiling(Convert.ToDecimal(datosTotal.Count() / agentesParams.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+            var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_AgentsOfParticipants>, IReadOnlyList<AgentsParticipantsDto>>(datos);
+            return Ok(
+                new Pagination<AgentsParticipantsDto>
+                {
+                    count = datosTotal.Count(),
+                    Data = maping,
+                    PageCount = totalPages + 1,
+                    PageIndex = agentesParams.PageIndex,
+                    PageSize = agentesParams.PageSize,
+                }
+                );
         }
         /// <summary>
         /// Retorna todos los si es de bluetree o es externo
