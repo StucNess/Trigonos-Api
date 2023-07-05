@@ -46,7 +46,8 @@ namespace TrigonosEnergyWebAPI.Controllers
             _context = context;
             _participantesRepository = participantesRepository;
         }
-
+        static TimeZoneInfo zonaHorariaChile = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
+        DateTime fechaHoraActualChile = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, zonaHorariaChile);
         [HttpGet]
         [Route("/excelHistory")]
         public async Task<ActionResult<IReadOnlyList<excelHistoryDto>>> excelHistory([FromQuery] excelHistoryParams parametros)
@@ -1169,6 +1170,189 @@ namespace TrigonosEnergyWebAPI.Controllers
             //    );
 
         }
+        [HttpPost("NominasDePago")]
+        public async Task<ActionResult> NominasDePago(int id, int bank, string excelName, List<Dictionary<string, object>> ListIdInstrucctions)
+        {
+            int conditional = 0;
+            var FechaPago = DateTime.UtcNow;
+            List<int> numberList = new List<int>();
+            var BDD = _context.Set<REACT_CEN_instructions_Def>()
+                .Where(e => e.Folio > 0 && e.Amount > 9 && e.Debtor == id);
+            if (bank == 4) // BCI
+            {
+                foreach (var i in ListIdInstrucctions)
+                {
+                    var Folio = int.Parse(i["N° Documento"].ToString());
+                    try
+                    {
+
+                        var RutAcreedor = i["Rut"].ToString().Substring(0, 7);
+                        var Glosa = i["Glosa"].ToString();
+                        var montoBruto = 1;
+                        try
+                        {
+                            montoBruto = int.Parse(i["Monto a pago"].ToString());
+                        }
+                        catch
+                        {
+                            montoBruto = int.Parse(i[" Monto a pago "].ToString());
+                        }
+                        try
+                        {
+                            try
+                            {
+                                FechaPago = Convert.ToDateTime(i["Fecha"].ToString().Substring(0, 10));
+                            }
+                            catch
+                            {
+                                var fechita = i["Fecha"].ToString().Substring(0, 10);
+                                FechaPago = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
+                            }
+                        }
+                        catch
+                        {
+                            FechaPago = DateTime.FromOADate(int.Parse(i["Fecha"].ToString()));
+                        };
+                        var item = BDD.Where(e => e.Payment_matrix_natural_key == Glosa && e.Participants_creditor.Rut.Contains(RutAcreedor) && e.Amount_Gross == montoBruto).Select(item => item.ID).ToList()[0];
+                        var bdPago = await _instruccionesDefRepository.GetByClienteIDAsync(item);
+                        if (conditional == 0)
+                        {
+                            if (bdPago.Debtor != id)
+                            {
+                                return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece al cliente seleccionado")));
+                            };
+                            conditional = 1;
+                        }
+                        bdPago.Is_paid = true;
+                        bdPago.Estado_pago = 2;
+                        bdPago.Fecha_pago = FechaPago;
+                        if (!await _instruccionesDefRepository.UpdateeAsync(bdPago))
+                        {
+                            return StatusCode(500);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        numberList.Add(Folio);
+                    }
+                }
+
+            }
+            else if (bank == 9) // SECURITY
+            {
+                foreach (var i in ListIdInstrucctions)
+                {
+                    var Folio = int.Parse(i["DETALLE"].ToString());
+                    try
+                    {
+                        var RutAcreedor = i["Rut"].ToString().Substring(0, 7);
+                        var item = BDD.Where(e => e.Participants_creditor.Rut.Contains(RutAcreedor) && e.Folio == Folio && e.Debtor == id).Select(item => item.ID).ToList()[0];
+                        var bdPago = await _instruccionesDefRepository.GetByClienteIDAsync(item);
+                        if (conditional == 0)
+                        {
+                            if (bdPago.Debtor != id)
+                            {
+                                return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece al cliente seleccionado")));
+                            };
+
+                            conditional = 1;
+                        }
+                        bdPago.Is_paid = true;
+                        bdPago.Estado_pago = 2;
+                        bdPago.Fecha_pago = FechaPago;
+                        if (!await _instruccionesDefRepository.UpdateeAsync(bdPago))
+                        {
+                            return StatusCode(500);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        numberList.Add(Folio);
+                    }
+                }
+
+            }
+            else if (bank == 7) //   SANTANDER
+            {
+
+                foreach (var i in ListIdInstrucctions)
+                {
+                    var Folio = int.Parse(i["N Factura 1"].ToString());
+                    try
+                    {
+                        var RutAcreedor = i["Rut Beneficiario"].ToString().Substring(0, 7);
+                        var item = BDD.Where(e => e.Participants_creditor.Rut.Contains(RutAcreedor) && e.Folio == Folio && e.Debtor == id).Select(item => item.ID).ToList()[0];
+                        var bdPago = await _instruccionesDefRepository.GetByClienteIDAsync(item);
+                        if (conditional == 0)
+                        {
+                            if (bdPago.Debtor != id)
+                            {
+                                return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece al cliente seleccionado")));
+                            };
+
+                            conditional = 1;
+                        }
+                        bdPago.Is_paid = true;
+                        bdPago.Estado_pago = 2;
+                        bdPago.Fecha_pago = FechaPago;
+                        if (!await _instruccionesDefRepository.UpdateeAsync(bdPago))
+                        {
+                            return StatusCode(500);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        numberList.Add(Folio);
+                    }
+                }
+            }
+            else
+            {
+                return NotFound(new CodeErrorResponse(400, String.Concat("Este cliente no tiene Facturador")));
+            }
+            if (numberList.Count > 0)
+            {
+                string lista = String.Join(",", numberList);
+                var excel = new REACT_TRGNS_Excel_History
+                {
+                    excelName = excelName,
+                    status = "ERROR",
+                    date = fechaHoraActualChile,
+                    idParticipant = id,
+                    type = "Nominas",
+                    description = String.Concat("Se actualizo todo menos las instrucciones con folio ", lista),
+
+                };
+
+                if (!await _excelHistoryRepository.SaveBD(excel))
+                {
+                    return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en ERROR"));
+                }
+
+                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con folio ", lista)));
+            }
+            else
+            {
+
+                var excel = new REACT_TRGNS_Excel_History
+                {
+                    excelName = excelName,
+                    status = "OK",
+                    date = fechaHoraActualChile,
+                    idParticipant = id,
+                    type = "Nominas",
+                    description = "SE AGREGO CORRECTAMENTE",
+
+                };
+
+                if (!await _excelHistoryRepository.SaveBD(excel))
+                {
+                    return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en OK"));
+                }
+                return Ok();
+            }
+
+        }
 
         [HttpPost("CuadreMasivoAcreedor")]
         public async Task<ActionResult> CuadreMasivoAcreedor(int id, string excelName, List<Dictionary<string, object>> ListIdInstrucctions)
@@ -1221,6 +1405,11 @@ namespace TrigonosEnergyWebAPI.Controllers
                     numberList.Add(int.Parse(i["id_instruccion"].ToString()));
                 }
             }
+
+
+            ///
+            ///FINAAAAAAL
+            ///
             if (numberList.Count > 0)
             {
                 string lista = String.Join(",", numberList);
@@ -1228,7 +1417,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 {
                     excelName = excelName,
                     status = "ERROR",
-                    date = DateTime.Now,
+                    date = fechaHoraActualChile,
                     idParticipant = id,
                     type = "Acreedor",
                     description = String.Concat("Se actualizo todo menos las instrucciones con id ", lista),
@@ -1239,7 +1428,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 {
                     return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en ERROR"));
                 }
-                
+
                 return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con id ", lista)));
             }
             else
@@ -1249,7 +1438,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 {
                     excelName = excelName,
                     status = "OK",
-                    date = DateTime.Now,
+                    date = fechaHoraActualChile,
                     idParticipant = id,
                     type = "Acreedor",
                     description = "SE AGREGO CORRECTAMENTE",
@@ -1264,78 +1453,70 @@ namespace TrigonosEnergyWebAPI.Controllers
             }
         }
         [HttpPost("ActualizarFacDeudor")]
-        public async Task<ActionResult> ActualizarFacDeudor(int id,string excelName, List<Dictionary<string, object>> ListIdInstrucctions)
+        public async Task<ActionResult> ActualizarFacDeudor(int id, string excelName, List<Dictionary<string, object>> ListIdInstrucctions)
         {
-            //CultureInfo europeanCulture = new CultureInfo("en-GB");
             List<int> numberList = new List<int>();
-            //List<int> idTrigonosList = new List<int>();
             var conditional = 0;
             var BDDTrigonos = _context.Set<REACT_TRGNS_PROYECTOS>()
                 .Where(e => e.vHabilitado == 1).Select(item => item.Id_participants).ToList();
-                foreach (var i in ListIdInstrucctions)
+            foreach (var i in ListIdInstrucctions)
+            {
+                try
+                {
+                    var bd = await _instruccionesDefRepository.GetByClienteIDAsync(int.Parse(i["ID Instruccion"].ToString()));
+                    if (conditional == 0)
+                    {
+                        if (bd.Debtor != id)
+                        {
+                            var clienteReal = _participantesRepository.GetByClienteIDAsync(id);
+                            //var clienteInst = bd.Debtor;
+                            return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece a ", clienteReal.Result.Business_Name)));
+                        };
+                        conditional = 1;
+                    }
+                    if (BDDTrigonos.Contains(int.Parse(bd.Creditor.ToString())))
+                    {
+                        bd.Estado_emision = 2;
+                        bd.Estado_recepcion = 1;
+                        bd.Estado_aceptacion = 1;
+                        bd.Fecha_aceptacion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
+                        bd.Fecha_emision = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
+                        bd.Fecha_recepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
+                        bd.Folio = int.Parse(i["Folio"].ToString());
+                    }
+                    else
+                    {
+                        bd.Estado_emision = 2;
+                        bd.Estado_recepcion = 1;
+                        bd.Estado_aceptacion = 1;
+                        bd.Fecha_aceptacion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10)); ;
+                        bd.Fecha_recepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10)); ;
+                        bd.Folio = int.Parse(i["Folio"].ToString()); ;
+                    }
+                    if (!await _instruccionesDefRepository.UpdateeAsync(bd))
+                    {
+                        return StatusCode(500);
+                    }
+                }
+                catch (Exception)
                 {
 
-                    try
-                    {
-                        var bd = await _instruccionesDefRepository.GetByClienteIDAsync(int.Parse(i["ID Instruccion"].ToString()));
-                        if (conditional == 0)
-                        {
-                            if (bd.Debtor != id)
-                            {
-                                var clienteReal = _participantesRepository.GetByClienteIDAsync(id);
-                                //var clienteInst = bd.Debtor;
-                                return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece a ", clienteReal.Result.Business_Name)));
-                            };
-                            conditional = 1;
-                        }
-                        if (BDDTrigonos.Contains(int.Parse(bd.Creditor.ToString())))
-                        {
-                            bd.Estado_emision = 2;
-                            bd.Estado_recepcion = 1;
-                            bd.Estado_aceptacion = 1;
-                            bd.Fecha_aceptacion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
-                            bd.Fecha_emision = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
-                            bd.Fecha_recepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
-                            bd.Folio = int.Parse(i["Folio"].ToString());
-                        }
-                        else
-                        {
-                            bd.Estado_emision = 2;
-                            bd.Estado_recepcion = 1;
-                            bd.Estado_aceptacion = 1;
-                            bd.Fecha_aceptacion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10)); ;
-                            bd.Fecha_recepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10)); ;
-                            bd.Folio = int.Parse(i["Folio"].ToString()); ;
-                        }
-                        //conditional = 1;
-                        if (!await _instruccionesDefRepository.UpdateeAsync(bd))
-                        {
-                            return StatusCode(500);
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        numberList.Add(int.Parse(i["ID Instruccion"].ToString()));
-                    }
-
+                    numberList.Add(int.Parse(i["ID Instruccion"].ToString()));
                 }
-
+            }
             if (numberList.Count > 0)
             {
                 string lista = String.Join(",", numberList);
-
                 var excel = new REACT_TRGNS_Excel_History
                 {
                     excelName = excelName,
                     status = "ERROR",
-                    date = DateTime.Now,
+                    date = fechaHoraActualChile,
                     idParticipant = id,
                     type = "Deudor",
                     description = String.Concat("Se actualizo todo menos las instrucciones con id ", lista),
 
                 };
-
                 if (!await _excelHistoryRepository.SaveBD(excel))
                 {
                     return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en ERROR"));
@@ -1348,7 +1529,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 {
                     excelName = excelName,
                     status = "OK",
-                    date = DateTime.Now,
+                    date = fechaHoraActualChile,
                     idParticipant = id,
                     type = "Deudor",
                     description = "SE AGREGO CORRECTAMENTE",
@@ -1361,7 +1542,6 @@ namespace TrigonosEnergyWebAPI.Controllers
                 }
                 return Ok();
             }
-            
         }
 
         [HttpPost("FacturacionMasiva")]
@@ -1370,6 +1550,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var conditional = 0;
             //List<string> listado = new List<string>();
             string pruebaa = "NADA";
+            var FechaEmisionAbastible = DateTime.UtcNow;
             List<int> numberList = new List<int>();
             var BDD = _context.Set<REACT_CEN_instructions_Def>()
                 .Where(e => e.Folio == 0 && e.Amount > 9 && e.Creditor == id);
@@ -1377,7 +1558,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             {
                 foreach (var i in ListIdInstrucctions)
                 {
-                    var FechaEmisionAbastible = DateTime.UtcNow;
+
                     var montoNetoAbastible = int.Parse(i["neto"].ToString());
                     try
                     {
@@ -1497,7 +1678,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                     {
                         var glosaNubox = i["Producto"].ToString();
                         try
-                        {           
+                        {
                             try
                             {
                                 FechaEmisionNubox = Convert.ToDateTime(i["Fecha Emision"].ToString().Substring(0, 10));
@@ -1554,7 +1735,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 {
                     excelName = excelName,
                     status = "ERROR",
-                    date = DateTime.Now,
+                    date = fechaHoraActualChile,
                     idParticipant = id,
                     type = "Facturacion Masiva",
                     description = String.Concat("Se actualizo todo menos las instrucciones con montoNeto ", lista),
@@ -1573,7 +1754,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 {
                     excelName = excelName,
                     status = "OK",
-                    date = DateTime.Now,
+                    date = fechaHoraActualChile,
                     idParticipant = id,
                     type = "Facturacion Masiva",
                     description = "SE AGREGO CORRECTAMENTE",
@@ -1585,14 +1766,14 @@ namespace TrigonosEnergyWebAPI.Controllers
                     return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en OK"));
                 }
                 return Ok();
-                
+
             }
-            
+
         }
         //[HttpPost("Agregar")]
         //public async Task<IActionResult> AgregarExcel([FromBody] agregarExcelDto agregarExcel)
         //{
-           
+
         //}
         [HttpPost("ActualizarEstEmision")]
         public async Task<ActionResult> ActualizarEstEmision(List<int?> ListIdInstrucctions, int estadoEmision)

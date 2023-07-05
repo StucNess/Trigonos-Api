@@ -21,7 +21,7 @@
                     context.Response.Headers.ContentLength = length;
                     return Task.CompletedTask;
                 });
-                await _next(context);
+                    await _next(context);
 
                 // If you want to read the body, uncomment these lines.
                 //context.Response.Body.Seek(0, SeekOrigin.Begin);

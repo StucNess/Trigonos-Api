@@ -13,6 +13,7 @@ namespace Core.Specifications.Relations
         public excelHistorySpecification(excelHistoryParams parametros):base(x=>
         !parametros.id.HasValue || x.idParticipant == parametros.id)
         {
+            AddOrderByDescending(p => p.date);
             ApplyPaging(parametros.PageSize * (parametros.PageIndex - 1), parametros.PageSize);
         }
     }
