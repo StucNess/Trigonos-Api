@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using TrigonosEnergy.DTO;
 using TrigonosEnergyWebAPI.DTO;
 using TrigonosEnergyWebAPI.Errors;
+using System.Text.RegularExpressions;
 
 namespace TrigonosEnergy.Controllers
 {
@@ -21,9 +22,10 @@ namespace TrigonosEnergy.Controllers
         private readonly IGenericRepository<REACT_TRGNS_UserProyects> _proyectosUserRepository;
         private readonly IGenericRepository<REACT_TRGNS_H_CEN_participants> _pruebaRepo;
         private readonly IGenericRepository<REACT_TRGNS_FACTCLDATA> _factClRepository;
+        private readonly IGenericRepository<REACT_TRGNS_AgentsOfParticipants> _agentsParticipantRepository;
 
         private readonly IMapper _mapper;
-        public ParticipantesController(IGenericRepository<REACT_CEN_Participants> participantesRepository, IMapper mapper, IGenericRepository<REACT_TRGNS_PROYECTOS> proyectosRepository,IGenericRepository<REACT_TRGNS_H_CEN_participants> pruebaRepo, IGenericRepository<REACT_TRGNS_UserProyects> proyectosUserRepository, IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository)
+        public ParticipantesController(IGenericRepository<REACT_CEN_Participants> participantesRepository, IGenericRepository<REACT_TRGNS_AgentsOfParticipants> agentsParticipantRepository, IMapper mapper, IGenericRepository<REACT_TRGNS_PROYECTOS> proyectosRepository,IGenericRepository<REACT_TRGNS_H_CEN_participants> pruebaRepo, IGenericRepository<REACT_TRGNS_UserProyects> proyectosUserRepository, IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository)
         {
             _participantesRepository = participantesRepository;
             _mapper = mapper;
@@ -31,6 +33,7 @@ namespace TrigonosEnergy.Controllers
             _pruebaRepo = pruebaRepo;
             _proyectosUserRepository = proyectosUserRepository;
             _factClRepository = factClRepository;
+            _agentsParticipantRepository = agentsParticipantRepository;
         }
        /// <summary>
        /// Obtener a los participantes de TRGNS o a todos los del CEN
@@ -116,6 +119,72 @@ namespace TrigonosEnergy.Controllers
             
         }
         /// <summary>
+        /// Cantidad de participantes
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("CantidadParticipantes")]
+        public async Task<ActionResult<int>> CantidadParticipantes()
+        {
+            var specCount = new ParticipantsForCountingSpecification();
+            var datos = await _participantesRepository.CountAsync(specCount);
+
+            if (datos == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return Ok(datos);
+            }
+
+
+        }
+        /// <summary>
+        /// Cantidad de proyectos
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("CantidadProyectos")]
+        public async Task<ActionResult<int>> CantidadProyectos()
+        {
+            var specCount = new ProyectosForCoutingSpec();
+            var datos = await _proyectosRepository.CountAsync(specCount);
+
+            if (datos == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return Ok(datos);
+            }
+
+
+        }
+        /// <summary>
+        /// Cantidad de participantes con facturacion cl
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("CantidadFactCl")]
+        public async Task<ActionResult<int>> CantidadFactCl()
+        {
+            var specCount = new FacturacionClForCoutingSpec();
+            var datos = await _factClRepository.CountAsync(specCount);
+
+            if (datos == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return Ok(datos);
+            }
+
+
+        }
+        /// <summary>
         /// Retorna si es de bluetree o es externo
         /// </summary>
         /// <returns></returns>
@@ -138,6 +207,33 @@ namespace TrigonosEnergy.Controllers
             }
 
         
+        }
+        /// <summary>
+        /// Retorna los agentes asociados a un participante
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("AgentesDeParticipante")]
+        public async Task<ActionResult<Pagination<AgentsParticipantsDto>>> GetAgentesOfParticipants([FromQuery] AgentesSpecificationParams agentesParams)
+        {
+
+            var spec = new AgentesSpecification(agentesParams);
+            var specTotal = new AgentesSpecification(agentesParams.rutEmpresa);
+
+            var datos = await _agentsParticipantRepository.GetAllAsync(spec);
+            var datosTotal = await _agentsParticipantRepository.GetAllAsync(specTotal);
+            var rounded = Math.Ceiling(Convert.ToDecimal(datosTotal.Count() / agentesParams.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+            var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_AgentsOfParticipants>, IReadOnlyList<AgentsParticipantsDto>>(datos);
+            return Ok(
+                new Pagination<AgentsParticipantsDto>
+                {
+                    count = datosTotal.Count(),
+                    Data = maping,
+                    PageCount = totalPages + 1,
+                    PageIndex = agentesParams.PageIndex,
+                    PageSize = agentesParams.PageSize,
+                }
+                );
         }
         /// <summary>
         /// Retorna todos los si es de bluetree o es externo
@@ -197,7 +293,44 @@ namespace TrigonosEnergy.Controllers
 
             if (busqueda == null)
             {
-                return NotFound(new CodeErrorResponse(404, "el proyecto no existe"));
+
+                //agregar a la bd si el id que trae es verdadero y esta en participantes
+
+
+                var participante = await _participantesRepository.GetByClienteIDAsync(actproyect.Id_participants);
+
+                if(participante != null)
+                {
+
+                    var newproyect = new REACT_TRGNS_PROYECTOS
+                    {
+                        Id_participants = actproyect.Id_participants,
+                        Erp = actproyect.Erp != null ? actproyect.Erp : 9,
+                        Group = 0,
+                        vHabilitado = actproyect.vHabilitado != null ? actproyect.vHabilitado : 0,
+                        Id_nomina_pago = actproyect.Id_nomina_pago != null ? actproyect.Id_nomina_pago : 4,
+
+
+
+                    };
+                  
+
+                    if (!await _proyectosRepository.SaveBD(newproyect))
+                    {
+                        return BadRequest(new CodeErrorResponse(500, "Error al agregar el proyecto"));
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return NotFound(new CodeErrorResponse(404, "el proyecto y el participante no existe "));
+                }
+                
+
+                
             }
             else
             {
@@ -205,7 +338,7 @@ namespace TrigonosEnergy.Controllers
                 var eliminar = lista.FirstOrDefault(i => i.IdParticipante == actproyect.Id_participants);
                 if(eliminar != null)
                 {
-                    if (actproyect.Erp != 5) //se elimina de la tabla de fact .cl debo consultar
+                    if (actproyect.Erp != 5 && actproyect.Erp != null )
                     {
                         try
                         {
