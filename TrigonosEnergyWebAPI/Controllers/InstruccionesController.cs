@@ -1289,7 +1289,6 @@ namespace TrigonosEnergyWebAPI.Controllers
                             {
                                 return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece al cliente seleccionado")));
                             };
-
                             conditional = 1;
                         }
                         bdPago.Is_paid = true;
