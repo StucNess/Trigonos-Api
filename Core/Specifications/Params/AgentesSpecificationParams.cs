@@ -8,7 +8,7 @@ namespace Core.Specifications.Params
 {
     public class AgentesSpecificationParams
     {
-        public string rutEmpresa { get; set; }
+        public string? rutEmpresa { get; set; }
         public int PageIndex { get; set; } = 1;
         private const int MaxPageSize = 1000;
         private int _pageSize = 3;

@@ -10171,19 +10171,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\neidr\\.nuget\\packages\\": {}
+    "C:\\Users\\Edgar\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\Gestion participantes mejora\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
       "projectName": "TrigonosEnergyWebAPI",
-      "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
-      "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\TrigonosEnergyWebAPI\\obj\\",
+      "projectPath": "C:\\Users\\Edgar\\source\\repos\\Gestion participantes mejora\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
+      "packagesPath": "C:\\Users\\Edgar\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Edgar\\source\\repos\\Gestion participantes mejora\\TrigonosAPI\\TrigonosEnergyWebAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Edgar\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10197,8 +10197,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
-              "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj"
+            "C:\\Users\\Edgar\\source\\repos\\Gestion participantes mejora\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
+              "projectPath": "C:\\Users\\Edgar\\source\\repos\\Gestion participantes mejora\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj"
             }
           }
         }
@@ -10287,7 +10287,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -209,31 +209,67 @@ namespace TrigonosEnergy.Controllers
         
         }
         /// <summary>
+        /// Retorna la cantidad de agentes en total
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("CantidadAgentes")]
+        public async Task<ActionResult<int>> GetAgentesTotal()
+        {
+            var spec = new AgentesSpecification();
+            var datos = await _agentsParticipantRepository.CountAsync(spec);
+            return Ok(datos);
+        }
+        /// <summary>
         /// Retorna los agentes asociados a un participante
         /// </summary>
         /// <returns></returns>
         [HttpGet("AgentesDeParticipante")]
         public async Task<ActionResult<Pagination<AgentsParticipantsDto>>> GetAgentesOfParticipants([FromQuery] AgentesSpecificationParams agentesParams)
         {
+            if (!string.IsNullOrEmpty(agentesParams.rutEmpresa))
+            {
+                var spec = new AgentesSpecification(agentesParams);
+                var specTotal = new AgentesSpecification(agentesParams.rutEmpresa);
 
-            var spec = new AgentesSpecification(agentesParams);
-            var specTotal = new AgentesSpecification(agentesParams.rutEmpresa);
+                var datos = await _agentsParticipantRepository.GetAllAsync(spec);
+                var datosTotal = await _agentsParticipantRepository.GetAllAsync(specTotal);
+                var rounded = Math.Ceiling(Convert.ToDecimal(datosTotal.Count() / agentesParams.PageSize));
+                var totalPages = Convert.ToInt32(rounded);
+                var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_AgentsOfParticipants>, IReadOnlyList<AgentsParticipantsDto>>(datos);
+                return Ok(
+                    new Pagination<AgentsParticipantsDto>
+                    {
+                        count = datosTotal.Count(),
+                        Data = maping,
+                        PageCount = totalPages + 1,
+                        PageIndex = agentesParams.PageIndex,
+                        PageSize = agentesParams.PageSize,
+                    }
+                    );
+            }
+            else
+            {
+                var spec = new AgentesSpecification(agentesParams);
+                var specTotal = new AgentesSpecification();
 
-            var datos = await _agentsParticipantRepository.GetAllAsync(spec);
-            var datosTotal = await _agentsParticipantRepository.GetAllAsync(specTotal);
-            var rounded = Math.Ceiling(Convert.ToDecimal(datosTotal.Count() / agentesParams.PageSize));
-            var totalPages = Convert.ToInt32(rounded);
-            var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_AgentsOfParticipants>, IReadOnlyList<AgentsParticipantsDto>>(datos);
-            return Ok(
-                new Pagination<AgentsParticipantsDto>
-                {
-                    count = datosTotal.Count(),
-                    Data = maping,
-                    PageCount = totalPages + 1,
-                    PageIndex = agentesParams.PageIndex,
-                    PageSize = agentesParams.PageSize,
-                }
-                );
+
+                var datos = await _agentsParticipantRepository.GetAllAsync(spec);
+                var datosTotal = await _agentsParticipantRepository.CountAsync(specTotal);
+                var rounded = Math.Ceiling(Convert.ToDecimal(datosTotal / agentesParams.PageSize));
+                var totalPages = Convert.ToInt32(rounded);
+                var maping = _mapper.Map<IReadOnlyList<REACT_TRGNS_AgentsOfParticipants>, IReadOnlyList<AgentsParticipantsDto>>(datos);
+                return Ok(
+                    new Pagination<AgentsParticipantsDto>
+                    {
+                        count = datosTotal,
+                        Data = maping,
+                        PageCount = totalPages + 1,
+                        PageIndex = agentesParams.PageIndex,
+                        PageSize = agentesParams.PageSize,
+                    }
+                    );
+            }
+           
         }
         /// <summary>
         /// Retorna todos los si es de bluetree o es externo
