@@ -133,7 +133,7 @@
             </summary>M
             <returns></returns>
         </member>
-        <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.GetNumUsers(Core.Specifications.Params.UsuarioSpecificationParams)">
+        <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.GetNumUsers">
             <summary>
             Retorna el numero de usuarios
             </summary>

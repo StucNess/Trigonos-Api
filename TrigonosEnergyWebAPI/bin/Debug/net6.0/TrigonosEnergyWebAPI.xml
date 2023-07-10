@@ -133,9 +133,9 @@
             </summary>M
             <returns></returns>
         </member>
-        <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.GetNumUsers(Core.Specifications.Params.UsuarioSpecificationParams)">
+        <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.GetNumUsers">
             <summary>
-            Devulve a todos los usuarios
+            Retorna el numero de usuarios
             </summary>
             <param name="usuarioParams"></param>
             <returns></returns>

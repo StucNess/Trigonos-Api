@@ -93,6 +93,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             var currentRol = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
             var id = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == "ID")?.Value;
 
+
             if (currentRol == "Administrador" || currentRol == "Admin Jefe")
             {
                 var spec = new UsuarioSpecification(currentRol, id);
