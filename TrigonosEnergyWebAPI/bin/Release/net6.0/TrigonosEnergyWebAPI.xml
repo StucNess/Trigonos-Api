@@ -133,6 +133,13 @@
             </summary>M
             <returns></returns>
         </member>
+        <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.GetNumUsers(Core.Specifications.Params.UsuarioSpecificationParams)">
+            <summary>
+            Retorna el numero de usuarios
+            </summary>
+            <param name="usuarioParams"></param>
+            <returns></returns>
+        </member>
         <member name="M:TrigonosEnergyWebAPI.Controllers.UsuariosController.GetUsuarios(Core.Specifications.Params.UsuarioSpecificationParams)">
             <summary>
             Devulve a todos los usuarios
@@ -218,6 +225,12 @@
         <member name="M:TrigonosEnergy.Controllers.ParticipantesController.ProyectosById(System.Int32)">
             <summary>
             Retorna si es de bluetree o es externo
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.GetAgentesTotal">
+            <summary>
+            Retorna la cantidad de agentes en total
             </summary>
             <returns></returns>
         </member>

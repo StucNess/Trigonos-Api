@@ -87,7 +87,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet("NumUsuarios")]
-        public async Task<ActionResult<int>> GetNumUsers([FromQuery] UsuarioSpecificationParams usuarioParams)
+        public async Task<ActionResult<int>> GetNumUsers()
         {
 
             var currentRol = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
