@@ -221,6 +221,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.GetAgentesOfParticipants(Core.Specifications.Params.AgentesSpecificationParams)">
+            <summary>
+            Retorna los agentes asociados a un participante
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:TrigonosEnergy.Controllers.ParticipantesController.GetAllProyectos">
             <summary>
             Retorna todos los si es de bluetree o es externo

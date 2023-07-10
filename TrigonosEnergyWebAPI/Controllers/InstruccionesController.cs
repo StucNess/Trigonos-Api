@@ -8,16 +8,21 @@ using Core.Specifications.Counting;
 using Core.Specifications.Params;
 using Core.Specifications.Relations;
 using LogicaTrigonos.Data;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using System.Xml;
 using TrigonosEnergy.Controllers;
 using TrigonosEnergyWebAPI.DTO;
 using TrigonosEnergyWebAPI.Errors;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
@@ -30,12 +35,13 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly IGenericRepository<REACT_CEN_payment_matrices> _matricesRepository;
         private readonly IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> _historificacionInstruccionesRepository;
         private readonly IGenericRepository<REACT_CEN_Participants> _participantesRepository;
+        private readonly IGenericRepository<REACT_TRGNS_FACTCLDATA> _factClRepository;
 
         private readonly IGenericRepository<REACT_TRGNS_Excel_History> _excelHistoryRepository;
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
         private readonly TrigonosDBContext _context;
-        public InstruccionesController(IGenericRepository<REACT_CEN_Participants> participantesRepository, TrigonosDBContext context, IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository, IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository, IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
+        public InstruccionesController(IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository,IGenericRepository<REACT_CEN_Participants> participantesRepository, TrigonosDBContext context, IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository, IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository, IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
             _mapper = mapper;
@@ -45,9 +51,15 @@ namespace TrigonosEnergyWebAPI.Controllers
             _excelHistoryRepository = excelHistoryRepository;
             _context = context;
             _participantesRepository = participantesRepository;
+            _factClRepository = factClRepository;
         }
         static TimeZoneInfo zonaHorariaChile = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
         DateTime fechaHoraActualChile = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, zonaHorariaChile);
+        string DecodeToString(string input)
+        {
+            var output = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(input));
+            return output;
+        }
         [HttpGet]
         [Route("/excelHistory")]
         public async Task<ActionResult<IReadOnlyList<excelHistoryDto>>> excelHistory([FromQuery] excelHistoryParams parametros)
@@ -1767,6 +1779,366 @@ namespace TrigonosEnergyWebAPI.Controllers
                 return Ok();
 
             }
+
+        }
+
+        [HttpPost("FacturacionCL")]
+        public async Task<ActionResult> FacturacionCL(int id, List<int> ListIdInstrucctions)
+
+
+        {
+            var FechaHoy = DateTime.UtcNow;
+            foreach  (var i in ListIdInstrucctions)
+            {
+                //var encodeList = await _factClRepository.GetAllAsync();
+                //var busqueda = encodeList.FirstOrDefault(i => i.IdParticipante == id);
+
+                //if (busqueda == null)
+                //{
+                //    return NotFound(new CodeErrorResponse(404, "la facturacion no existe"));
+                //}
+                //else
+                //{
+                //    return new FacturacionClDto
+                //    {
+                //        ID = busqueda.ID,
+                //        IdParticipante = busqueda.IdParticipante,
+                //        Usuario64 = busqueda.Usuario64 != null ? DecodeToString(busqueda.Usuario64) : null,
+                //        RUT64 = busqueda.RUT64 != null ? DecodeToString(busqueda.RUT64) : null,
+                //        Clave64 = busqueda.Clave64 != null ? DecodeToString(busqueda.Clave64) : null,
+                //        Puerto64 = busqueda.Puerto64 != null ? DecodeToString(busqueda.Puerto64) : null,
+                //        IncluyeLink64 = busqueda.IncluyeLink64 != null ? DecodeToString(busqueda.IncluyeLink64) : null,
+                //        UsuarioTest = busqueda.UsuarioTest != null ? DecodeToString(busqueda.UsuarioTest) : null,
+                //        ClaveTest = busqueda.ClaveTest != null ? DecodeToString(busqueda.ClaveTest) : null,
+                //        RutTest = busqueda.RutTest != null ? DecodeToString(busqueda.RutTest) : null,
+                //        Phabilitado = busqueda.Phabilitado,
+                //    };
+                //}
+                //DATOS INSTRUCCION
+
+                var instrucción = _context.Set<REACT_CEN_instructions_Def>()
+                .Where(e => e.ID == i)
+                .Include(p => p.CEN_dte_acceptance_status)
+                .Include(p => p.TRGNS_dte_reception_status)
+                .Include(p => p.CEN_payment_status_type)
+                .Include(p => p.CEN_billing_status_type)
+                .Include(p => p.cEN_Payment_Matrices.CEN_billing_windows)
+                .Include(p => p.cEN_Payment_Matrices)
+                .Include(p => p.Participants_creditor)
+                .Include(p => p.Participants_debtor)
+                .ToList();
+                
+                var folio = instrucción[0].Folio;
+                var montoNeto = instrucción[0].Amount;
+                var montoBruto = instrucción[0].Amount_Gross;
+                var concepto = instrucción[0].Payment_matrix_concept;
+                var codigoReferencia = instrucción[0].cEN_Payment_Matrices.Reference_code;
+                var fechaCarta = instrucción[0].cEN_Payment_Matrices.Publish_date;
+
+                //DATOS ACREEDOR
+                var rutAcreedor = instrucción[0].Participants_creditor.Rut + '-' + instrucción[0].Participants_creditor.Verification_Code;
+                var nombreComercialAcreedor = instrucción[0].Participants_creditor.Business_Name;
+                var giroAcreedor = instrucción[0].Participants_creditor.Commercial_Business;
+                var direccionComercialAcreedor = instrucción[0].Participants_creditor.Commercial_address;
+                //DATOS DEUDOR
+                var rutDeudor = instrucción[0].Participants_debtor.Rut + '-' + instrucción[0].Participants_creditor.Verification_Code;
+                var nombreComercialDeudor = instrucción[0].Participants_debtor.Business_Name;
+                var giroDeudor = instrucción[0].Participants_debtor.Commercial_Business;
+                var direccionComercialDeudor = instrucción[0].Participants_debtor.Commercial_address;
+                //DATA DE ENCABEZADO
+                Dictionary<string, object> item = new Dictionary<string, object>();
+                item.Add("tipoDTE", 33);
+                item.Add("foliod", folio);
+                item.Add("fechaEmision", DateTime.Today.ToString("yyyyy-MM-dd"));
+                item.Add("tpoTranVenta", 1);
+                item.Add("fmaPago", 2);
+                //EMISOR
+                item.Add("rutacreedor", rutAcreedor);
+                item.Add("rznSoc", nombreComercialAcreedor);
+                item.Add("GiroEmis", giroAcreedor);
+                item.Add("CorreoEmisor", "hvits@pelicanosolar.cl");
+                item.Add("Acteco", 351019);
+                item.Add("dirOrigen", direccionComercialAcreedor);
+                item.Add("CmunaOrigen", "Las Condes");
+                item.Add("CiudadOrigen", "Santiago");
+                //RECEPTOR
+                item.Add("rutDebtor", rutDeudor);
+                item.Add("RznSocRecep", nombreComercialDeudor);
+                item.Add("GiroRecep", giroDeudor);
+                item.Add("dirDestino", direccionComercialDeudor);
+                item.Add("CmunaDestino", "Santiago");
+                item.Add("ciudadreceptor", "Santiago");
+                //TOTALES
+                item.Add("MntoNeto",montoNeto);
+                item.Add("MntoExento", 0);
+                item.Add("tazaIva", 19);
+                item.Add("IVA", "");
+                item.Add("MntoBruto", montoBruto);
+                //DETALLE
+                item.Add("NroLinDet", 1);
+                item.Add("tipoCodigo", "INT1");
+                item.Add("VlrCodigo", 0);
+                item.Add("NmbItem", concepto);
+                item.Add("QtyItem", "1");
+                item.Add("UnmdItem", "UN");
+                item.Add("PrcItem", montoNeto);
+                item.Add("MontoItem", montoNeto);
+                //REFERENCIAS
+                item.Add("NroLinRef", 1);
+                item.Add("TpoDocRef", 802);
+                item.Add("FolioReferencia", codigoReferencia);
+                item.Add("FechaRef", fechaCarta);
+                item.Add("RazonDIF", concepto);
+
+
+                XmlDocument doc = new XmlDocument();
+                //Creacion XML
+                XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "ISO-8859-1", null);
+                XmlElement root = doc.DocumentElement;
+                doc.InsertBefore(xmlDeclaration, root);
+
+                XmlElement ElementoDTE = doc.CreateElement(string.Empty, "DTE", string.Empty);
+                doc.AppendChild(ElementoDTE);
+
+                XmlElement ElementoDocumento = doc.CreateElement(string.Empty, "Documento", string.Empty);
+                ElementoDTE.AppendChild(ElementoDocumento);
+
+                XmlElement elementodteV =
+                    doc.CreateElement(string.Empty, "Encabezado", string.Empty);
+                ElementoDocumento.AppendChild(elementodteV);
+
+                XmlElement element2 = doc.CreateElement(string.Empty, "IdDoc", string.Empty);
+                elementodteV.AppendChild(element2);
+
+                XmlElement elementTipoDTE = doc.CreateElement(string.Empty, "TipoDTE", string.Empty);
+                XmlText tipoDTE = doc.CreateTextNode(Convert.ToString(item["tipoDTE"]));
+                elementTipoDTE.AppendChild(tipoDTE);
+                element2.AppendChild(elementTipoDTE);
+
+                XmlElement elementFolio = doc.CreateElement(string.Empty, "Folio", string.Empty);
+                XmlText Folio = doc.CreateTextNode(Convert.ToString(item["foliod"]));
+                elementFolio.AppendChild(Folio);
+                element2.AppendChild(elementFolio);
+
+                XmlElement elementFchEmis = doc.CreateElement(string.Empty, "FchEmis", string.Empty);
+                XmlText FechaEmision = doc.CreateTextNode(Convert.ToString(item["fechaEmision"]));
+                elementFchEmis.AppendChild(FechaEmision);
+                element2.AppendChild(elementFchEmis);
+
+                XmlElement elementTpoTransVenta = doc.CreateElement(string.Empty, "TpoTranVenta", string.Empty);
+                XmlText TpoTransVenta = doc.CreateTextNode(Convert.ToString(item["tpoTranVenta"]));
+                elementTpoTransVenta.AppendChild(TpoTransVenta);
+                element2.AppendChild(elementTpoTransVenta);
+
+                XmlElement elementTermPagoGlosa = doc.CreateElement(string.Empty, "TermPagoGlosa", string.Empty);
+                XmlText FmaPago = doc.CreateTextNode(Convert.ToString(item["fmaPago"]));
+                elementTermPagoGlosa.AppendChild(FmaPago);
+                element2.AppendChild(elementTermPagoGlosa);
+
+                //EMISOR
+                XmlElement elementEmisor = doc.CreateElement(string.Empty, "Emisor", string.Empty);
+                elementodteV.AppendChild(elementEmisor);
+
+                XmlElement elementRutEmisor = doc.CreateElement(string.Empty, "RUTEmisor", string.Empty);
+                XmlText RUTEmisor = doc.CreateTextNode(Convert.ToString(item["rutacreedor"]));
+                elementRutEmisor.AppendChild(RUTEmisor);
+                elementEmisor.AppendChild(elementRutEmisor);
+
+                XmlElement elementRznSocial = doc.CreateElement(string.Empty, "RznSoc", string.Empty);
+                XmlText RznSoc = doc.CreateTextNode(Convert.ToString(item["rznSoc"]));
+                elementRznSocial.AppendChild(RznSoc);
+                elementEmisor.AppendChild(elementRznSocial);
+
+                XmlElement elementGiro = doc.CreateElement(string.Empty, "GiroEmis", string.Empty);
+                XmlText GiroEmis = doc.CreateTextNode(Convert.ToString(item["GiroEmis"]));
+                elementGiro.AppendChild(GiroEmis);
+                elementEmisor.AppendChild(elementGiro);
+
+                XmlElement elementCorreoEmisor = doc.CreateElement(string.Empty, "CorreoEmisor", string.Empty);
+                XmlText CorreoEmisor = doc.CreateTextNode(Convert.ToString(item["CorreoEmisor"]));
+                elementCorreoEmisor.AppendChild(CorreoEmisor);
+                elementEmisor.AppendChild(elementCorreoEmisor);
+
+
+                XmlElement elementActeco = doc.CreateElement(string.Empty, "Acteco", string.Empty);
+                XmlText Acteco = doc.CreateTextNode(Convert.ToString(item["Acteco"]));
+                elementActeco.AppendChild(Acteco);
+                elementEmisor.AppendChild(elementActeco);
+
+
+                XmlElement elementDirOrigen = doc.CreateElement(string.Empty, "DirOrigen", string.Empty);
+                XmlText DirOrigen = doc.CreateTextNode(Convert.ToString(item["dirOrigen"]));
+                elementDirOrigen.AppendChild(DirOrigen);
+                elementEmisor.AppendChild(elementDirOrigen);
+
+                XmlElement elementCmnaOrigen = doc.CreateElement(string.Empty, "CmnaOrigen", string.Empty);
+                XmlText CmnaOrigen = doc.CreateTextNode(Convert.ToString(item["CmunaOrigen"]));
+                elementCmnaOrigen.AppendChild(CmnaOrigen);
+                elementEmisor.AppendChild(elementCmnaOrigen);
+
+                XmlElement elementCiudadOrigen = doc.CreateElement(string.Empty, "CiudadOrigen", string.Empty);
+                XmlText CiudadOrigen = doc.CreateTextNode(Convert.ToString(item["CiudadOrigen"]));
+                elementCiudadOrigen.AppendChild(CiudadOrigen);
+                elementEmisor.AppendChild(elementCiudadOrigen);
+
+                //Receptor
+                XmlElement elementReceptor = doc.CreateElement(string.Empty, "Receptor", string.Empty);
+                elementodteV.AppendChild(elementReceptor);
+
+                XmlElement element15 = doc.CreateElement(string.Empty, "RUTRecep", string.Empty);
+                XmlText RUTRecep = doc.CreateTextNode(Convert.ToString(item["rutDebtor"]));
+                element15.AppendChild(RUTRecep);
+                elementReceptor.AppendChild(element15);
+
+                XmlElement element16 = doc.CreateElement(string.Empty, "RznSocRecep", string.Empty);
+                XmlText RznSocRecep = doc.CreateTextNode(Convert.ToString(item["RznSocRecep"]));
+                element16.AppendChild(RznSocRecep);
+                elementReceptor.AppendChild(element16);
+
+                XmlElement element17 = doc.CreateElement(string.Empty, "GiroRecep", string.Empty);
+                XmlText GiroRecep = doc.CreateTextNode(Convert.ToString(item["GiroRecep"]));
+                element17.AppendChild(GiroRecep);
+                elementReceptor.AppendChild(element17);
+
+                XmlElement element18 = doc.CreateElement(string.Empty, "DirRecep", string.Empty);
+                XmlText DirRecep = doc.CreateTextNode(Convert.ToString(item["dirDestino"]));
+                element18.AppendChild(DirRecep);
+                elementReceptor.AppendChild(element18);
+
+                XmlElement element19 = doc.CreateElement(string.Empty, "CmnaRecep", string.Empty);
+                XmlText CmnaRecep = doc.CreateTextNode(Convert.ToString(item["CmunaDestino"]));
+                element19.AppendChild(CmnaRecep);
+                elementReceptor.AppendChild(element19);
+
+                XmlElement elementRecep = doc.CreateElement(string.Empty, "CiudadRecep", string.Empty);
+                XmlText CiudadRecep = doc.CreateTextNode(Convert.ToString(item["ciudadreceptor"]));
+                elementRecep.AppendChild(CiudadRecep);
+                elementReceptor.AppendChild(elementRecep);
+
+                XmlElement elementTotales = doc.CreateElement(string.Empty, "Totales", string.Empty);
+                elementodteV.AppendChild(elementTotales);
+
+                XmlElement elementMntNeto = doc.CreateElement(string.Empty, "MntNeto", string.Empty);
+                XmlText MntNeto = doc.CreateTextNode(Convert.ToString(item["MntoNeto"]));
+                elementMntNeto.AppendChild(MntNeto);
+                elementTotales.AppendChild(elementMntNeto);
+
+                XmlElement elementMntExe = doc.CreateElement(string.Empty, "MntExe", string.Empty);
+                XmlText MntExe = doc.CreateTextNode(Convert.ToString(item["MntoExento"]));
+                elementMntExe.AppendChild(MntExe);
+                elementTotales.AppendChild(elementMntExe);
+
+                XmlElement element22 = doc.CreateElement(string.Empty, "TasaIVA", string.Empty);
+                XmlText TasaIVA = doc.CreateTextNode(Convert.ToString(item["tazaIva"]));
+                element22.AppendChild(TasaIVA);
+                elementTotales.AppendChild(element22);
+
+                //Calculo de IVA
+                var MontoNetov2 = item["MntoNeto"];
+                var ivav2 = Math.Round(Convert.ToInt32(MontoNetov2) * 0.19);
+
+                XmlElement element23 = doc.CreateElement(string.Empty, "IVA", string.Empty);
+                XmlText IVA = doc.CreateTextNode(Convert.ToString(ivav2));
+                element23.AppendChild(IVA);
+                elementTotales.AppendChild(element23);
+
+                XmlElement element24 = doc.CreateElement(string.Empty, "MntTotal", string.Empty);
+                XmlText MntTotal = doc.CreateTextNode(Convert.ToString(item["MntoBruto"]));
+                element24.AppendChild(MntTotal);
+                elementTotales.AppendChild(element24);
+
+                //Detalle Fuera de Encabezado
+                XmlElement elementoDetalle =
+                doc.CreateElement(string.Empty, "Detalle", string.Empty);
+                ElementoDocumento.AppendChild(elementoDetalle);
+
+                XmlElement element25 = doc.CreateElement(string.Empty, "NroLinDet", string.Empty);
+                XmlText NroLinDet = doc.CreateTextNode(Convert.ToString(item["NroLinDet"]));
+                element25.AppendChild(NroLinDet);
+                elementoDetalle.AppendChild(element25);
+
+                //SubElemento
+                XmlElement elementoCodItem = doc.CreateElement(string.Empty, "CdgItem", string.Empty);
+                elementoDetalle.AppendChild(elementoCodItem);
+
+                XmlElement elementTpoCodigo = doc.CreateElement(string.Empty, "TpoCodigo", string.Empty);
+                XmlText TpoCodigo = doc.CreateTextNode(Convert.ToString(item["tipoCodigo"]));
+                elementTpoCodigo.AppendChild(TpoCodigo);
+                elementoCodItem.AppendChild(elementTpoCodigo);
+
+                XmlElement elementVlrCodigo = doc.CreateElement(string.Empty, "VlrCodigo", string.Empty);
+                XmlText VlrCodigo = doc.CreateTextNode(Convert.ToString(item["VlrCodigo"]));
+                elementVlrCodigo.AppendChild(VlrCodigo);
+                elementoCodItem.AppendChild(elementVlrCodigo);
+                //FIN SUB Elemento
+
+                XmlElement element26 = doc.CreateElement(string.Empty, "NmbItem", string.Empty);
+                XmlText NmbItem = doc.CreateTextNode(Convert.ToString(item["NmbItem"]));
+                element26.AppendChild(NmbItem);
+                elementoDetalle.AppendChild(element26);
+
+                XmlElement element27d = doc.CreateElement(string.Empty, "QtyItem", string.Empty);
+                XmlText QtyItem2 = doc.CreateTextNode(Convert.ToString(item["QtyItem"]));
+                element27d.AppendChild(QtyItem2);
+                elementoDetalle.AppendChild(element27d);
+
+                XmlElement elementUnmdItem = doc.CreateElement(string.Empty, "UnmdItem", string.Empty);
+                XmlText UnmdItem = doc.CreateTextNode(Convert.ToString(item["UnmdItem"]));
+                elementUnmdItem.AppendChild(UnmdItem);
+                elementoDetalle.AppendChild(elementUnmdItem);
+
+                XmlElement element28 = doc.CreateElement(string.Empty, "PrcItem", string.Empty);
+                XmlText PrcItem = doc.CreateTextNode(Convert.ToString(item["MontoItem"]));
+                element28.AppendChild(PrcItem);
+                elementoDetalle.AppendChild(element28);
+
+                XmlElement element29 = doc.CreateElement(string.Empty, "MontoItem", string.Empty);
+                XmlText MontoItem = doc.CreateTextNode(Convert.ToString(item["MontoItem"]));
+                element29.AppendChild(MontoItem);
+                elementoDetalle.AppendChild(element29);
+
+                //Referencia
+                XmlElement elementoReferencia = doc.CreateElement(string.Empty, "Referencia", string.Empty);
+                ElementoDocumento.AppendChild(elementoReferencia);
+
+                XmlElement element30 = doc.CreateElement(string.Empty, "NroLinRef", string.Empty);
+                XmlText NroLinRef = doc.CreateTextNode(Convert.ToString(item["NroLinRef"]));
+                element30.AppendChild(NroLinRef);
+                elementoReferencia.AppendChild(element30);
+
+                XmlElement element31 = doc.CreateElement(string.Empty, "TpoDocRef", string.Empty);
+                XmlText TpoDocRef = doc.CreateTextNode(Convert.ToString(item["TpoDocRef"]));
+                element31.AppendChild(TpoDocRef);
+                elementoReferencia.AppendChild(element31);
+
+
+                XmlElement element32 = doc.CreateElement(string.Empty, "FolioRef", string.Empty);
+                XmlText FolioRef = doc.CreateTextNode(Convert.ToString(item["FolioReferencia"]));
+                element32.AppendChild(FolioRef);
+                elementoReferencia.AppendChild(element32);
+
+                XmlElement element33 = doc.CreateElement(string.Empty, "FchRef", string.Empty);
+                XmlText FchRef = doc.CreateTextNode(Convert.ToString(item["FechaRef"]));
+                element33.AppendChild(FchRef);
+                elementoReferencia.AppendChild(element33);
+
+                XmlElement element34 = doc.CreateElement(string.Empty, "RazonRef", string.Empty);
+                XmlText RazonRef = doc.CreateTextNode(Convert.ToString(item["RazonDIF"]));
+                element34.AppendChild(RazonRef);
+                elementoReferencia.AppendChild(element34);
+                //string rutaArchivo = Path.Combine(MapPath("/" + item["rutacreedor"] + "/" + item["rutacreedor"] + "_" + id + "_" + item["foliod"] + ".xml"));
+                //File.WriteAllBytes(@"E:\Folder\"+ fileName, Convert.FromBase64String(Base64String));
+                string filePath = "C:/Users/neidr/Desktop/TRGNS/file.xml";
+            
+                doc.Save(filePath);
+
+
+            }
+
+
+
+
+            return Ok();
 
         }
         //[HttpPost("Agregar")]
