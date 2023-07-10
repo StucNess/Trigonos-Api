@@ -77,6 +77,15 @@ namespace Core.Specifications.Relations
                 }
             }
         }
+        public UsuarioSpecification( string rol, string id)
+       : base(x =>
+       ((x.Role != rol && x.Id != id) || x.Id == id) && (rol == "Administrador" ? x.Role != "Admin Jefe" : x.Role == x.Role)
+
+       )
+        {
+
+           
+        }
 
 
     }
