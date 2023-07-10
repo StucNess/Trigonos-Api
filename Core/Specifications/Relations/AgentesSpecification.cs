@@ -30,5 +30,11 @@ namespace Core.Specifications.Relations
         {
           
         }
+        public AgentesSpecification()
+        {
+          
+        }
+
+       
     }
 }

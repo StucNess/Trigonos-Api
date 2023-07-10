@@ -221,6 +221,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:TrigonosEnergy.Controllers.ParticipantesController.GetAgentesTotal">
+            <summary>
+            Retorna la cantidad de agentes en total
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:TrigonosEnergy.Controllers.ParticipantesController.GetAgentesOfParticipants(Core.Specifications.Params.AgentesSpecificationParams)">
             <summary>
             Retorna los agentes asociados a un participante
