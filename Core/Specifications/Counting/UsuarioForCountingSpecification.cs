@@ -12,7 +12,7 @@ namespace Core.Specifications.Counting
     {
         public UsuarioForCountingSpecification(UsuarioSpecificationParams usuarioParams)
          : base(x =>
-        (string.IsNullOrEmpty(usuarioParams.Search) || x.Nombre.Contains(usuarioParams.Search)) &&
+        (string.IsNullOrEmpty(usuarioParams.Search) || x.Nombre.Contains(usuarioParams.Search) || x.Apellido.Contains(usuarioParams.Search) || x.Email.Contains(usuarioParams.Search) || x.Role.Contains(usuarioParams.Search) || x.Pais.Contains(usuarioParams.Search)) &&
         (string.IsNullOrEmpty(usuarioParams.Nombre) || x.Nombre.Contains(usuarioParams.Nombre)) &&
         (string.IsNullOrEmpty(usuarioParams.Apellido) || x.Apellido.Contains(usuarioParams.Apellido))
 

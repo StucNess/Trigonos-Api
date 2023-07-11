@@ -45,14 +45,14 @@ namespace Core.Specifications.Relations
         }
         public UsuarioSpecification(UsuarioSpecificationParams usuarioParams, string rol,string id)
         : base(x =>
-        (string.IsNullOrEmpty(usuarioParams.Search) || x.Nombre.Contains(usuarioParams.Search)) &&
+        (string.IsNullOrEmpty(usuarioParams.Search) || x.Nombre.Contains(usuarioParams.Search) || x.Apellido.Contains(usuarioParams.Search) || x.Email.Contains(usuarioParams.Search) || x.Role.Contains(usuarioParams.Search) || x.Pais.Contains(usuarioParams.Search)) &&
         (string.IsNullOrEmpty(usuarioParams.Nombre) || x.Nombre.Contains(usuarioParams.Nombre)) &&
         (string.IsNullOrEmpty(usuarioParams.Apellido) || x.Apellido.Contains(usuarioParams.Apellido)) &&
         ((x.Role != rol && x.Id != id) || x.Id == id)   &&  (rol == "Administrador" ? x.Role != "Admin Jefe": x.Role == x.Role)
 
         )
         {
-
+            
             ApplyPaging(usuarioParams.PageSize * (usuarioParams.PageIndex - 1), usuarioParams.PageSize);
             if (string.IsNullOrEmpty(usuarioParams.Sort))
             {
