@@ -252,6 +252,10 @@ namespace TrigonosEnergy.DTO
                .ForMember(d => d.label, x => x.MapFrom(a => a.cEN_Payment_Matrices.Publish_date));
             CreateMap<REACT_CEN_instructions_Def, CodRefMapper>()
                .ForMember(d => d.label, x => x.MapFrom(a => a.cEN_Payment_Matrices.Reference_code));
+            CreateMap<REACT_CEN_instructions_Def, FiltroCCCDto>()
+            .ForMember(d => d.concepto, x => x.MapFrom(a => a.Payment_matrix_natural_key))
+            .ForMember(d => d.codref, x => x.MapFrom(a => a.cEN_Payment_Matrices.Reference_code))
+            .ForMember(d => d.carta, x => x.MapFrom(a => a.cEN_Payment_Matrices.Publish_date));
             CreateMap<REACT_TRGNS_PROYECTOS, TrgnsProyectosDto>()
              .ForMember(d => d.ID, x => x.MapFrom(a => a.ID))
              .ForMember(d => d.Id_participants, x => x.MapFrom(a => a.Id_participants))

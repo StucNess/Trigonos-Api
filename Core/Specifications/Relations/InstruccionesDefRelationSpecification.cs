@@ -210,7 +210,7 @@ namespace Core.Specifications.Relations
             AddInclude(p => p.Participants_creditor);
             AddInclude(p => p.Participants_debtor);
 
-            //ApplyPaging(parametros.PageSize * (parametros.PageIndex - 1), parametros.PageSize);
+            ApplyPaging(parametros.PageSize * (parametros.PageIndex - 1), parametros.PageSize);
             if (!string.IsNullOrEmpty(parametros.OrderByNeto))
             {
                 if (parametros.OrderByNeto == "desc")
