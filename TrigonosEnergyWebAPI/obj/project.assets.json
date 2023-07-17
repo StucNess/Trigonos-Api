@@ -10176,11 +10176,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
       "projectName": "TrigonosEnergyWebAPI",
       "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
       "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\TrigonosEnergyWebAPI\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
+      "projectName": "TrigonosEnergyWebAPI",
+      "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
+      "packagesPath": "C:\\Users\\Edgar\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\TrigonosEnergyWebAPI\\obj\\",
+>>>>>>> 0e8ae61de5058c24f0f7c3e3312615b39bce448e
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -10197,8 +10205,13 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+<<<<<<< HEAD
             "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
               "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj"
+=======
+            "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
+              "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj"
+>>>>>>> 0e8ae61de5058c24f0f7c3e3312615b39bce448e
             }
           }
         }

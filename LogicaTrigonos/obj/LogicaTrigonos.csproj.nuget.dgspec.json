@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {}
   },
   "projects": {
@@ -12,6 +13,19 @@
         "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\Core\\obj\\",
+=======
+    "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj",
+        "projectName": "Core",
+        "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\Edgar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\obj\\",
+>>>>>>> 0e8ae61de5058c24f0f7c3e3312615b39bce448e
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -69,6 +83,7 @@
         }
       }
     },
+<<<<<<< HEAD
     "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -77,6 +92,16 @@
         "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
         "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\obj\\",
+=======
+    "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+        "projectName": "LogicaTrigonos",
+        "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+        "packagesPath": "C:\\Users\\Edgar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\obj\\",
+>>>>>>> 0e8ae61de5058c24f0f7c3e3312615b39bce448e
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -93,8 +118,13 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+<<<<<<< HEAD
               "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\Core\\Core.csproj": {
                 "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\Core\\Core.csproj"
+=======
+              "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\Core\\Core.csproj"
+>>>>>>> 0e8ae61de5058c24f0f7c3e3312615b39bce448e
               }
             }
           }

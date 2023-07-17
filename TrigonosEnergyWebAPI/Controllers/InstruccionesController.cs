@@ -440,6 +440,44 @@ namespace TrigonosEnergyWebAPI.Controllers
 
 
         }
+        [HttpGet]
+        [Route("/NumberFilter")]
+        public async Task<ActionResult<int>> NumberFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+        
+            var specCount = new InstruccionesDefForCountingSpecification(id, parametros);
+            var totalinstrucciones = await _instruccionesDefRepository.CountAsync(specCount);
+           
+            return Ok(totalinstrucciones);
+
+
+
+        }
+        [HttpGet]
+        [Route("/GetFiltersCCC")]
+        public async Task<ActionResult<Pagination<FiltroCCCDto>>> GetFiltersCCC(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+            var spec = new InstruccionesDefRelationSpecification(id, pa, parametros);
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            //var Concepto = instrucciones.DistinctBy(p => p.Payment_matrix_natural_key).ToList();
+            //var Carta = instrucciones.DistinctBy(p => p.cEN_Payment_Matrices.Letter_code).ToList();
+            //var CodRef = instrucciones.DistinctBy(p => p.cEN_Payment_Matrices.Reference_code).ToList();
+            var specCount = new InstruccionesDefForCountingSpecification(id, parametros);
+            var totalinstrucciones = await _instruccionesDefRepository.CountAsync(specCount);
+            var lista = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<FiltroCCCDto>>(instrucciones);
+            var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+            return Ok(
+                new Pagination<FiltroCCCDto>
+                {
+                    count = totalinstrucciones,
+                    Data = lista,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+                }
+                );
+        }
         /// <summary>
         /// Obtener la cantidad del concepto para luego iterar y saber cuantas llamadas hacer al filtro
         /// </summary>
@@ -1091,6 +1129,96 @@ namespace TrigonosEnergyWebAPI.Controllers
             //    }
             //    );
 
+
+        }
+        [HttpGet]
+        [Route("/FiltNameDebtor")]
+        public async Task<ActionResult<List<string>>> FiltNameDebtor(int id, [FromQuery] InstruccionesDefSpecificationParams parametros)
+        {
+            //var spec = new InstruccionesDefRelationSpecification(id, 1, parametros);
+            //var producto = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            //var producto1 = producto.DistinctBy(a => a.Participants_debtor.Business_Name).ToList();
+            //var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosNameDebtor>>(producto1);
+            //return Ok(data);
+            //List<string> List = new List<string>();
+            //List = _context.Set<REACT_CEN_instructions_Def>()
+            //    .Where(x => (x.Creditor == id || x.Debtor == id) &&
+            //       (!parametros.Acreedor.HasValue || x.Creditor == parametros.Acreedor) &&
+            //      (string.IsNullOrEmpty(parametros.EstadoAceptacion) || x.CEN_dte_acceptance_status.Name == parametros.EstadoAceptacion) &&
+            //       (string.IsNullOrEmpty(parametros.EstadoRecepcion) || x.TRGNS_dte_reception_status.Name == parametros.EstadoRecepcion) &&
+            //       (string.IsNullOrEmpty(parametros.EstadoEmision) || x.CEN_billing_status_type.Name == parametros.EstadoEmision) &&
+            //       (string.IsNullOrEmpty(parametros.EstadoPago) || x.CEN_payment_status_type.Name == parametros.EstadoPago) &&
+            //      (string.IsNullOrEmpty(parametros.conFolio) || x.Folio > 0) &&
+            //      (string.IsNullOrEmpty(parametros.NombreAcreedor) || x.Participants_creditor.Business_Name.Contains(parametros.NombreAcreedor)) &&
+            //      (string.IsNullOrEmpty(parametros.NombreDeudor) || x.Participants_debtor.Business_Name.Contains(parametros.NombreDeudor)) &&
+            //      (string.IsNullOrEmpty(parametros.RutAcreedor) || x.Participants_creditor.Rut.Contains(parametros.RutAcreedor)) &&
+            //      (string.IsNullOrEmpty(parametros.RutDeudor) || x.Participants_debtor.Rut.Contains(parametros.RutDeudor)) &&
+            //      (string.IsNullOrEmpty(parametros.Glosa) || x.Payment_matrix_natural_key.Contains(parametros.Glosa)) &&
+            //      (string.IsNullOrEmpty(parametros.Concepto) || x.Payment_matrix_concept.Contains(parametros.Concepto)) &&
+            //       (string.IsNullOrEmpty(parametros.Carta) || x.cEN_Payment_Matrices.Letter_code.Contains(parametros.Carta)) &&
+            //(string.IsNullOrEmpty(parametros.CodigoRef) || x.cEN_Payment_Matrices.Reference_code.Contains(parametros.CodigoRef)) &&
+            //      (!parametros.FechaRecepcion.HasValue || x.Fecha_recepcion == parametros.FechaRecepcion) &&
+            //      (!parametros.FechaAceptacion.HasValue || x.Fecha_recepcion == parametros.FechaAceptacion) &&
+            //      (!parametros.FechaPago.HasValue || x.Fecha_recepcion == parametros.FechaPago) &&
+            //      (!parametros.FechaEmision.HasValue || x.Fecha_recepcion == parametros.FechaEmision) &&
+            //     (!parametros.Pagada.HasValue || x.Is_paid == parametros.Pagada) &&
+            //      (!parametros.Acreedor.HasValue || x.Creditor == parametros.Acreedor) &&
+            //      (!parametros.Deudor.HasValue || x.Debtor == parametros.Deudor) &&
+
+            //      (!parametros.MontoNeto.HasValue || x.Amount >= parametros.MontoNeto) &&
+            //      (!parametros.MontoBruto.HasValue || x.Amount_Gross >= parametros.MontoBruto) &&
+            //      (!parametros.Folio.HasValue || x.Folio == parametros.Folio)
+            //       &&
+            //       (
+            //       !parametros.InicioPeriodo.HasValue && !parametros.TerminoPeriodo.HasValue
+            //       ||
+
+            //       (parametros.InicioPeriodo.HasValue && !parametros.TerminoPeriodo.HasValue &&
+
+            //       x.cEN_Payment_Matrices.CEN_billing_windows.period == parametros.InicioPeriodo)
+
+            //       ||
+
+            //       (parametros.TerminoPeriodo.HasValue && parametros.InicioPeriodo.HasValue &&
+            //       !x.cEN_Payment_Matrices.CEN_billing_windows.period_end.HasValue &&
+            //       x.cEN_Payment_Matrices.CEN_billing_windows.period <= parametros.TerminoPeriodo
+            //        && x.cEN_Payment_Matrices.CEN_billing_windows.period >= parametros.InicioPeriodo)
+            //       ||
+            //      (parametros.TerminoPeriodo.HasValue && parametros.InicioPeriodo.HasValue &&
+            //       x.cEN_Payment_Matrices.CEN_billing_windows.period_end.HasValue &&
+            //       x.cEN_Payment_Matrices.CEN_billing_windows.period_end <= parametros.TerminoPeriodo
+            //        && x.cEN_Payment_Matrices.CEN_billing_windows.period >= parametros.InicioPeriodo)
+
+            //       )
+            //      ).Select(item => item.Participants_debtor.Business_Name).Distinct().ToList();
+            //return Ok(
+            //    List
+            //    );
+            var spec = new InstruccionesDefRelationSpecification(id, parametros, 1, "Participants_debtor.Business_Name");
+            var instrucciones = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(spec);
+            var specTotal = new InstruccionesDefRelationSpecification(id, parametros, 0, "Participants_debtor.Business_Name");
+
+            var count = await _instruccionesDefRepository.GetAllInstrucctionByIdAsync(specTotal);
+            var datacount = 0;
+            if (count != null)
+            {
+                datacount = count.Count();
+            }
+            var rounded = Math.Ceiling(Convert.ToDecimal(datacount / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+
+            var data = _mapper.Map<IReadOnlyList<REACT_CEN_instructions_Def>, IReadOnlyList<sFiltrosNameDebtor>>(instrucciones);
+            return Ok(
+                new Pagination<sFiltrosNameDebtor>
+                {
+                    count = datacount,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+                }
+                );
 
         }
         [HttpGet]

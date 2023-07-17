@@ -78,6 +78,36 @@ namespace TrigonosEnergyWebAPI.Controllers
         //    if (usuario == null) return false;
         //    return true;
         //}
+
+
+        /// <summary>
+        /// Retorna el numero de usuarios
+        /// </summary>
+        /// <param name="usuarioParams"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("NumUsuarios")]
+        public async Task<ActionResult<int>> GetNumUsers()
+        {
+
+            var currentRol = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+            var id = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == "ID")?.Value;
+
+
+            if (currentRol == "Administrador" || currentRol == "Admin Jefe")
+            {
+                var spec = new UsuarioSpecification(currentRol, id);
+                var countUsers = await _seguridadRepository.CountAsync(spec);
+                return Ok(countUsers);
+            }
+            else
+            {
+                return NotFound(new CodeErrorResponse(404, "No tiene permisos, debe autenticarse"));
+            }
+
+
+
+        }
         /// <summary>
         /// Devulve a todos los usuarios
         /// </summary>
