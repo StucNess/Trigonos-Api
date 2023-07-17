@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -41,7 +42,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
         private readonly TrigonosDBContext _context;
-        public InstruccionesController(IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository,IGenericRepository<REACT_CEN_Participants> participantesRepository, TrigonosDBContext context, IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository, IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository, IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
+        public InstruccionesController(IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository, IGenericRepository<REACT_CEN_Participants> participantesRepository, TrigonosDBContext context, IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository, IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository, IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
             _mapper = mapper;
@@ -1183,10 +1184,11 @@ namespace TrigonosEnergyWebAPI.Controllers
 
         }
         [HttpPost("NominasDePago")]
-        public async Task<ActionResult> NominasDePago(int id, int bank, string excelName, List<Dictionary<string, object>> ListIdInstrucctions)
+        public async Task<ActionResult> NominasDePago(int id, int bank, string excelName, string fechaPago, List<Dictionary<string, object>> ListIdInstrucctions)
         {
+            Console.WriteLine(fechaPago);
             int conditional = 0;
-            var FechaPago = DateTime.UtcNow;
+            var FechaPago = Convert.ToDateTime(fechaPago);
             List<int> numberList = new List<int>();
             var BDD = _context.Set<REACT_CEN_instructions_Def>()
                 .Where(e => e.Folio > 0 && e.Amount > 9 && e.Debtor == id);
@@ -1209,22 +1211,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                         {
                             montoBruto = int.Parse(i[" Monto a pago "].ToString());
                         }
-                        try
-                        {
-                            try
-                            {
-                                FechaPago = Convert.ToDateTime(i["Fecha"].ToString().Substring(0, 10));
-                            }
-                            catch
-                            {
-                                var fechita = i["Fecha"].ToString().Substring(0, 10);
-                                FechaPago = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
-                            }
-                        }
-                        catch
-                        {
-                            FechaPago = DateTime.FromOADate(int.Parse(i["Fecha"].ToString()));
-                        };
+                        
                         var item = BDD.Where(e => e.Payment_matrix_natural_key == Glosa && e.Participants_creditor.Rut.Contains(RutAcreedor) && e.Amount_Gross == montoBruto).Select(item => item.ID).ToList()[0];
                         var bdPago = await _instruccionesDefRepository.GetByClienteIDAsync(item);
                         if (conditional == 0)
@@ -1784,12 +1771,29 @@ namespace TrigonosEnergyWebAPI.Controllers
 
         [HttpPost("FacturacionCL")]
         public async Task<ActionResult> FacturacionCL(int id, List<int> ListIdInstrucctions)
-
-
         {
-            var FechaHoy = DateTime.UtcNow;
-            foreach  (var i in ListIdInstrucctions)
+            string RemoveAccents(string input)
             {
+                string normalizedString = input.Normalize(NormalizationForm.FormD);
+                StringBuilder stringBuilder = new StringBuilder();
+
+                foreach (char c in normalizedString)
+                {
+                    UnicodeCategory unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+
+                    if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                    {
+                        stringBuilder.Append(c);
+                    }
+                }
+
+                return stringBuilder.ToString();
+            }
+            var FechaHoy = DateTime.UtcNow;
+
+            foreach (var i in ListIdInstrucctions)
+            {
+
                 //var encodeList = await _factClRepository.GetAllAsync();
                 //var busqueda = encodeList.FirstOrDefault(i => i.IdParticipante == id);
 
@@ -1827,11 +1831,11 @@ namespace TrigonosEnergyWebAPI.Controllers
                 .Include(p => p.Participants_creditor)
                 .Include(p => p.Participants_debtor)
                 .ToList();
-                
+
                 var folio = instrucción[0].Folio;
                 var montoNeto = instrucción[0].Amount;
                 var montoBruto = instrucción[0].Amount_Gross;
-                var concepto = instrucción[0].Payment_matrix_concept;
+                var concepto = instrucción[0].Payment_matrix_natural_key;
                 var codigoReferencia = instrucción[0].cEN_Payment_Matrices.Reference_code;
                 var fechaCarta = instrucción[0].cEN_Payment_Matrices.Publish_date;
 
@@ -1854,22 +1858,22 @@ namespace TrigonosEnergyWebAPI.Controllers
                 item.Add("fmaPago", 2);
                 //EMISOR
                 item.Add("rutacreedor", rutAcreedor);
-                item.Add("rznSoc", nombreComercialAcreedor);
-                item.Add("GiroEmis", giroAcreedor);
-                item.Add("CorreoEmisor", "hvits@pelicanosolar.cl");
+                item.Add("rznSoc", RemoveAccents(nombreComercialAcreedor));
+                item.Add("GiroEmis", RemoveAccents(giroAcreedor));
+                item.Add("CorreoEmisor", RemoveAccents("hvits@pelicanosolar.cl"));
                 item.Add("Acteco", 351019);
-                item.Add("dirOrigen", direccionComercialAcreedor);
+                item.Add("dirOrigen", RemoveAccents(direccionComercialAcreedor));
                 item.Add("CmunaOrigen", "Las Condes");
                 item.Add("CiudadOrigen", "Santiago");
                 //RECEPTOR
                 item.Add("rutDebtor", rutDeudor);
-                item.Add("RznSocRecep", nombreComercialDeudor);
-                item.Add("GiroRecep", giroDeudor);
-                item.Add("dirDestino", direccionComercialDeudor);
+                item.Add("RznSocRecep", RemoveAccents(nombreComercialDeudor));
+                item.Add("GiroRecep", RemoveAccents(giroDeudor));
+                item.Add("dirDestino", RemoveAccents(direccionComercialDeudor));
                 item.Add("CmunaDestino", "Santiago");
                 item.Add("ciudadreceptor", "Santiago");
                 //TOTALES
-                item.Add("MntoNeto",montoNeto);
+                item.Add("MntoNeto", montoNeto);
                 item.Add("MntoExento", 0);
                 item.Add("tazaIva", 19);
                 item.Add("IVA", "");
@@ -1878,7 +1882,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 item.Add("NroLinDet", 1);
                 item.Add("tipoCodigo", "INT1");
                 item.Add("VlrCodigo", 0);
-                item.Add("NmbItem", concepto);
+                item.Add("NmbItem", RemoveAccents(concepto));
                 item.Add("QtyItem", "1");
                 item.Add("UnmdItem", "UN");
                 item.Add("PrcItem", montoNeto);
@@ -1888,7 +1892,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 item.Add("TpoDocRef", 802);
                 item.Add("FolioReferencia", codigoReferencia);
                 item.Add("FechaRef", fechaCarta);
-                item.Add("RazonDIF", concepto);
+                item.Add("RazonDIF", RemoveAccents(concepto));
 
 
                 XmlDocument doc = new XmlDocument();
@@ -2126,10 +2130,11 @@ namespace TrigonosEnergyWebAPI.Controllers
                 XmlText RazonRef = doc.CreateTextNode(Convert.ToString(item["RazonDIF"]));
                 element34.AppendChild(RazonRef);
                 elementoReferencia.AppendChild(element34);
-                //string rutaArchivo = Path.Combine(MapPath("/" + item["rutacreedor"] + "/" + item["rutacreedor"] + "_" + id + "_" + item["foliod"] + ".xml"));
+                string filePath = "C:/home/site/wwwroot/FacturacionXml/" + item["rutacreedor"] + "/" + item["rutacreedor"].ToString() + "_" + id.ToString() + "_" + item["foliod"].ToString() + "_" + instrucción[0].ID.ToString() + ".xml";
+                //string filePath = "C:/Users/neidr/Desktop/TRGNS/file.xml";
+                //string filePath = "C:/home/site/wwwroot/FacturacionXml/file.xml";
+
                 //File.WriteAllBytes(@"E:\Folder\"+ fileName, Convert.FromBase64String(Base64String));
-                string filePath = "C:/Users/neidr/Desktop/TRGNS/file.xml";
-            
                 doc.Save(filePath);
 
 
