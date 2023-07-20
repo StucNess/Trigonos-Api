@@ -326,7 +326,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 condicional = 1;
             }
 
-            var guardar1 = await _instruccionesDefRepository.UpdateeAsync(bd);
+         
             //if (!await _instruccionesRepository.UpdateeAsync(bd))
             //{
             //    return StatusCode(500);
@@ -335,13 +335,36 @@ namespace TrigonosEnergyWebAPI.Controllers
             {
                 if (condicional == 1)
                 {
-                    var guardar = await _historificacionInstruccionesRepository.SaveBD(bdh);
+                   
+                    if (!await _historificacionInstruccionesRepository.SaveBD(bdh))
+                    {
+                        return StatusCode(500);
+                    }
+                    else
+                    {
+                        if (!await _instruccionesDefRepository.UpdateeAsync(bd))
+                        {
+                            return StatusCode(500);
+                        }
+                        else
+                        {
+                            return StatusCode(200);
+                        }
+                    }
+                }
+                else
+                {
+                    return NoContent();
                 }
 
 
             }
+            else
+            {
+                return NoContent();
+            }
 
-            return NoContent();
+
         }
         [HttpGet]
         [Route("/sFiltros")]

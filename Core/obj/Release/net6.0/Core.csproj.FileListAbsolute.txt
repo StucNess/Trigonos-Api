@@ -70,3 +70,15 @@ C:\Users\Edgar\source\repos\Gestion participantes mejora\TrigonosAPI\Core\obj\Re
 C:\Users\Edgar\source\repos\Gestion participantes mejora\TrigonosAPI\Core\obj\Release\net6.0\refint\Core.dll
 C:\Users\Edgar\source\repos\Gestion participantes mejora\TrigonosAPI\Core\obj\Release\net6.0\Core.pdb
 C:\Users\Edgar\source\repos\Gestion participantes mejora\TrigonosAPI\Core\obj\Release\net6.0\ref\Core.dll
+E:\REACT TRGNS 2023\TrigonosAPI\Core\bin\Release\net6.0\Core.deps.json
+E:\REACT TRGNS 2023\TrigonosAPI\Core\bin\Release\net6.0\Core.dll
+E:\REACT TRGNS 2023\TrigonosAPI\Core\bin\Release\net6.0\Core.pdb
+E:\REACT TRGNS 2023\TrigonosAPI\Core\obj\Release\net6.0\Core.csproj.AssemblyReference.cache
+E:\REACT TRGNS 2023\TrigonosAPI\Core\obj\Release\net6.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+E:\REACT TRGNS 2023\TrigonosAPI\Core\obj\Release\net6.0\Core.AssemblyInfoInputs.cache
+E:\REACT TRGNS 2023\TrigonosAPI\Core\obj\Release\net6.0\Core.AssemblyInfo.cs
+E:\REACT TRGNS 2023\TrigonosAPI\Core\obj\Release\net6.0\Core.csproj.CoreCompileInputs.cache
+E:\REACT TRGNS 2023\TrigonosAPI\Core\obj\Release\net6.0\Core.dll
+E:\REACT TRGNS 2023\TrigonosAPI\Core\obj\Release\net6.0\refint\Core.dll
+E:\REACT TRGNS 2023\TrigonosAPI\Core\obj\Release\net6.0\Core.pdb
+E:\REACT TRGNS 2023\TrigonosAPI\Core\obj\Release\net6.0\ref\Core.dll

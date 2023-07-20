@@ -1,4 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sitemanifest>
+<<<<<<< HEAD
+  <IisApp path="E:\REACT TRGNS 2023\TrigonosAPI\TrigonosEnergyWebAPI\obj\Release\net6.0\PubTmp\Out\" />
+=======
   <IisApp path="C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\obj\Release\net6.0\PubTmp\Out\" />
+>>>>>>> cc2fb5e37f6be62c77f512636fd6bc70914e2fa7
 </sitemanifest>
