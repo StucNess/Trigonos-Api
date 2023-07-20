@@ -9,17 +9,9 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = TrigonosEnergyWebAPI
 build_property.RootNamespace = TrigonosEnergyWebAPI
-<<<<<<< HEAD
 build_property.ProjectDir = C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI
-=======
-build_property.ProjectDir = C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\
-build_property.RazorLangVersion = 6.0
-build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Edgar\source\repos\TrigonosAPI\TrigonosEnergyWebAPI
->>>>>>> d8f780a239a9dc8e15e7c8b5860b8938fabc9ea2
 build_property._RazorSourceGeneratorDebug = 
