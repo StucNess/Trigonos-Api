@@ -23,6 +23,8 @@ namespace Core.Specifications.Params
         public int? Deudor { get; set; }
         public int? MontoNeto { get; set; }
         public int? MontoBruto { get; set; }
+        public int? MontoNetoIgual { get; set; }
+        public int? MontoBrutoIgual { get; set; }
         public string? EstadoEmision { get; set; }
         public string? EstadoPago { get; set; }
         public string? RutAcreedor { get; set; }
