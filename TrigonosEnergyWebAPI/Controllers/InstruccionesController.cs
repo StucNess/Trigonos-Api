@@ -7,12 +7,14 @@ using Core.Specifications;
 using Core.Specifications.Counting;
 using Core.Specifications.Params;
 using Core.Specifications.Relations;
+using Facturacion.cl;
 using LogicaTrigonos.Data;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -20,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Xml;
+using System.Xml.Linq;
 using TrigonosEnergy.Controllers;
 using TrigonosEnergyWebAPI.DTO;
 using TrigonosEnergyWebAPI.Errors;
@@ -444,10 +447,10 @@ namespace TrigonosEnergyWebAPI.Controllers
         [Route("/NumberFilter")]
         public async Task<ActionResult<int>> NumberFilter(int id, int pa, [FromQuery] InstruccionesDefSpecificationParams parametros)
         {
-        
+
             var specCount = new InstruccionesDefForCountingSpecification(id, parametros);
             var totalinstrucciones = await _instruccionesDefRepository.CountAsync(specCount);
-           
+
             return Ok(totalinstrucciones);
 
 
@@ -1339,7 +1342,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                         {
                             montoBruto = int.Parse(i[" Monto a pago "].ToString());
                         }
-                        
+
                         var item = BDD.Where(e => e.Payment_matrix_natural_key == Glosa && e.Participants_creditor.Rut.Contains(RutAcreedor) && e.Amount_Gross == montoBruto).Select(item => item.ID).ToList()[0];
                         var bdPago = await _instruccionesDefRepository.GetByClienteIDAsync(item);
                         if (conditional == 0)
@@ -1585,6 +1588,11 @@ namespace TrigonosEnergyWebAPI.Controllers
             var conditional = 0;
             var BDDTrigonos = _context.Set<REACT_TRGNS_PROYECTOS>()
                 .Where(e => e.vHabilitado == 1).Select(item => item.Id_participants).ToList();
+            var FechaRecepcion = DateTime.UtcNow;
+            var FechaHoy = DateTime.Today;
+            var FechaPago = DateTime.UtcNow;
+            var FechaEmision = DateTime.UtcNow;
+
             foreach (var i in ListIdInstrucctions)
             {
                 try
@@ -1600,25 +1608,120 @@ namespace TrigonosEnergyWebAPI.Controllers
                         };
                         conditional = 1;
                     }
-                    if (BDDTrigonos.Contains(int.Parse(bd.Creditor.ToString())))
+                    try
                     {
+                        try
+                        {
+                            FechaRecepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
+                        }
+                        catch
+                        {
+                            var fechita = i["Fecha Recepcion"].ToString().Substring(0, 10);
+                            FechaRecepcion = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
+                        }
+                        //FechaEmisionDefontana = Convert.ToDateTime(Convert.ToDateTime(i["Fecha"].ToString().Substring(0, 10)).ToString("yyyy-MM-dd", new CultureInfo("ja-JP")));
+                    }
+                    catch
+                    {
+                        FechaRecepcion = DateTime.FromOADate(int.Parse(i["Fecha Recepcion"].ToString()));
+                    };
+
+
+                    //VERIFICAMOS FECHA DE RECEPCION
+                    if (!(Convert.ToDateTime(FechaRecepcion.ToString("yyyy-MM-dd")) <= Convert.ToDateTime(FechaHoy.ToString("yyyy-MM-dd"))))
+                    {
+                        throw new Exception("¡Esta es una excepción forzada!");
+                    }
+                    //
+
+
+                    if (excelName.Contains("HIST"))
+                    {
+                        //
+                        //TRY FECHA DE PAGO
+                        //
+                        try
+                        {
+                            try
+                            {
+                                FechaPago = Convert.ToDateTime(i["Fecha Pago"].ToString().Substring(0, 10));
+                            }
+                            catch
+                            {
+                                var fechita = i["Fecha Pago"].ToString().Substring(0, 10);
+                                FechaPago = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
+                            }                       
+                        }
+                        catch
+                        {
+                            FechaPago = DateTime.FromOADate(int.Parse(i["Fecha Pago"].ToString()));
+                        };
+                        //
+                        //TRY FECHA DE EMISION
+                        //
+                        try
+                        {
+                            try
+                            {
+                                FechaEmision = Convert.ToDateTime(i["Fecha Emision"].ToString().Substring(0, 10));
+                            }
+                            catch
+                            {
+                                var fechita = i["Fecha Emision"].ToString().Substring(0, 10);
+                                FechaEmision = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
+                            }
+                        }
+                        catch
+                        {
+                            FechaEmision = DateTime.FromOADate(int.Parse(i["Fecha Emision"].ToString()));
+                        };
+
+                        //Console.WriteLine(FechaPago);
+                        //Console.WriteLine(FechaRecepcion);
+                        //Console.WriteLine(FechaEmision);
+                        if(FechaPago < FechaEmision || FechaRecepcion < FechaEmision)
+                        {
+                            throw new Exception("¡Esta es una excepción forzada!");
+                        }
+                        ///
+                        ///
+                        ///
+                        //ESTADOS
                         bd.Estado_emision = 2;
                         bd.Estado_recepcion = 1;
                         bd.Estado_aceptacion = 1;
-                        bd.Fecha_aceptacion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
-                        bd.Fecha_emision = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
-                        bd.Fecha_recepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10));
+                        bd.Estado_pago = 2;
+                        bd.Is_paid = true;
+
+                        //FECHAS
+                        bd.Fecha_emision = FechaEmision;
+                        bd.Fecha_aceptacion = FechaRecepcion;
+                        bd.Fecha_recepcion = FechaRecepcion;
+                        bd.Fecha_pago = FechaPago;
+                        //DATOS
                         bd.Folio = int.Parse(i["Folio"].ToString());
+
                     }
                     else
                     {
-                        bd.Estado_emision = 2;
+                        if (!BDDTrigonos.Contains(int.Parse(bd.Creditor.ToString())))
+                        {
+                            //ESTADOS
+                            bd.Estado_emision = 2;
+                            //FECHAS
+                            bd.Fecha_emision = FechaRecepcion;
+                        }
+                        //ESTADOS
                         bd.Estado_recepcion = 1;
                         bd.Estado_aceptacion = 1;
-                        bd.Fecha_aceptacion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10)); ;
-                        bd.Fecha_recepcion = Convert.ToDateTime(i["Fecha Recepcion"].ToString().Substring(0, 10)); ;
-                        bd.Folio = int.Parse(i["Folio"].ToString()); ;
+                        //FECHAS
+                        bd.Fecha_aceptacion = FechaRecepcion;
+                        bd.Fecha_recepcion = FechaRecepcion;
+                        //DATOS
+                        bd.Folio = int.Parse(i["Folio"].ToString());
                     }
+
+
                     if (!await _instruccionesDefRepository.UpdateeAsync(bd))
                     {
                         return StatusCode(500);
@@ -1633,6 +1736,8 @@ namespace TrigonosEnergyWebAPI.Controllers
             if (numberList.Count > 0)
             {
                 string lista = String.Join(",", numberList);
+                var mensaje = String.Concat("Se actualizaron " + (ListIdInstrucctions.Count - numberList.Count) + "/" + ListIdInstrucctions.Count +
+                    " instrucciones, id de instrucciones con error :", lista);
                 var excel = new REACT_TRGNS_Excel_History
                 {
                     excelName = excelName,
@@ -1640,14 +1745,14 @@ namespace TrigonosEnergyWebAPI.Controllers
                     date = fechaHoraActualChile,
                     idParticipant = id,
                     type = "Deudor",
-                    description = String.Concat("Se actualizo todo menos las instrucciones con id ", lista),
+                    description = mensaje,
 
                 };
                 if (!await _excelHistoryRepository.SaveBD(excel))
                 {
                     return BadRequest(new CodeErrorResponse(500, "Error al subir el excel en ERROR"));
                 }
-                return NotFound(new CodeErrorResponse(400, String.Concat("Se actualizo todo menos las instrucciones con id ", lista)));
+                return NotFound(new CodeErrorResponse(400, mensaje));
             }
             else
             {
@@ -1918,7 +2023,18 @@ namespace TrigonosEnergyWebAPI.Controllers
                 return stringBuilder.ToString();
             }
             var FechaHoy = DateTime.UtcNow;
-
+            //ASINANDO DATOS FACTURACION 
+            var datosFacturacion = _context.Set<REACT_TRGNS_FACTCLDATA>()
+            .Where(e => e.IdParticipante == id)
+            .ToList();
+            //TEST
+            var UsuarioTest = DecodeToString(datosFacturacion[0].UsuarioTest);
+            var ClaveTest = DecodeToString(datosFacturacion[0].ClaveTest);
+            var RutTest = DecodeToString(datosFacturacion[0].RutTest);
+            //PRODUCCION
+            var UsuarioProduccion = DecodeToString(datosFacturacion[0].Usuario64);
+            var ClaveProduccion = DecodeToString(datosFacturacion[0].Clave64);
+            var RutProduccion = DecodeToString(datosFacturacion[0].RUT64);
             foreach (var i in ListIdInstrucctions)
             {
 
@@ -1959,6 +2075,9 @@ namespace TrigonosEnergyWebAPI.Controllers
                 .Include(p => p.Participants_creditor)
                 .Include(p => p.Participants_debtor)
                 .ToList();
+
+
+
 
                 var folio = instrucción[0].Folio;
                 var montoNeto = instrucción[0].Amount;
@@ -2265,6 +2384,123 @@ namespace TrigonosEnergyWebAPI.Controllers
                 //File.WriteAllBytes(@"E:\Folder\"+ fileName, Convert.FromBase64String(Base64String));
                 doc.Save(filePath);
 
+                //byte[] arrayDeBytes = System.IO.File.ReadAllBytes(filePath);
+
+                //string codificado = Convert.ToBase64String(arrayDeBytes);
+
+                ////Enviar al Facturador.CL
+
+                //wsplanoSoapClient client = new wsplanoSoapClient();
+                //logininfo login = new logininfo();
+
+
+                //login.Usuario = UsuarioTest; //"UEVMSUNBTk8=";
+
+                //login.Rut = rut; //"NzYzMzc1OTktNA=="; //Testing: MS05 //Produccion:NzYzMzc1OTktNA==
+
+                //login.Clave = datosERP[0].Clave;//"ODRjZTEyNDRhMA=="; //Testing: cGxhbm85MTA5OA== // Produccion:ODRjZTEyNDRhMA==
+
+                //login.Puerto = "MQ==";
+
+                //login.IncluyeLink = "";
+
+                //Facturacion.cl.ProcesarRequest request = new ProcesarRequest();
+
+                //request.login = login;
+
+                //request.file = codificado;
+
+                //request.formato = 2;
+
+                //ProcesarResponse response = client.Procesar(request);
+
+
+
+                ////Almacenar Respuestas
+
+                ////try catch
+
+                //try
+
+                //{
+
+                //    //Asignar Variables
+
+                //    string _xml = response.ProcesarResult;
+
+                //    XElement xdocumento = XElement.Parse(_xml);
+
+                //    var elementsResult = xdocumento.Elements("Resultado");
+
+                //    var responseOK = elementsResult.ToList()[0].Value;
+
+
+
+                //    if (responseOK == "True")
+
+                //    {
+
+                //        var s1 = xdocumento.Elements("Detalle").Elements("Documento").Elements("Folio");
+
+
+
+                //        var list = from items in xdocumento.Elements("Detalle").Elements("Documento")
+
+                //                   select new
+
+                //                   {
+
+                //                       Folioone = items.Value
+
+
+
+                //                   };
+
+
+
+                //        var FolioFInal = s1.ToList()[0].Value;
+
+
+
+                //        //Guardado en BD
+
+                //        string query = "UPDATE dbo.BTAM_instrucciones_acreedor set folio=" + FolioFInal + ", emission_dt =" + "'" + Convert.ToDateTime(item.fechaEmision).ToString("dd-MM-yyyy") + "'" + ",status_billed=" + 2 + " where id_instruccion = " + id + "";
+
+
+
+                //        db.ExecuteCommand(query);
+
+
+
+                //        Response = "Exito";
+
+                //    }
+
+                //    else
+
+                //    {
+
+                //        elementsResult = xdocumento.Elements("Detalle").Elements("Documento").Elements("Error");
+
+                //        var responseError = elementsResult.ToList()[0].Value + " " + "Cliente: " + lista[0].RznSocRecep;
+
+                //        return Response = responseError;
+
+                //    }
+
+
+
+                //}
+
+                //catch (Exception ex)
+
+                //{
+
+                //    Response = "ERROR" + response.ToString();
+
+                //    throw;
+
+                //}
 
             }
 

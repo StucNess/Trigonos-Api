@@ -1,14 +1,8 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "lHpchAi8lKnzOfigt7g+Zyiyj/ly+2AGrTdRrY214tfoOk0TO/kHfhRg4vgH8Xw8XN9HFQj5IgCerAgO/EL71w==",
   "success": true,
   "projectFilePath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
-=======
-  "dgSpecHash": "Xh3ZdMqKpKSAp8JBtoGE1+nsfNL9N0P1RVwyr0ohFGgtdSauJbqEjSTncOuz/3+iOlYzggWFvN0uwYMRdVrbPQ==",
-  "success": true,
-  "projectFilePath": "C:\\Users\\Edgar\\source\\repos\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
->>>>>>> 0e8ae61de5058c24f0f7c3e3312615b39bce448e
   "expectedPackageFiles": [
     "C:\\Users\\neidr\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\neidr\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
@@ -90,5 +84,12 @@
     "C:\\Users\\neidr\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
     "C:\\Users\\neidr\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

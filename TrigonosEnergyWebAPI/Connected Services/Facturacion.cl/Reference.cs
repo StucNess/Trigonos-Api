@@ -18,59 +18,108 @@ namespace Facturacion.cl
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Procesar", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> ProcesarAsync(Facturacion.cl.logininfo login, string file, int formato);
+        Facturacion.cl.ProcesarResponse Procesar(Facturacion.cl.ProcesarRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Procesar", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.ProcesarResponse> ProcesarAsync(Facturacion.cl.ProcesarRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ObtenerLink", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> ObtenerLinkAsync(Facturacion.cl.logininfo login, string tpomov, string folio, string tipo, string cedible);
+        Facturacion.cl.ObtenerLinkResponse ObtenerLink(Facturacion.cl.ObtenerLinkRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ObtenerLink", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.ObtenerLinkResponse> ObtenerLinkAsync(Facturacion.cl.ObtenerLinkRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/getBoletaTicket", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> getBoletaTicketAsync(Facturacion.cl.logininfo login, string ticket);
+        Facturacion.cl.getBoletaTicketResponse getBoletaTicket(Facturacion.cl.getBoletaTicketRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/getBoletaTicket", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.getBoletaTicketResponse> getBoletaTicketAsync(Facturacion.cl.getBoletaTicketRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/getXMLDte", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        Facturacion.cl.getXMLDteResponse getXMLDte(Facturacion.cl.getXMLDteRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/getXMLDte", ReplyAction="*")]
         System.Threading.Tasks.Task<Facturacion.cl.getXMLDteResponse> getXMLDteAsync(Facturacion.cl.getXMLDteRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AltNum", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> AltNumAsync(Facturacion.cl.logininfo login, string folio, string tipo, string campo);
+        Facturacion.cl.AltNumResponse AltNum(Facturacion.cl.AltNumRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AltNum", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.AltNumResponse> AltNumAsync(Facturacion.cl.AltNumRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/RegIP", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> RegIPAsync(Facturacion.cl.logininfo login, string puerto);
+        Facturacion.cl.RegIPResponse RegIP(Facturacion.cl.RegIPRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/RegIP", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.RegIPResponse> RegIPAsync(Facturacion.cl.RegIPRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/getIP", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> getIPAsync();
+        Facturacion.cl.getIPResponse getIP(Facturacion.cl.getIPRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/getIP", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.getIPResponse> getIPAsync(Facturacion.cl.getIPRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/EliminarDoc", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> EliminarDocAsync(Facturacion.cl.logininfo login, string tpomov, string folio, string tipo);
+        Facturacion.cl.EliminarDocResponse EliminarDoc(Facturacion.cl.EliminarDocRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/EliminarDoc", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.EliminarDocResponse> EliminarDocAsync(Facturacion.cl.EliminarDocRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AnularGuia", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> AnularGuiaAsync(Facturacion.cl.logininfo login, string tpomov, string folio, string tipo);
+        Facturacion.cl.AnularGuiaResponse AnularGuia(Facturacion.cl.AnularGuiaRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/AnularGuia", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.AnularGuiaResponse> AnularGuiaAsync(Facturacion.cl.AnularGuiaRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Online", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> OnlineAsync();
+        Facturacion.cl.OnlineResponse Online(Facturacion.cl.OnlineRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Online", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.OnlineResponse> OnlineAsync(Facturacion.cl.OnlineRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Version", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> VersionAsync();
+        Facturacion.cl.VersionResponse Version(Facturacion.cl.VersionRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Version", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.VersionResponse> VersionAsync(Facturacion.cl.VersionRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ProcesarWSMasivo", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> ProcesarWSMasivoAsync(Facturacion.cl.logininfo login, string file, int formato);
+        Facturacion.cl.ProcesarWSMasivoResponse ProcesarWSMasivo(Facturacion.cl.ProcesarWSMasivoRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ProcesarWSMasivo", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.ProcesarWSMasivoResponse> ProcesarWSMasivoAsync(Facturacion.cl.ProcesarWSMasivoRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ConsultarEstado", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> ConsultarEstadoAsync(Facturacion.cl.logininfo login, int trackid);
+        Facturacion.cl.ConsultarEstadoResponse ConsultarEstado(Facturacion.cl.ConsultarEstadoRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ConsultarEstado", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.ConsultarEstadoResponse> ConsultarEstadoAsync(Facturacion.cl.ConsultarEstadoRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ConsultaLibroVentas", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> ConsultaLibroVentasAsync(Facturacion.cl.logininfo login, string fechadocumento, string tipolibro);
+        Facturacion.cl.ConsultaLibroVentasResponse ConsultaLibroVentas(Facturacion.cl.ConsultaLibroVentasRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ConsultaLibroVentas", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.ConsultaLibroVentasResponse> ConsultaLibroVentasAsync(Facturacion.cl.ConsultaLibroVentasRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/LibroVentasDetallado", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        Facturacion.cl.LibroVentasDetalladoResponse LibroVentasDetallado(Facturacion.cl.LibroVentasDetalladoRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/LibroVentasDetallado", ReplyAction="*")]
+        System.Threading.Tasks.Task<Facturacion.cl.LibroVentasDetalladoResponse> LibroVentasDetalladoAsync(Facturacion.cl.LibroVentasDetalladoRequest request);
     }
     
     /// <remarks/>
@@ -163,7 +212,148 @@ namespace Facturacion.cl
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Procesar", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class ProcesarRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public string file;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=2)]
+        public int formato;
+        
+        public ProcesarRequest()
+        {
+        }
+        
+        public ProcesarRequest(Facturacion.cl.logininfo login, string file, int formato)
+        {
+            this.login = login;
+            this.file = file;
+            this.formato = formato;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProcesarResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class ProcesarResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string ProcesarResult;
+        
+        public ProcesarResponse()
+        {
+        }
+        
+        public ProcesarResponse(string ProcesarResult)
+        {
+            this.ProcesarResult = ProcesarResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ObtenerLink", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class ObtenerLinkRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public string tpomov;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=2)]
+        public string folio;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=3)]
+        public string tipo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=4)]
+        public string cedible;
+        
+        public ObtenerLinkRequest()
+        {
+        }
+        
+        public ObtenerLinkRequest(Facturacion.cl.logininfo login, string tpomov, string folio, string tipo, string cedible)
+        {
+            this.login = login;
+            this.tpomov = tpomov;
+            this.folio = folio;
+            this.tipo = tipo;
+            this.cedible = cedible;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ObtenerLinkResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class ObtenerLinkResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string ObtenerLinkResult;
+        
+        public ObtenerLinkResponse()
+        {
+        }
+        
+        public ObtenerLinkResponse(string ObtenerLinkResult)
+        {
+            this.ObtenerLinkResult = ObtenerLinkResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getBoletaTicket", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class getBoletaTicketRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public string ticket;
+        
+        public getBoletaTicketRequest()
+        {
+        }
+        
+        public getBoletaTicketRequest(Facturacion.cl.logininfo login, string ticket)
+        {
+            this.login = login;
+            this.ticket = ticket;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getBoletaTicketResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class getBoletaTicketResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string getBoletaTicketResult;
+        
+        public getBoletaTicketResponse()
+        {
+        }
+        
+        public getBoletaTicketResponse(string getBoletaTicketResult)
+        {
+            this.getBoletaTicketResult = getBoletaTicketResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.MessageContractAttribute(WrapperName="getXMLDte", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
     public partial class getXMLDteRequest
     {
@@ -195,7 +385,6 @@ namespace Facturacion.cl
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="getXMLDteResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
     public partial class getXMLDteResponse
     {
@@ -211,6 +400,468 @@ namespace Facturacion.cl
         public getXMLDteResponse(byte[] getXMLDteResult)
         {
             this.getXMLDteResult = getXMLDteResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="AltNum", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class AltNumRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public string folio;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=2)]
+        public string tipo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=3)]
+        public string campo;
+        
+        public AltNumRequest()
+        {
+        }
+        
+        public AltNumRequest(Facturacion.cl.logininfo login, string folio, string tipo, string campo)
+        {
+            this.login = login;
+            this.folio = folio;
+            this.tipo = tipo;
+            this.campo = campo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="AltNumResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class AltNumResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string AltNumResult;
+        
+        public AltNumResponse()
+        {
+        }
+        
+        public AltNumResponse(string AltNumResult)
+        {
+            this.AltNumResult = AltNumResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RegIP", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class RegIPRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public string puerto;
+        
+        public RegIPRequest()
+        {
+        }
+        
+        public RegIPRequest(Facturacion.cl.logininfo login, string puerto)
+        {
+            this.login = login;
+            this.puerto = puerto;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RegIPResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class RegIPResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string RegIPResult;
+        
+        public RegIPResponse()
+        {
+        }
+        
+        public RegIPResponse(string RegIPResult)
+        {
+            this.RegIPResult = RegIPResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getIP", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class getIPRequest
+    {
+        
+        public getIPRequest()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getIPResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class getIPResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string getIPResult;
+        
+        public getIPResponse()
+        {
+        }
+        
+        public getIPResponse(string getIPResult)
+        {
+            this.getIPResult = getIPResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EliminarDoc", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class EliminarDocRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public string tpomov;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=2)]
+        public string folio;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=3)]
+        public string tipo;
+        
+        public EliminarDocRequest()
+        {
+        }
+        
+        public EliminarDocRequest(Facturacion.cl.logininfo login, string tpomov, string folio, string tipo)
+        {
+            this.login = login;
+            this.tpomov = tpomov;
+            this.folio = folio;
+            this.tipo = tipo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="EliminarDocResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class EliminarDocResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string EliminarDocResult;
+        
+        public EliminarDocResponse()
+        {
+        }
+        
+        public EliminarDocResponse(string EliminarDocResult)
+        {
+            this.EliminarDocResult = EliminarDocResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="AnularGuia", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class AnularGuiaRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public string tpomov;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=2)]
+        public string folio;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=3)]
+        public string tipo;
+        
+        public AnularGuiaRequest()
+        {
+        }
+        
+        public AnularGuiaRequest(Facturacion.cl.logininfo login, string tpomov, string folio, string tipo)
+        {
+            this.login = login;
+            this.tpomov = tpomov;
+            this.folio = folio;
+            this.tipo = tipo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="AnularGuiaResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class AnularGuiaResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string AnularGuiaResult;
+        
+        public AnularGuiaResponse()
+        {
+        }
+        
+        public AnularGuiaResponse(string AnularGuiaResult)
+        {
+            this.AnularGuiaResult = AnularGuiaResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Online", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class OnlineRequest
+    {
+        
+        public OnlineRequest()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="OnlineResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class OnlineResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string OnlineResult;
+        
+        public OnlineResponse()
+        {
+        }
+        
+        public OnlineResponse(string OnlineResult)
+        {
+            this.OnlineResult = OnlineResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Version", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class VersionRequest
+    {
+        
+        public VersionRequest()
+        {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="VersionResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class VersionResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string VersionResult;
+        
+        public VersionResponse()
+        {
+        }
+        
+        public VersionResponse(string VersionResult)
+        {
+            this.VersionResult = VersionResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProcesarWSMasivo", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class ProcesarWSMasivoRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public string file;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=2)]
+        public int formato;
+        
+        public ProcesarWSMasivoRequest()
+        {
+        }
+        
+        public ProcesarWSMasivoRequest(Facturacion.cl.logininfo login, string file, int formato)
+        {
+            this.login = login;
+            this.file = file;
+            this.formato = formato;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ProcesarWSMasivoResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class ProcesarWSMasivoResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string ProcesarWSMasivoResult;
+        
+        public ProcesarWSMasivoResponse()
+        {
+        }
+        
+        public ProcesarWSMasivoResponse(string ProcesarWSMasivoResult)
+        {
+            this.ProcesarWSMasivoResult = ProcesarWSMasivoResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ConsultarEstado", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class ConsultarEstadoRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public int trackid;
+        
+        public ConsultarEstadoRequest()
+        {
+        }
+        
+        public ConsultarEstadoRequest(Facturacion.cl.logininfo login, int trackid)
+        {
+            this.login = login;
+            this.trackid = trackid;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ConsultarEstadoResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class ConsultarEstadoResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string ConsultarEstadoResult;
+        
+        public ConsultarEstadoResponse()
+        {
+        }
+        
+        public ConsultarEstadoResponse(string ConsultarEstadoResult)
+        {
+            this.ConsultarEstadoResult = ConsultarEstadoResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ConsultaLibroVentas", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class ConsultaLibroVentasRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public string fechadocumento;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=2)]
+        public string tipolibro;
+        
+        public ConsultaLibroVentasRequest()
+        {
+        }
+        
+        public ConsultaLibroVentasRequest(Facturacion.cl.logininfo login, string fechadocumento, string tipolibro)
+        {
+            this.login = login;
+            this.fechadocumento = fechadocumento;
+            this.tipolibro = tipolibro;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ConsultaLibroVentasResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class ConsultaLibroVentasResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string ConsultaLibroVentasResult;
+        
+        public ConsultaLibroVentasResponse()
+        {
+        }
+        
+        public ConsultaLibroVentasResponse(string ConsultaLibroVentasResult)
+        {
+            this.ConsultaLibroVentasResult = ConsultaLibroVentasResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="LibroVentasDetallado", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class LibroVentasDetalladoRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public Facturacion.cl.logininfo login;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=1)]
+        public string fechadocumento;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=2)]
+        public string tipolibro;
+        
+        public LibroVentasDetalladoRequest()
+        {
+        }
+        
+        public LibroVentasDetalladoRequest(Facturacion.cl.logininfo login, string fechadocumento, string tipolibro)
+        {
+            this.login = login;
+            this.fechadocumento = fechadocumento;
+            this.tipolibro = tipolibro;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="LibroVentasDetalladoResponse", WrapperNamespace="http://tempuri.org", IsWrapped=true)]
+    public partial class LibroVentasDetalladoResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org", Order=0)]
+        public string LibroVentasDetalladoResult;
+        
+        public LibroVentasDetalladoResponse()
+        {
+        }
+        
+        public LibroVentasDetalladoResponse(string LibroVentasDetalladoResult)
+        {
+            this.LibroVentasDetalladoResult = LibroVentasDetalladoResult;
         }
     }
     
@@ -256,86 +907,159 @@ namespace Facturacion.cl
                 base(binding, remoteAddress)
         {
         }
-        
-        public System.Threading.Tasks.Task<string> ProcesarAsync(Facturacion.cl.logininfo login, string file, int formato)
+
+        public wsplanoSoapClient()
         {
-            return base.Channel.ProcesarAsync(login, file, formato);
+        }
+
+        public Facturacion.cl.ProcesarResponse Procesar(Facturacion.cl.ProcesarRequest request)
+        {
+            return base.Channel.Procesar(request);
         }
         
-        public System.Threading.Tasks.Task<string> ObtenerLinkAsync(Facturacion.cl.logininfo login, string tpomov, string folio, string tipo, string cedible)
+        public System.Threading.Tasks.Task<Facturacion.cl.ProcesarResponse> ProcesarAsync(Facturacion.cl.ProcesarRequest request)
         {
-            return base.Channel.ObtenerLinkAsync(login, tpomov, folio, tipo, cedible);
+            return base.Channel.ProcesarAsync(request);
         }
         
-        public System.Threading.Tasks.Task<string> getBoletaTicketAsync(Facturacion.cl.logininfo login, string ticket)
+        public Facturacion.cl.ObtenerLinkResponse ObtenerLink(Facturacion.cl.ObtenerLinkRequest request)
         {
-            return base.Channel.getBoletaTicketAsync(login, ticket);
+            return base.Channel.ObtenerLink(request);
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<Facturacion.cl.getXMLDteResponse> Facturacion.cl.wsplanoSoap.getXMLDteAsync(Facturacion.cl.getXMLDteRequest request)
+        public System.Threading.Tasks.Task<Facturacion.cl.ObtenerLinkResponse> ObtenerLinkAsync(Facturacion.cl.ObtenerLinkRequest request)
+        {
+            return base.Channel.ObtenerLinkAsync(request);
+        }
+        
+        public Facturacion.cl.getBoletaTicketResponse getBoletaTicket(Facturacion.cl.getBoletaTicketRequest request)
+        {
+            return base.Channel.getBoletaTicket(request);
+        }
+        
+        public System.Threading.Tasks.Task<Facturacion.cl.getBoletaTicketResponse> getBoletaTicketAsync(Facturacion.cl.getBoletaTicketRequest request)
+        {
+            return base.Channel.getBoletaTicketAsync(request);
+        }
+        
+        public Facturacion.cl.getXMLDteResponse getXMLDte(Facturacion.cl.getXMLDteRequest request)
+        {
+            return base.Channel.getXMLDte(request);
+        }
+        
+        public System.Threading.Tasks.Task<Facturacion.cl.getXMLDteResponse> getXMLDteAsync(Facturacion.cl.getXMLDteRequest request)
         {
             return base.Channel.getXMLDteAsync(request);
         }
         
-        public System.Threading.Tasks.Task<Facturacion.cl.getXMLDteResponse> getXMLDteAsync(Facturacion.cl.logininfo login, string tpomov, string folio, string tipo)
+        public Facturacion.cl.AltNumResponse AltNum(Facturacion.cl.AltNumRequest request)
         {
-            Facturacion.cl.getXMLDteRequest inValue = new Facturacion.cl.getXMLDteRequest();
-            inValue.login = login;
-            inValue.tpomov = tpomov;
-            inValue.folio = folio;
-            inValue.tipo = tipo;
-            return ((Facturacion.cl.wsplanoSoap)(this)).getXMLDteAsync(inValue);
+            return base.Channel.AltNum(request);
         }
         
-        public System.Threading.Tasks.Task<string> AltNumAsync(Facturacion.cl.logininfo login, string folio, string tipo, string campo)
+        public System.Threading.Tasks.Task<Facturacion.cl.AltNumResponse> AltNumAsync(Facturacion.cl.AltNumRequest request)
         {
-            return base.Channel.AltNumAsync(login, folio, tipo, campo);
+            return base.Channel.AltNumAsync(request);
         }
         
-        public System.Threading.Tasks.Task<string> RegIPAsync(Facturacion.cl.logininfo login, string puerto)
+        public Facturacion.cl.RegIPResponse RegIP(Facturacion.cl.RegIPRequest request)
         {
-            return base.Channel.RegIPAsync(login, puerto);
+            return base.Channel.RegIP(request);
         }
         
-        public System.Threading.Tasks.Task<string> getIPAsync()
+        public System.Threading.Tasks.Task<Facturacion.cl.RegIPResponse> RegIPAsync(Facturacion.cl.RegIPRequest request)
         {
-            return base.Channel.getIPAsync();
+            return base.Channel.RegIPAsync(request);
         }
         
-        public System.Threading.Tasks.Task<string> EliminarDocAsync(Facturacion.cl.logininfo login, string tpomov, string folio, string tipo)
+        public Facturacion.cl.getIPResponse getIP(Facturacion.cl.getIPRequest request)
         {
-            return base.Channel.EliminarDocAsync(login, tpomov, folio, tipo);
+            return base.Channel.getIP(request);
         }
         
-        public System.Threading.Tasks.Task<string> AnularGuiaAsync(Facturacion.cl.logininfo login, string tpomov, string folio, string tipo)
+        public System.Threading.Tasks.Task<Facturacion.cl.getIPResponse> getIPAsync(Facturacion.cl.getIPRequest request)
         {
-            return base.Channel.AnularGuiaAsync(login, tpomov, folio, tipo);
+            return base.Channel.getIPAsync(request);
         }
         
-        public System.Threading.Tasks.Task<string> OnlineAsync()
+        public Facturacion.cl.EliminarDocResponse EliminarDoc(Facturacion.cl.EliminarDocRequest request)
         {
-            return base.Channel.OnlineAsync();
+            return base.Channel.EliminarDoc(request);
         }
         
-        public System.Threading.Tasks.Task<string> VersionAsync()
+        public System.Threading.Tasks.Task<Facturacion.cl.EliminarDocResponse> EliminarDocAsync(Facturacion.cl.EliminarDocRequest request)
         {
-            return base.Channel.VersionAsync();
+            return base.Channel.EliminarDocAsync(request);
         }
         
-        public System.Threading.Tasks.Task<string> ProcesarWSMasivoAsync(Facturacion.cl.logininfo login, string file, int formato)
+        public Facturacion.cl.AnularGuiaResponse AnularGuia(Facturacion.cl.AnularGuiaRequest request)
         {
-            return base.Channel.ProcesarWSMasivoAsync(login, file, formato);
+            return base.Channel.AnularGuia(request);
         }
         
-        public System.Threading.Tasks.Task<string> ConsultarEstadoAsync(Facturacion.cl.logininfo login, int trackid)
+        public System.Threading.Tasks.Task<Facturacion.cl.AnularGuiaResponse> AnularGuiaAsync(Facturacion.cl.AnularGuiaRequest request)
         {
-            return base.Channel.ConsultarEstadoAsync(login, trackid);
+            return base.Channel.AnularGuiaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<string> ConsultaLibroVentasAsync(Facturacion.cl.logininfo login, string fechadocumento, string tipolibro)
+        public Facturacion.cl.OnlineResponse Online(Facturacion.cl.OnlineRequest request)
         {
-            return base.Channel.ConsultaLibroVentasAsync(login, fechadocumento, tipolibro);
+            return base.Channel.Online(request);
+        }
+        
+        public System.Threading.Tasks.Task<Facturacion.cl.OnlineResponse> OnlineAsync(Facturacion.cl.OnlineRequest request)
+        {
+            return base.Channel.OnlineAsync(request);
+        }
+        
+        public Facturacion.cl.VersionResponse Version(Facturacion.cl.VersionRequest request)
+        {
+            return base.Channel.Version(request);
+        }
+        
+        public System.Threading.Tasks.Task<Facturacion.cl.VersionResponse> VersionAsync(Facturacion.cl.VersionRequest request)
+        {
+            return base.Channel.VersionAsync(request);
+        }
+        
+        public Facturacion.cl.ProcesarWSMasivoResponse ProcesarWSMasivo(Facturacion.cl.ProcesarWSMasivoRequest request)
+        {
+            return base.Channel.ProcesarWSMasivo(request);
+        }
+        
+        public System.Threading.Tasks.Task<Facturacion.cl.ProcesarWSMasivoResponse> ProcesarWSMasivoAsync(Facturacion.cl.ProcesarWSMasivoRequest request)
+        {
+            return base.Channel.ProcesarWSMasivoAsync(request);
+        }
+        
+        public Facturacion.cl.ConsultarEstadoResponse ConsultarEstado(Facturacion.cl.ConsultarEstadoRequest request)
+        {
+            return base.Channel.ConsultarEstado(request);
+        }
+        
+        public System.Threading.Tasks.Task<Facturacion.cl.ConsultarEstadoResponse> ConsultarEstadoAsync(Facturacion.cl.ConsultarEstadoRequest request)
+        {
+            return base.Channel.ConsultarEstadoAsync(request);
+        }
+        
+        public Facturacion.cl.ConsultaLibroVentasResponse ConsultaLibroVentas(Facturacion.cl.ConsultaLibroVentasRequest request)
+        {
+            return base.Channel.ConsultaLibroVentas(request);
+        }
+        
+        public System.Threading.Tasks.Task<Facturacion.cl.ConsultaLibroVentasResponse> ConsultaLibroVentasAsync(Facturacion.cl.ConsultaLibroVentasRequest request)
+        {
+            return base.Channel.ConsultaLibroVentasAsync(request);
+        }
+        
+        public Facturacion.cl.LibroVentasDetalladoResponse LibroVentasDetallado(Facturacion.cl.LibroVentasDetalladoRequest request)
+        {
+            return base.Channel.LibroVentasDetallado(request);
+        }
+        
+        public System.Threading.Tasks.Task<Facturacion.cl.LibroVentasDetalladoResponse> LibroVentasDetalladoAsync(Facturacion.cl.LibroVentasDetalladoRequest request)
+        {
+            return base.Channel.LibroVentasDetalladoAsync(request);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

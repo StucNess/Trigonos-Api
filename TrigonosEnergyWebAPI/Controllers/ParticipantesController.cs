@@ -395,6 +395,26 @@ namespace TrigonosEnergy.Controllers
                 busqueda.vHabilitado = actproyect.vHabilitado != null ? (busqueda.vHabilitado == 0 ? 1 : 0 ): busqueda.vHabilitado ;
                 busqueda.Id_nomina_pago = actproyect.Id_nomina_pago != null ? actproyect.Id_nomina_pago : busqueda.Id_nomina_pago;
 
+                if (busqueda.Id_nomina_pago > 0)
+                {
+                    var spec = new PatchParticipantsRelation(actproyect.Id_participants);
+                    var datosParticipantes = await _participantesRepository.GetByClienteIDAsync(spec);
+                    datosParticipantes.trgns_nomina = actproyect.Id_nomina_pago;
+
+                    //var guardar = await _participantesRepository.SaveBD(datosParticipantes);
+
+
+
+
+
+
+
+                    if (!await _participantesRepository.UpdateeAsync(datosParticipantes))
+                    {
+                        return StatusCode(500);
+                    }
+                }
+               
                 if (!await _proyectosRepository.UpdateeAsync(busqueda))
                 {
                     return StatusCode(500);

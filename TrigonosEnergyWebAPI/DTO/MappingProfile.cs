@@ -73,7 +73,9 @@ namespace TrigonosEnergy.DTO
                 .ForMember(p => p.Bills_contact_email, x => x.MapFrom(a => a.cEN_Participants.Bills_contact_email))
                 .ForMember(p => p.Created_ts, x => x.MapFrom(a => a.cEN_Participants.Created_ts))
                 .ForMember(p => p.Updated_ts, x => x.MapFrom(a => a.cEN_Participants.Updated_ts))
-                .ForMember(p => p.trgns_erp, x => x.MapFrom(a => a.cEN_Participants.trgns_erp));
+                .ForMember(p => p.trgns_erp, x => x.MapFrom(a => a.cEN_Participants.trgns_erp))
+                .ForMember(p => p.trgns_nomina, x => x.MapFrom(a => a.cEN_Participants.trgns_nomina));
+
 
             CreateMap<REACT_CEN_Participants, RutDto>()
                 .ForMember(p => p.label, x => x.MapFrom(a => String.Concat(a.Rut, '-', a.Verification_Code)));

@@ -29,6 +29,7 @@
         public string? Created_ts { get; set; }
         public string? Updated_ts { get; set; }
         public int? trgns_erp { get; set; }
+        public int? trgns_nomina { get; set; }
 
     }
 }
