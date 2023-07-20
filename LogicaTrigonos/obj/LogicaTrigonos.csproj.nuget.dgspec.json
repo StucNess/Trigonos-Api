@@ -1,20 +1,38 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {}
+=======
+    "E:\\REACT TRGNS 2023\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {}
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
   },
   "projects": {
-    "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\Core\\Core.csproj": {
+    "E:\\REACT TRGNS 2023\\TrigonosAPI\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\Core\\Core.csproj",
+        "projectUniqueName": "E:\\REACT TRGNS 2023\\TrigonosAPI\\Core\\Core.csproj",
         "projectName": "Core",
+<<<<<<< HEAD
         "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\Core\\obj\\",
+=======
+        "projectPath": "E:\\REACT TRGNS 2023\\TrigonosAPI\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+        "outputPath": "E:\\REACT TRGNS 2023\\TrigonosAPI\\Core\\obj\\",
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +40,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -65,21 +84,43 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
     "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\REACT TRGNS 2023\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+        "projectUniqueName": "E:\\REACT TRGNS 2023\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
         "projectName": "LogicaTrigonos",
+<<<<<<< HEAD
         "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
         "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\obj\\",
+=======
+        "projectPath": "E:\\REACT TRGNS 2023\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj",
+        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+        "outputPath": "E:\\REACT TRGNS 2023\\TrigonosAPI\\LogicaTrigonos\\obj\\",
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -87,14 +128,20 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+<<<<<<< HEAD
               "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\Core\\Core.csproj": {
                 "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\Core\\Core.csproj"
+=======
+              "E:\\REACT TRGNS 2023\\TrigonosAPI\\Core\\Core.csproj": {
+                "projectPath": "E:\\REACT TRGNS 2023\\TrigonosAPI\\Core\\Core.csproj"
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
               }
             }
           }
@@ -160,7 +207,11 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
         }
       }
     }
