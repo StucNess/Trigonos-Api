@@ -140,6 +140,7 @@ namespace TrigonosEnergy.DTO
               .ForMember(p => p.MontoNeto, x => x.MapFrom(a => a.Amount))
               .ForMember(p => p.MontoBruto, x => x.MapFrom(a => a.Amount_Gross))
               .ForMember(p => p.period, x => x.MapFrom(a => a.cEN_Payment_Matrices.CEN_billing_windows.period))
+              .ForMember(p => p.periodEnd, x => x.MapFrom(a => a.cEN_Payment_Matrices.CEN_billing_windows.period_end))
               .ForMember(p => p.Carta, x => x.MapFrom(a => a.cEN_Payment_Matrices.Letter_code))
               .ForMember(p => p.Fecha_carta, x => x.MapFrom(a => a.cEN_Payment_Matrices.Publish_date))
               .ForMember(p => p.CodigoRef, x => x.MapFrom(a => a.cEN_Payment_Matrices.Reference_code));
