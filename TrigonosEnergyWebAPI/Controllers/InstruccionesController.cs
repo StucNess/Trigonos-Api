@@ -2407,35 +2407,35 @@ namespace TrigonosEnergyWebAPI.Controllers
                 //File.WriteAllBytes(@"E:\Folder\"+ fileName, Convert.FromBase64String(Base64String));
                 doc.Save(filePath);
 
-                //byte[] arrayDeBytes = System.IO.File.ReadAllBytes(filePath);
+                byte[] arrayDeBytes = System.IO.File.ReadAllBytes(filePath);
 
-                //string codificado = Convert.ToBase64String(arrayDeBytes);
+                string codificado = Convert.ToBase64String(arrayDeBytes);
 
-                ////Enviar al Facturador.CL
+                //Enviar al Facturador.CL
 
-                //wsplanoSoapClient client = new wsplanoSoapClient();
-                //logininfo login = new logininfo();
+                wsplanoSoapClient client = new wsplanoSoapClient();
+                logininfo login = new logininfo();
 
 
-                //login.Usuario = UsuarioTest; //"UEVMSUNBTk8=";
+                login.Usuario = UsuarioTest; //"UEVMSUNBTk8=";
 
-                //login.Rut = rut; //"NzYzMzc1OTktNA=="; //Testing: MS05 //Produccion:NzYzMzc1OTktNA==
+                login.Rut = RutTest; //"NzYzMzc1OTktNA=="; //Testing: MS05 //Produccion:NzYzMzc1OTktNA==
 
-                //login.Clave = datosERP[0].Clave;//"ODRjZTEyNDRhMA=="; //Testing: cGxhbm85MTA5OA== // Produccion:ODRjZTEyNDRhMA==
+                login.Clave = ClaveTest;//"ODRjZTEyNDRhMA=="; //Testing: cGxhbm85MTA5OA== // Produccion:ODRjZTEyNDRhMA==
 
-                //login.Puerto = "MQ==";
+                login.Puerto = "MQ==";
 
-                //login.IncluyeLink = "";
+                login.IncluyeLink = "";
 
-                //Facturacion.cl.ProcesarRequest request = new ProcesarRequest();
+                Facturacion.cl.ProcesarRequest request = new ProcesarRequest();
 
-                //request.login = login;
+                request.login = login;
 
-                //request.file = codificado;
+                request.file = codificado;
 
-                //request.formato = 2;
+                request.formato = 2;
 
-                //ProcesarResponse response = client.Procesar(request);
+                ProcesarResponse response = client.Procesar(request);
 
 
 

@@ -10171,24 +10171,40 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
+    "C:\\Users\\neidr\\.nuget\\packages\\": {}
+=======
     "C:\\Users\\andre\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
+      "projectUniqueName": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
+      "projectName": "TrigonosEnergyWebAPI",
+      "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
+      "packagesPath": "C:\\Users\\neidr\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\TrigonosEnergyWebAPI\\obj\\",
+=======
       "projectUniqueName": "E:\\REACT TRGNS 2023\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
       "projectName": "TrigonosEnergyWebAPI",
       "projectPath": "E:\\REACT TRGNS 2023\\TrigonosAPI\\TrigonosEnergyWebAPI\\TrigonosEnergyWebAPI.csproj",
       "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
       "outputPath": "E:\\REACT TRGNS 2023\\TrigonosAPI\\TrigonosEnergyWebAPI\\obj\\",
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
+<<<<<<< HEAD
+        "C:\\Users\\neidr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
         "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10204,8 +10220,13 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+<<<<<<< HEAD
+            "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
+              "projectPath": "C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj"
+=======
             "E:\\REACT TRGNS 2023\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj": {
               "projectPath": "E:\\REACT TRGNS 2023\\TrigonosAPI\\LogicaTrigonos\\LogicaTrigonos.csproj"
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
             }
           }
         }
@@ -10294,7 +10315,11 @@
             "privateAssets": "all"
           }
         },
+<<<<<<< HEAD
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+=======
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
       }
     }
   },
@@ -10303,7 +10328,11 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
+<<<<<<< HEAD
+      "message": "Problem reading the cache file C:\\Users\\neidr\\Desktop\\TRGNS 2024\\TRGNS API 2\\TrigonosAPI\\TrigonosEnergyWebAPI\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+=======
       "message": "Problema al leer el archivo de caché E:\\REACT TRGNS 2023\\TrigonosAPI\\TrigonosEnergyWebAPI\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+>>>>>>> bba272752d1d8ac7f60902578f435b1460dc2656
     }
   ]
 }
