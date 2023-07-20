@@ -35,10 +35,11 @@ namespace Core.Specifications.Relations
 
             (!parametros.Acreedor.HasValue || x.Creditor == parametros.Acreedor) &&
             (!parametros.Deudor.HasValue || x.Debtor == parametros.Deudor) &&
-
-            (!parametros.MontoNeto.HasValue || x.Amount == parametros.MontoNeto) &&
-           (!parametros.Pagada.HasValue || x.Is_paid == parametros.Pagada) &&
-            (!parametros.MontoBruto.HasValue || x.Amount_Gross == parametros.MontoBruto) &&
+            (!parametros.Pagada.HasValue || x.Is_paid == parametros.Pagada) &&
+            (!parametros.MontoNeto.HasValue || x.Amount >= parametros.MontoNeto) &&
+            (!parametros.MontoBruto.HasValue || x.Amount_Gross >= parametros.MontoBruto) && 
+            (!parametros.MontoNetoIgual.HasValue || x.Amount == parametros.MontoNetoIgual) &&
+            (!parametros.MontoBrutoIgual.HasValue || x.Amount_Gross == parametros.MontoBrutoIgual) &&
             (!parametros.Folio.HasValue || x.Folio == parametros.Folio)
              &&
              (

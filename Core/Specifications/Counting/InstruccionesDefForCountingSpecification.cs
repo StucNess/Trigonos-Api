@@ -36,6 +36,8 @@ namespace Core.Specifications.Counting
 
             (!parametros.MontoNeto.HasValue || x.Amount >= parametros.MontoNeto) &&
             (!parametros.MontoBruto.HasValue || x.Amount_Gross >= parametros.MontoBruto) &&
+            (!parametros.MontoNetoIgual.HasValue || x.Amount == parametros.MontoNetoIgual) &&
+            (!parametros.MontoBrutoIgual.HasValue || x.Amount_Gross == parametros.MontoBrutoIgual) &&
             (!parametros.Folio.HasValue || x.Folio == parametros.Folio)
              &&
              (
