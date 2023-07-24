@@ -191,9 +191,6 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// <param name="parametros"> hola </param>
         /// <returns></returns>
         [HttpPatch]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Updatee(int id, [FromQuery] PatchInstruccionesParams parametros)
         {
 
@@ -225,6 +222,9 @@ namespace TrigonosEnergyWebAPI.Controllers
             bdh.folio_new = 0;
             var condicional = 0;
             bdh.editor = parametros.Editor;
+
+
+
             //if (parametros.FechaAceptacion != bd.Fecha_aceptacion && parametros.FechaAceptacion != null)
             //{
             //    bdh.aceptation_date_old = bd.Fecha_aceptacion;
@@ -333,34 +333,25 @@ namespace TrigonosEnergyWebAPI.Controllers
             //}
             if (parametros.Editor != "Masivo")
             {
-                if (condicional == 1)
+               
+                
+                
+                if(!await _instruccionesDefRepository.UpdateeAsync(bd))
                 {
-                   
-                    if (!await _historificacionInstruccionesRepository.SaveBD(bdh))
-                    {
-                        return StatusCode(500);
-                    }
-                    else
-                    {
-                        if (!await _instruccionesDefRepository.UpdateeAsync(bd))
-                        {
-                            return StatusCode(500);
-                        }
-                        else
-                        {
-                            return StatusCode(200);
-                        }
-                    }
+                    Console.WriteLine("  erro 1");
+                    return StatusCode(500);
                 }
                 else
                 {
-                    return NoContent();
+                    Console.WriteLine("  error 2");
+                    return StatusCode(200);
                 }
 
 
             }
             else
             {
+                Console.WriteLine(" error no content 2");
                 return NoContent();
             }
 
