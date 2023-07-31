@@ -193,9 +193,6 @@ namespace TrigonosEnergyWebAPI.Controllers
         /// <param name="parametros"> hola </param>
         /// <returns></returns>
         [HttpPatch]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Updatee(int id, [FromQuery] PatchInstruccionesParams parametros)
         {
 
@@ -227,6 +224,9 @@ namespace TrigonosEnergyWebAPI.Controllers
             bdh.folio_new = 0;
             var condicional = 0;
             bdh.editor = parametros.Editor;
+
+
+
             //if (parametros.FechaAceptacion != bd.Fecha_aceptacion && parametros.FechaAceptacion != null)
             //{
             //    bdh.aceptation_date_old = bd.Fecha_aceptacion;
@@ -335,8 +335,12 @@ namespace TrigonosEnergyWebAPI.Controllers
             //}
             if (parametros.Editor != "Masivo")
             {
-                if (condicional == 1)
+               
+                
+                
+                if(!await _instruccionesDefRepository.UpdateeAsync(bd))
                 {
+<<<<<<< HEAD
 
                     if (!await _historificacionInstruccionesRepository.SaveBD(bdh))
                     {
@@ -353,16 +357,22 @@ namespace TrigonosEnergyWebAPI.Controllers
                             return StatusCode(200);
                         }
                     }
+=======
+                    Console.WriteLine("  erro 1");
+                    return StatusCode(500);
+>>>>>>> 8d24d94a07585b55e8b9a5a77a025d32d144c1f4
                 }
                 else
                 {
-                    return NoContent();
+                    Console.WriteLine("  error 2");
+                    return StatusCode(200);
                 }
 
 
             }
             else
             {
+                Console.WriteLine(" error no content 2");
                 return NoContent();
             }
 
