@@ -1,0 +1,13 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "2.1.0",
+  "options": {
+    "inputs": [
+      "http://ws.facturacion.cl/WSDS/wsplano.asmx"
+    ],
+    "outputFile": "Reference.cs",
+    "serializerMode": "XmlSerializer",
+    "targetFramework": "net7.0",
+    "typeReuseMode": "All"
+  }
+}

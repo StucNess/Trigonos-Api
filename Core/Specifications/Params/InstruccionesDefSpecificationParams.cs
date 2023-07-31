@@ -16,6 +16,7 @@ namespace Core.Specifications.Params
         public DateTime? InicioPeriodo { get; set; }
         public DateTime? TerminoPeriodo { get; set; }
         public string? Glosa { get; set; }
+        public string? FacturacionMasiva { get; set; }
         public string? Concepto { get; set; }
         public string? EstadoAceptacion { get; set; }
         public string? EstadoRecepcion { get; set; }

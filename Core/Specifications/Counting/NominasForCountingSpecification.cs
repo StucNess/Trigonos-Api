@@ -11,9 +11,13 @@ namespace Core.Specifications.Counting
     public class NominasForCountingSpecification : BaseSpecification<REACT_CEN_instructions_Def>
     {
         public NominasForCountingSpecification(int id, NominasParamsSpecification parametros)
-            : base(x => x.Debtor == id &&
+              : base
+            (x =>
+            x.Debtor == id &&
             x.Estado_emision == 2 &&
-            (string.IsNullOrEmpty(parametros.Glosa) || x.Payment_matrix_natural_key.Contains(parametros.Glosa)))
+            (string.IsNullOrEmpty(parametros.Glosa) || x.Payment_matrix_natural_key.Contains(parametros.Glosa)) &&
+            (string.IsNullOrEmpty(parametros.Disc) || (!string.IsNullOrEmpty(parametros.Disc) && !string.IsNullOrEmpty(x.CEN_nonconformities.created_ts))))
+
         {
             AddInclude(p => p.CEN_dte_acceptance_status);
             AddInclude(p => p.TRGNS_dte_reception_status);

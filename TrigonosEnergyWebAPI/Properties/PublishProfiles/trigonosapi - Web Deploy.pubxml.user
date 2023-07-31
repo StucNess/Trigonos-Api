@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Este archivo se usa en el proceso de publicación y empaquetado del proyecto web. Para personalizar el comportamiento de este proceso,
-edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 para obtener más información. 
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
 -->
 <Project>
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-<<<<<<< HEAD
-    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAffil/nj1pkuNBDlaisqSjwAAAAACAAAAAAAQZgAAAAEAACAAAACu25IHyq3P4KlOQe9IbTs0EMHvsQChCHajoWJ/4N8MNgAAAAAOgAAAAAIAACAAAAAMI1YmGtpLTKKMDG7wPhNcm5hfMAOulKhgkczsO2q4SoAAAAB/ohtf6Id0/4M7hpwHf49ep6NZzQoUhSspJfG8tA73AslcFt5drNShFheZWTuQqjswx4jPQ/iauw3i9oVqutGpARIzWVXVxsoTOIZoK34WV4omZTW/BEsJFWIBqzF2uQfh8Biq5kBdQIJ/Y5jhTHrk//vPVPeL5BRaszg9DMWrdUAAAABjabck/gMAF79wuTT0UH0Pnuj5lUuZv/MNF3Lgj3I8L1Fc8FfaaMvRpk4AUo2IxoEAftpLKoz4BXYPPSv+MpDr</EncryptedPassword>
-    <History>True|2023-07-20T23:07:38.6503550Z;True|2023-07-20T18:40:05.4628065-04:00;</History>
-=======
-    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAIj3101awSkiRyYqVfPXFmAAAAAACAAAAAAAQZgAAAAEAACAAAAAnUyKk+QwSwcL7c+3BOJJTymNmgF6/3WYm1cRqYKeWVQAAAAAOgAAAAAIAACAAAADLzawuRP3ndUUEKs/ttqo6EvZkvoArXTNNvXneY8Qt2YAAAABdxAQ4La4dQd7J+W3cQvGElNlqFPP5f9EFnIAikKzsnuTEcaI5llpvRRQ7dV58iwHrn2fYIGIDG1ixDFVTLxky13F//o4IDyjVBPx8ne6jjes5zBWMEGv5lS/aEvgbUI+zjLB7boJNjLgpkbC8I27CqSpc1dS3MXJbLRnTjuvjMkAAAADl7FF8dSSqe1EYclXmageFbbLZ5CdfCjDFk5NxNtJr9lxQ+hR3LXRfpKH8fIIzOu7HSM+QhI6QrYt+3/yqQKp+</EncryptedPassword>
-    <History>True|2023-07-20T19:39:52.1213213Z;</History>
->>>>>>> cc2fb5e37f6be62c77f512636fd6bc70914e2fa7
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAIj3101awSkiRyYqVfPXFmAAAAAACAAAAAAAQZgAAAAEAACAAAABI4R1/Ojond38P6reElR4vyjT0uOe3+YQRs8XcSZQIZgAAAAAOgAAAAAIAACAAAABRExDlawWo+UqOeORD/DdLR2eUcrIuTf5p9EsJxmbNgYAAAAAqzV0SKTdDudVikvI0/HnZnwIzI5gE92cX0psqLQ9vrqkUwCsFUS7clTFNmboRm8yJ2pTwMEApYm/ZMpa57i90G3vCnG21S7z3MCFmISBkm7ZeYU3GC9OmkfI/GQGRlbJwIhzyvElpi3O8R5v4TgC8bPZLDSR1c3Pw0n2OlQpL8UAAAAA5oO6WVM8CMTBQ4h9vrn/M/OyWJkRD5jPU05bv3eqwU0GGIP/HxoiWu1mamuwB1hQSgFCfNosEAhpAIQN+o0ad</EncryptedPassword>
+    <History>True|2023-07-26T16:22:55.3576962Z;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>

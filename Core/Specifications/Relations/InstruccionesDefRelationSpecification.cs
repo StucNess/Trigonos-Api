@@ -29,6 +29,7 @@ namespace Core.Specifications.Relations
             (string.IsNullOrEmpty(parametros.Carta) || x.cEN_Payment_Matrices.Letter_code.Contains(parametros.Carta)) &&
             (string.IsNullOrEmpty(parametros.CodigoRef) || x.cEN_Payment_Matrices.Reference_code.Contains(parametros.CodigoRef)) &&
             (!parametros.FechaRecepcion.HasValue || x.Fecha_recepcion == parametros.FechaRecepcion) &&
+           (string.IsNullOrEmpty(parametros.FacturacionMasiva) || x.Estado_emision == 4 || x.Estado_emision == 1)  &&
             (!parametros.FechaAceptacion.HasValue || x.Fecha_recepcion == parametros.FechaAceptacion) &&
             (!parametros.FechaPago.HasValue || x.Fecha_recepcion == parametros.FechaPago) &&
             (!parametros.FechaEmision.HasValue || x.Fecha_recepcion == parametros.FechaEmision) &&

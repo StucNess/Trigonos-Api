@@ -14,13 +14,13 @@ namespace Core.Specifications.Relations
 
         public NominasRelationSpecification(int id, NominasParamsSpecification parametros)
             : base
-            (x => 
+            (x =>
             x.Debtor == id &&
             x.Estado_emision == 2 &&
             (string.IsNullOrEmpty(parametros.Glosa) || x.Payment_matrix_natural_key.Contains(parametros.Glosa)) &&
-            ((string.IsNullOrEmpty(parametros.Disc) && string.IsNullOrEmpty(x.CEN_nonconformities.created_ts)) || (!string.IsNullOrEmpty(parametros.Disc) && !string.IsNullOrEmpty(x.CEN_nonconformities.created_ts)))
+            (string.IsNullOrEmpty(parametros.Disc) || (!string.IsNullOrEmpty(parametros.Disc) && !string.IsNullOrEmpty(x.CEN_nonconformities.created_ts))))
             
-            )
+            
         {
 
             AddInclude(p => p.CEN_dte_acceptance_status);

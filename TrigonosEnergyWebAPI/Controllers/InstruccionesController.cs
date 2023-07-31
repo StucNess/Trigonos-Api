@@ -7,7 +7,7 @@ using Core.Specifications;
 using Core.Specifications.Counting;
 using Core.Specifications.Params;
 using Core.Specifications.Relations;
-using Facturacion.cl;
+
 using LogicaTrigonos.Data;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using ServiceReference1;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ using TrigonosEnergy.Controllers;
 using TrigonosEnergyWebAPI.DTO;
 using TrigonosEnergyWebAPI.Errors;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
+using static ServiceReference1.wsplanoSoapClient;
 
 namespace TrigonosEnergyWebAPI.Controllers
 {
@@ -40,11 +42,11 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> _historificacionInstruccionesRepository;
         private readonly IGenericRepository<REACT_CEN_Participants> _participantesRepository;
         private readonly IGenericRepository<REACT_TRGNS_FACTCLDATA> _factClRepository;
-
         private readonly IGenericRepository<REACT_TRGNS_Excel_History> _excelHistoryRepository;
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
         private readonly TrigonosDBContext _context;
+            private static readonly HttpClient client = new HttpClient();
         public InstruccionesController(IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository, IGenericRepository<REACT_CEN_Participants> participantesRepository, TrigonosDBContext context, IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository, IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository, IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
@@ -326,7 +328,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 condicional = 1;
             }
 
-         
+
             //if (!await _instruccionesRepository.UpdateeAsync(bd))
             //{
             //    return StatusCode(500);
@@ -335,7 +337,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             {
                 if (condicional == 1)
                 {
-                   
+
                     if (!await _historificacionInstruccionesRepository.SaveBD(bdh))
                     {
                         return StatusCode(500);
@@ -1340,7 +1342,9 @@ namespace TrigonosEnergyWebAPI.Controllers
         [HttpPost("NominasDePago")]
         public async Task<ActionResult> NominasDePago(int id, int bank, string excelName, string fechaPago, List<Dictionary<string, object>> ListIdInstrucctions)
         {
-            Console.WriteLine(fechaPago);
+            var FechaHoy = DateTime.Today;
+
+
             int conditional = 0;
             var FechaPago = Convert.ToDateTime(fechaPago);
             List<int> numberList = new List<int>();
@@ -1376,6 +1380,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                             };
                             conditional = 1;
                         }
+
                         bdPago.Is_paid = true;
                         bdPago.Estado_pago = 2;
                         bdPago.Fecha_pago = FechaPago;
@@ -1410,6 +1415,10 @@ namespace TrigonosEnergyWebAPI.Controllers
 
                             conditional = 1;
                         }
+                        if (!(Convert.ToDateTime(fechaPago) < FechaHoy))
+                        {
+                            throw new Exception("¡Esta es una excepción forzada!");
+                        }
                         bdPago.Is_paid = true;
                         bdPago.Estado_pago = 2;
                         bdPago.Fecha_pago = FechaPago;
@@ -1443,6 +1452,10 @@ namespace TrigonosEnergyWebAPI.Controllers
                                 return NotFound(new CodeErrorResponse(400, String.Concat("El excel subido no pertenece al cliente seleccionado")));
                             };
                             conditional = 1;
+                        }
+                        if (!(Convert.ToDateTime(fechaPago) < FechaHoy))
+                        {
+                            throw new Exception("¡Esta es una excepción forzada!");
                         }
                         bdPago.Is_paid = true;
                         bdPago.Estado_pago = 2;
@@ -1509,6 +1522,8 @@ namespace TrigonosEnergyWebAPI.Controllers
         [HttpPost("CuadreMasivoAcreedor")]
         public async Task<ActionResult> CuadreMasivoAcreedor(int id, string excelName, List<Dictionary<string, object>> ListIdInstrucctions)
         {
+            var FechaHoy = DateTime.Today;
+            var Fecha_recepcion = DateTime.Now;
             var Fecha_pago = DateTime.Now;
             List<int> numberList = new List<int>();
             var conditional = 0;
@@ -1543,7 +1558,42 @@ namespace TrigonosEnergyWebAPI.Controllers
                     {
                         Fecha_pago = DateTime.FromOADate(int.Parse(i["Fecha de Pago"].ToString()));
                     }
-                    bd.Fecha_pago = Fecha_pago;
+                    if (excelName.Contains("HIST"))
+                    {
+                        try
+                        {
+                            try
+                            {
+                                Fecha_recepcion = Convert.ToDateTime(i["Fecha Emision"].ToString().Substring(0, 10));
+                            }
+                            catch
+                            {
+                                var fechita = i["Fecha Emision"].ToString().Substring(0, 10);
+                                Fecha_recepcion = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
+                            }
+                        }
+                        catch
+                        {
+                            Fecha_recepcion = DateTime.FromOADate(int.Parse(i["Fecha Emision"].ToString()));
+                        }
+                        if ((Convert.ToDateTime(Fecha_recepcion.ToString("yyyy-MM-dd")) > Convert.ToDateTime(FechaHoy.ToString("yyyy-MM-dd"))))
+                        {
+                            throw new Exception("¡Esta es una excepción forzada!");
+                        }
+                        if ((Convert.ToDateTime(Fecha_pago.ToString("yyyy-MM-dd")) > Convert.ToDateTime(FechaHoy.ToString("yyyy-MM-dd"))))
+                        {
+                            throw new Exception("¡Esta es una excepción forzada!");
+                        }
+                        bd.Fecha_recepcion = Fecha_recepcion;
+                        bd.Fecha_aceptacion = Fecha_recepcion;
+                        bd.Fecha_emision = Fecha_recepcion;
+                    }
+                    if ((Convert.ToDateTime(Fecha_pago.ToString("yyyy-MM-dd")) > Convert.ToDateTime(FechaHoy.ToString("yyyy-MM-dd"))))
+                    {
+                        throw new Exception("¡Esta es una excepción forzada!");
+                    }
+
+                    bd.Fecha_pago = Fecha_pago;                  
                     bd.Estado_pago = 2;
                     bd.Folio = int.Parse(i["Folio"].ToString());
                     bd.Is_paid = true;
@@ -1651,7 +1701,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
 
                     //VERIFICAMOS FECHA DE RECEPCION
-                    if (!(Convert.ToDateTime(FechaRecepcion.ToString("yyyy-MM-dd")) <= Convert.ToDateTime(FechaHoy.ToString("yyyy-MM-dd"))))
+                    if ((Convert.ToDateTime(FechaRecepcion.ToString("yyyy-MM-dd")) > Convert.ToDateTime(FechaHoy.ToString("yyyy-MM-dd"))))
                     {
                         throw new Exception("¡Esta es una excepción forzada!");
                     }
@@ -1673,7 +1723,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                             {
                                 var fechita = i["Fecha Pago"].ToString().Substring(0, 10);
                                 FechaPago = Convert.ToDateTime(fechita.Substring(6, 4) + "-" + fechita.Substring(3, 2) + "-" + fechita.Substring(0, 2));
-                            }                       
+                            }
                         }
                         catch
                         {
@@ -1698,11 +1748,10 @@ namespace TrigonosEnergyWebAPI.Controllers
                         {
                             FechaEmision = DateTime.FromOADate(int.Parse(i["Fecha Emision"].ToString()));
                         };
-
                         //Console.WriteLine(FechaPago);
                         //Console.WriteLine(FechaRecepcion);
                         //Console.WriteLine(FechaEmision);
-                        if(FechaPago < FechaEmision || FechaRecepcion < FechaEmision)
+                        if (FechaPago < FechaEmision || FechaRecepcion < FechaEmision)
                         {
                             throw new Exception("¡Esta es una excepción forzada!");
                         }
@@ -1801,6 +1850,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         [HttpPost("FacturacionMasiva")]
         public async Task<ActionResult> FacturacionMasiva(int id, int erp, string excelName, List<Dictionary<string, object>> ListIdInstrucctions)
         {
+            var FechaHoy = DateTime.Today;
             var conditional = 0;
             //List<string> listado = new List<string>();
             string pruebaa = "NADA";
@@ -1836,6 +1886,10 @@ namespace TrigonosEnergyWebAPI.Controllers
                         {
                             FechaEmisionAbastible = DateTime.FromOADate(int.Parse(i["FechaEmision"].ToString()));
                         };
+                        if ((Convert.ToDateTime(FechaEmisionAbastible.ToString("yyyy-MM-dd")) > Convert.ToDateTime(FechaHoy.ToString("yyyy-MM-dd"))))
+                        {
+                            throw new Exception("¡Esta es una excepción forzada!");
+                        }
                         var rutAbastible = i["Rut"].ToString().Substring(0, 8);
                         var itemAbastible = BDD.Where(e => e.Creditor == id && e.Payment_matrix_natural_key == glosaAbastible && e.Amount == montoNetoAbastible && e.Participants_debtor.Rut.Contains(rutAbastible)).Select(item => item.ID).ToList()[0];
                         var bdAbastible = await _instruccionesDefRepository.GetByClienteIDAsync(itemAbastible);
@@ -1892,7 +1946,10 @@ namespace TrigonosEnergyWebAPI.Controllers
                         {
                             FechaEmisionDefontana = DateTime.FromOADate(int.Parse(i["Fecha"].ToString()));
                         };
-
+                        if ((Convert.ToDateTime(FechaEmisionDefontana.ToString("yyyy-MM-dd")) > Convert.ToDateTime(FechaHoy.ToString("yyyy-MM-dd"))))
+                        {
+                            throw new Exception("¡Esta es una excepción forzada!");
+                        }
                         var rutDefontana = i["CódigodelCliente"].ToString().Substring(0, 8);
                         var itemDefontana = BDD/*.Where(e => e.Creditor == id)*/.Where(e => e.Payment_matrix_natural_key == glosaDefontana && e.Amount == montoNetoDefontana && e.Participants_debtor.Rut.Contains(rutDefontana)).Select(item => item.ID).ToList()[0];
                         var bdDefontana = await _instruccionesDefRepository.GetByClienteIDAsync(itemDefontana);
@@ -1947,6 +2004,10 @@ namespace TrigonosEnergyWebAPI.Controllers
                         catch
                         {
                             FechaEmisionNubox = DateTime.FromOADate(int.Parse(i["Fecha Emision"].ToString()));
+                        }
+                        if ((Convert.ToDateTime(FechaEmisionNubox.ToString("yyyy-MM-dd")) > Convert.ToDateTime(FechaHoy.ToString("yyyy-MM-dd"))))
+                        {
+                            throw new Exception("¡Esta es una excepción forzada!");
                         }
                         var rutNubox = i["Rut"].ToString().Substring(0, 8);
                         var folioNubox = int.Parse(i["FOLIO"].ToString());
@@ -2027,7 +2088,8 @@ namespace TrigonosEnergyWebAPI.Controllers
 
         [HttpPost("FacturacionCL")]
         public async Task<ActionResult> FacturacionCL(int id, List<int> ListIdInstrucctions)
-        {
+       {
+            string Response = "";
             string RemoveAccents(string input)
             {
                 string normalizedString = input.Normalize(NormalizationForm.FormD);
@@ -2051,40 +2113,15 @@ namespace TrigonosEnergyWebAPI.Controllers
             .Where(e => e.IdParticipante == id)
             .ToList();
             //TEST
-            var UsuarioTest = DecodeToString(datosFacturacion[0].UsuarioTest);
-            var ClaveTest = DecodeToString(datosFacturacion[0].ClaveTest);
-            var RutTest = DecodeToString(datosFacturacion[0].RutTest);
+            var UsuarioTest = /*DecodeToString(*/datosFacturacion[0].UsuarioTest;
+            var ClaveTest = /*DecodeToString(*/datosFacturacion[0].ClaveTest;
+            var RutTest = /*DecodeToString(*/datosFacturacion[0].RutTest;
             //PRODUCCION
             var UsuarioProduccion = DecodeToString(datosFacturacion[0].Usuario64);
             var ClaveProduccion = DecodeToString(datosFacturacion[0].Clave64);
             var RutProduccion = DecodeToString(datosFacturacion[0].RUT64);
             foreach (var i in ListIdInstrucctions)
             {
-
-                //var encodeList = await _factClRepository.GetAllAsync();
-                //var busqueda = encodeList.FirstOrDefault(i => i.IdParticipante == id);
-
-                //if (busqueda == null)
-                //{
-                //    return NotFound(new CodeErrorResponse(404, "la facturacion no existe"));
-                //}
-                //else
-                //{
-                //    return new FacturacionClDto
-                //    {
-                //        ID = busqueda.ID,
-                //        IdParticipante = busqueda.IdParticipante,
-                //        Usuario64 = busqueda.Usuario64 != null ? DecodeToString(busqueda.Usuario64) : null,
-                //        RUT64 = busqueda.RUT64 != null ? DecodeToString(busqueda.RUT64) : null,
-                //        Clave64 = busqueda.Clave64 != null ? DecodeToString(busqueda.Clave64) : null,
-                //        Puerto64 = busqueda.Puerto64 != null ? DecodeToString(busqueda.Puerto64) : null,
-                //        IncluyeLink64 = busqueda.IncluyeLink64 != null ? DecodeToString(busqueda.IncluyeLink64) : null,
-                //        UsuarioTest = busqueda.UsuarioTest != null ? DecodeToString(busqueda.UsuarioTest) : null,
-                //        ClaveTest = busqueda.ClaveTest != null ? DecodeToString(busqueda.ClaveTest) : null,
-                //        RutTest = busqueda.RutTest != null ? DecodeToString(busqueda.RutTest) : null,
-                //        Phabilitado = busqueda.Phabilitado,
-                //    };
-                //}
                 //DATOS INSTRUCCION
 
                 var instrucción = _context.Set<REACT_CEN_instructions_Def>()
@@ -2115,7 +2152,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 var giroAcreedor = instrucción[0].Participants_creditor.Commercial_Business;
                 var direccionComercialAcreedor = instrucción[0].Participants_creditor.Commercial_address;
                 //DATOS DEUDOR
-                var rutDeudor = instrucción[0].Participants_debtor.Rut + '-' + instrucción[0].Participants_creditor.Verification_Code;
+                var rutDeudor = instrucción[0].Participants_debtor.Rut + '-' + instrucción[0].Participants_debtor.Verification_Code;
                 var nombreComercialDeudor = instrucción[0].Participants_debtor.Business_Name;
                 var giroDeudor = instrucción[0].Participants_debtor.Commercial_Business;
                 var direccionComercialDeudor = instrucción[0].Participants_debtor.Commercial_address;
@@ -2400,11 +2437,13 @@ namespace TrigonosEnergyWebAPI.Controllers
                 XmlText RazonRef = doc.CreateTextNode(Convert.ToString(item["RazonDIF"]));
                 element34.AppendChild(RazonRef);
                 elementoReferencia.AppendChild(element34);
-                string filePath = "C:/home/site/wwwroot/FacturacionXml/" + item["rutacreedor"] + "/" + item["rutacreedor"].ToString() + "_" + id.ToString() + "_" + item["foliod"].ToString() + "_" + instrucción[0].ID.ToString() + ".xml";
-                //string filePath = "C:/Users/neidr/Desktop/TRGNS/file.xml";
-                //string filePath = "C:/home/site/wwwroot/FacturacionXml/file.xml";
 
-                //File.WriteAllBytes(@"E:\Folder\"+ fileName, Convert.FromBase64String(Base64String));
+                // RUTA AZURE
+                //string filePath = "C:/home/site/wwwroot/FacturacionXml/" + item["rutacreedor"] + "/" + item["rutacreedor"].ToString() + "_" + id.ToString() + "_" + item["foliod"].ToString() + "_" + instrucción[0].ID.ToString() + ".xml";
+                // RUTA LOCAL
+                string filePath = "C:/Users/neidr/Desktop/TRGNS 2024/file.xml";
+
+
                 doc.Save(filePath);
 
                 byte[] arrayDeBytes = System.IO.File.ReadAllBytes(filePath);
@@ -2413,7 +2452,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
                 //Enviar al Facturador.CL
 
-                wsplanoSoapClient client = new wsplanoSoapClient();
+                wsplanoSoapClient client = new wsplanoSoapClient(EndpointConfiguration.wsplanoSoap12);
                 logininfo login = new logininfo();
 
 
@@ -2427,7 +2466,7 @@ namespace TrigonosEnergyWebAPI.Controllers
 
                 login.IncluyeLink = "";
 
-                Facturacion.cl.ProcesarRequest request = new ProcesarRequest();
+                ProcesarRequest request = new ProcesarRequest();
 
                 request.login = login;
 
@@ -2435,101 +2474,95 @@ namespace TrigonosEnergyWebAPI.Controllers
 
                 request.formato = 2;
 
-                ProcesarResponse response = client.Procesar(request);
+
+                ProcesarResponse response = await client.ProcesarAsync(request);
+
+                try
+                {
+                    var resultado = response.ProcesarResult;
+                    XElement xdocumento = XElement.Parse(resultado);
+                    var elementsResult = xdocumento.Elements("Resultado");
+                    var responseOK = elementsResult.ToList()[0].Value;
+
+                    if (responseOK == "True")
+
+                    {
+
+                        var s1 = xdocumento.Elements("Detalle").Elements("Documento").Elements("Folio");
 
 
 
-                ////Almacenar Respuestas
+                        var list = from items in xdocumento.Elements("Detalle").Elements("Documento")
 
-                ////try catch
+                                   select new
 
-                //try
+                                   {
 
-                //{
-
-                //    //Asignar Variables
-
-                //    string _xml = response.ProcesarResult;
-
-                //    XElement xdocumento = XElement.Parse(_xml);
-
-                //    var elementsResult = xdocumento.Elements("Resultado");
-
-                //    var responseOK = elementsResult.ToList()[0].Value;
+                                       Folioone = items.Value
 
 
 
-                //    if (responseOK == "True")
-
-                //    {
-
-                //        var s1 = xdocumento.Elements("Detalle").Elements("Documento").Elements("Folio");
+                                   };
 
 
 
-                //        var list = from items in xdocumento.Elements("Detalle").Elements("Documento")
-
-                //                   select new
-
-                //                   {
-
-                //                       Folioone = items.Value
+                        var FolioFInal = s1.ToList()[0].Value;
 
 
+                        var bdInstruccion = await _instruccionesDefRepository.GetByClienteIDAsync(i);
 
-                //                   };
+                        bdInstruccion.Estado_emision = 2;
+                        bdInstruccion.Folio = int.Parse(FolioFInal.Substring(2,7));
+                        bdInstruccion.Fecha_emision = DateTime.Now.Date
+                            ;
+                        if (!await _instruccionesDefRepository.UpdateeAsync(bdInstruccion))
+                        {
+                            return StatusCode(500);
+                        }
+                        ////Guardado en BD
 
-
-
-                //        var FolioFInal = s1.ToList()[0].Value;
-
-
-
-                //        //Guardado en BD
-
-                //        string query = "UPDATE dbo.BTAM_instrucciones_acreedor set folio=" + FolioFInal + ", emission_dt =" + "'" + Convert.ToDateTime(item.fechaEmision).ToString("dd-MM-yyyy") + "'" + ",status_billed=" + 2 + " where id_instruccion = " + id + "";
+                        //string query = "UPDATE dbo.BTAM_instrucciones_acreedor set folio=" + FolioFInal + ", emission_dt =" + "'" + Convert.ToDateTime(item.fechaEmision).ToString("dd-MM-yyyy") + "'" + ",status_billed=" + 2 + " where id_instruccion = " + id + "";
 
 
 
-                //        db.ExecuteCommand(query);
+                        //db.ExecuteCommand(query);
 
 
 
-                //        Response = "Exito";
+                        Response = "Exito";
 
-                //    }
+                    }
 
-                //    else
+                    else
 
-                //    {
+                    {
 
-                //        elementsResult = xdocumento.Elements("Detalle").Elements("Documento").Elements("Error");
+                        elementsResult = xdocumento.Elements("Detalle").Elements("Documento").Elements("Error");
 
-                //        var responseError = elementsResult.ToList()[0].Value + " " + "Cliente: " + lista[0].RznSocRecep;
+                        var responseError = elementsResult.ToList()[0].Value + " " + "Cliente: "/* + lista[0].RznSocRecep*/;
 
-                //        return Response = responseError;
+                        //return Response = responseError;
+                        throw new Exception(responseError);
 
-                //    }
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    throw new Exception("ERROR" + response.ToString());
+                    //Response = "ERROR" + response.ToString();
+
+                    //throw;
+                }
+
+             
 
 
 
-                //}
 
-                //catch (Exception ex)
 
-                //{
-
-                //    Response = "ERROR" + response.ToString();
-
-                //    throw;
-
-                //}
 
             }
-
-
-
-
             return Ok();
 
         }
@@ -2545,7 +2578,6 @@ namespace TrigonosEnergyWebAPI.Controllers
 
             for (var i = 0; i < estadoEmision; i++)
             {
-
 
 
             }

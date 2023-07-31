@@ -26,6 +26,7 @@ namespace Core.Specifications.Counting
             (string.IsNullOrEmpty(parametros.Concepto) || x.Payment_matrix_concept.Contains(parametros.Concepto)) &&
             (string.IsNullOrEmpty(parametros.Carta) || x.cEN_Payment_Matrices.Letter_code.Contains(parametros.Carta)) &&
             (string.IsNullOrEmpty(parametros.CodigoRef) || x.cEN_Payment_Matrices.Reference_code.Contains(parametros.CodigoRef)) &&
+            (string.IsNullOrEmpty(parametros.FacturacionMasiva) || x.Estado_emision == 4 || x.Estado_emision == 1) &&
             (!parametros.FechaRecepcion.HasValue || x.Fecha_recepcion == parametros.FechaRecepcion) &&
             (!parametros.FechaAceptacion.HasValue || x.Fecha_recepcion == parametros.FechaAceptacion) &&
             (!parametros.FechaPago.HasValue || x.Fecha_recepcion == parametros.FechaPago) &&

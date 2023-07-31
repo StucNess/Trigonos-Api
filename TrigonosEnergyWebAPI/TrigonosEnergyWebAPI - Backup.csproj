@@ -10,31 +10,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArcToCore.WsdlToCode" Version="1.0.0" />
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
-    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Web.Infrastructure" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.22.0" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.10.*" />
     <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
     <PackageReference Include="System.ServiceModel.Http" Version="4.10.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.*" />
+    <Reference Include="System.Net" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.10.*" />
-    <PackageReference Include="System.Web.Services.Description" Version="6.0.0" />
-    <PackageReference Include="WCFExtrasPlus" Version="2.6.13" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\LogicaTrigonos\LogicaTrigonos.csproj" />
   </ItemGroup>
 

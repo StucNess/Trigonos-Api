@@ -1568,7 +1568,6 @@ C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net
 C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.Diagnostics.PerformanceCounter.dll
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\appsettings.json
-C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Connected Services\Facturacion.cl\ConnectedService.json
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\TrigonosEnergyWebAPI.exe
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\TrigonosEnergyWebAPI.deps.json
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\TrigonosEnergyWebAPI.runtimeconfig.json
@@ -1878,3 +1877,29 @@ C:\Users\andre\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Mi
 C:\Users\andre\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\andre\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\System.Diagnostics.PerformanceCounter.dll
 C:\Users\andre\source\repos\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.Diagnostics.PerformanceCounter.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\System.Web.Mvc.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\System.Web.Razor.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\System.Web.Helpers.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\System.Web.WebPages.Deployment.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\System.Web.WebPages.Razor.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\System.Web.WebPages.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.Web.Infrastructure.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\WsdlToCode.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.CodeAnalysis.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\System.Web.Services.Description.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\WCFExtrasPlus.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\cs\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\de\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\es\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\fr\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\it\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\ja\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\ko\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\pl\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\pt-BR\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\ru\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\tr\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\zh-Hans\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\zh-Hant\System.Web.Services.Description.resources.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Debug\net6.0\Connected Services\ServiceReference1\ConnectedService.json

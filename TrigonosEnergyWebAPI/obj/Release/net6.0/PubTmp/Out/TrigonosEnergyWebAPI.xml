@@ -4,22 +4,22 @@
         <name>TrigonosEnergyWebAPI</name>
     </assembly>
     <members>
-        <member name="T:Facturacion.cl.logininfo">
+        <member name="T:facturacioncl.logininfo">
             <remarks/>
         </member>
-        <member name="P:Facturacion.cl.logininfo.Usuario">
+        <member name="P:facturacioncl.logininfo.Usuario">
             <remarks/>
         </member>
-        <member name="P:Facturacion.cl.logininfo.Rut">
+        <member name="P:facturacioncl.logininfo.Rut">
             <remarks/>
         </member>
-        <member name="P:Facturacion.cl.logininfo.Clave">
+        <member name="P:facturacioncl.logininfo.Clave">
             <remarks/>
         </member>
-        <member name="P:Facturacion.cl.logininfo.Puerto">
+        <member name="P:facturacioncl.logininfo.Puerto">
             <remarks/>
         </member>
-        <member name="P:Facturacion.cl.logininfo.IncluyeLink">
+        <member name="P:facturacioncl.logininfo.IncluyeLink">
             <remarks/>
         </member>
         <member name="M:TrigonosEnergyWebAPI.Controllers.ComboBoxController.GetReception">

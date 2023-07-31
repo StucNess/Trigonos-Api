@@ -533,7 +533,6 @@ C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\TrigonosEnergyWebAPI\bin\Release\n
 C:\Users\neidr\Desktop\TRGNS 2024\TrigonosAPI\TrigonosEnergyWebAPI\bin\Release\net6.0\runtimes\win\lib\netcoreapp2.0\System.Diagnostics.PerformanceCounter.dll
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Release\net6.0\appsettings.Development.json
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Release\net6.0\appsettings.json
-C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Release\net6.0\Connected Services\Facturacion.cl\ConnectedService.json
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Release\net6.0\TrigonosEnergyWebAPI.exe
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Release\net6.0\TrigonosEnergyWebAPI.deps.json
 C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Release\net6.0\TrigonosEnergyWebAPI.runtimeconfig.json
@@ -973,3 +972,4 @@ E:\REACT TRGNS 2023\TrigonosAPI\TrigonosEnergyWebAPI\obj\Release\net6.0\Trigonos
 E:\REACT TRGNS 2023\TrigonosAPI\TrigonosEnergyWebAPI\obj\Release\net6.0\TrigonosEnergyWebAPI.pdb
 E:\REACT TRGNS 2023\TrigonosAPI\TrigonosEnergyWebAPI\obj\Release\net6.0\TrigonosEnergyWebAPI.genruntimeconfig.cache
 E:\REACT TRGNS 2023\TrigonosAPI\TrigonosEnergyWebAPI\obj\Release\net6.0\ref\TrigonosEnergyWebAPI.dll
+C:\Users\neidr\Desktop\TRGNS 2024\TRGNS API 2\TrigonosAPI\TrigonosEnergyWebAPI\bin\Release\net6.0\Connected Services\facturacioncl\ConnectedService.json
