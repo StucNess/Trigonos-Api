@@ -44,6 +44,7 @@ namespace LogicaTrigonos.Data
         public DbSet<AspNetRoles> AspNetRoles { get; set; }
         public DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public DbSet<REACT_TRGNS_AgentsOfParticipants> REACT_TRGNS_AgentsOfParticipants { get; set; }
+        public DbSet<REACT_TRGNS_LogsFacturacioncl> REACT_TRGNS_LogsFacturacioncl { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

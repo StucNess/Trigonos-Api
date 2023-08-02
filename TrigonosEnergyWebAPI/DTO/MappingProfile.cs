@@ -274,6 +274,7 @@ namespace TrigonosEnergy.DTO
             CreateMap<AspNetUserRoles, AspNetUserRolesDto>();
             CreateMap<REACT_TRGNS_H_CEN_participants, HistorificacionDto>();
             CreateMap<REACT_TRGNS_AgentsOfParticipants, AgentsParticipantsDto>();
+            CreateMap<REACT_TRGNS_LogsFacturacioncl, LogsFacturacionclDto>();
 
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
             CreateMap<REACT_TRGNS_Excel_History, excelHistoryDto>().ReverseMap();

@@ -43,11 +43,12 @@ namespace TrigonosEnergyWebAPI.Controllers
         private readonly IGenericRepository<REACT_CEN_Participants> _participantesRepository;
         private readonly IGenericRepository<REACT_TRGNS_FACTCLDATA> _factClRepository;
         private readonly IGenericRepository<REACT_TRGNS_Excel_History> _excelHistoryRepository;
+        private readonly IGenericRepository<REACT_TRGNS_LogsFacturacioncl> _logFacturacionRepository;
         //private readonly IGenericRepository<Patch_TRGNS_Datos_Facturacion> _instruccionessRepository;
         private readonly IMapper _mapper;
         private readonly TrigonosDBContext _context;
             private static readonly HttpClient client = new HttpClient();
-        public InstruccionesController(IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository, IGenericRepository<REACT_CEN_Participants> participantesRepository, TrigonosDBContext context, IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository, IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository, IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
+        public InstruccionesController(IGenericRepository<REACT_TRGNS_LogsFacturacioncl> logFacturacionRepository,IGenericRepository<REACT_TRGNS_FACTCLDATA> factClRepository, IGenericRepository<REACT_CEN_Participants> participantesRepository, TrigonosDBContext context, IGenericRepository<REACT_TRGNS_Excel_History> excelHistoryRepository, IGenericRepository<REACT_CEN_instructions_Def> instruccionesDefRepository, IGenericRepository<REACT_TRGNS_H_Datos_Facturacion> historificacionInstruccionesRepository, IGenericRepository<REACT_TRGNS_Datos_Facturacion> instruccionesRepository/*, IGenericRepository<Patch_TRGNS_Datos_Facturacion> instruccionessRepository*/, IMapper mapper, IGenericRepository<REACT_CEN_payment_matrices> matricesRepository)
         {
             _instruccionesRepository = instruccionesRepository;
             _mapper = mapper;
@@ -58,6 +59,7 @@ namespace TrigonosEnergyWebAPI.Controllers
             _context = context;
             _participantesRepository = participantesRepository;
             _factClRepository = factClRepository;
+            _logFacturacionRepository = logFacturacionRepository;
         }
         static TimeZoneInfo zonaHorariaChile = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
         DateTime fechaHoraActualChile = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local, zonaHorariaChile);
@@ -340,7 +342,6 @@ namespace TrigonosEnergyWebAPI.Controllers
                 
                 if(!await _instruccionesDefRepository.UpdateeAsync(bd))
                 {
-<<<<<<< HEAD
 
                     if (!await _historificacionInstruccionesRepository.SaveBD(bdh))
                     {
@@ -357,10 +358,10 @@ namespace TrigonosEnergyWebAPI.Controllers
                             return StatusCode(200);
                         }
                     }
-=======
-                    Console.WriteLine("  erro 1");
-                    return StatusCode(500);
->>>>>>> 8d24d94a07585b55e8b9a5a77a025d32d144c1f4
+
+                    //Console.WriteLine("  erro 1");
+                    //return StatusCode(500);
+
                 }
                 else
                 {
@@ -2099,6 +2100,7 @@ namespace TrigonosEnergyWebAPI.Controllers
         [HttpPost("FacturacionCL")]
         public async Task<ActionResult> FacturacionCL(int id, List<int> ListIdInstrucctions)
        {
+            List<object> facturacionErrores = new List<object>();
             string Response = "";
             string RemoveAccents(string input)
             {
@@ -2176,17 +2178,17 @@ namespace TrigonosEnergyWebAPI.Controllers
                 //EMISOR
                 item.Add("rutacreedor", rutAcreedor);
                 item.Add("rznSoc", RemoveAccents(nombreComercialAcreedor));
-                item.Add("GiroEmis", RemoveAccents(giroAcreedor));
+                item.Add("GiroEmis", RemoveAccents(giroAcreedor).Substring(0, 23));
                 item.Add("CorreoEmisor", RemoveAccents("hvits@pelicanosolar.cl"));
                 item.Add("Acteco", 351019);
-                item.Add("dirOrigen", RemoveAccents(direccionComercialAcreedor));
+                item.Add("dirOrigen", RemoveAccents(direccionComercialAcreedor).Substring(0, 23));
                 item.Add("CmunaOrigen", "Las Condes");
                 item.Add("CiudadOrigen", "Santiago");
                 //RECEPTOR
                 item.Add("rutDebtor", rutDeudor);
                 item.Add("RznSocRecep", RemoveAccents(nombreComercialDeudor));
-                item.Add("GiroRecep", RemoveAccents(giroDeudor));
-                item.Add("dirDestino", RemoveAccents(direccionComercialDeudor));
+                item.Add("GiroRecep", RemoveAccents(giroDeudor).Substring(0, 23));
+                item.Add("dirDestino", RemoveAccents(direccionComercialDeudor).Substring(0, 23));
                 item.Add("CmunaDestino", "Santiago");
                 item.Add("ciudadreceptor", "Santiago");
                 //TOTALES
@@ -2199,7 +2201,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 item.Add("NroLinDet", 1);
                 item.Add("tipoCodigo", "INT1");
                 item.Add("VlrCodigo", 0);
-                item.Add("NmbItem", RemoveAccents(concepto));
+                item.Add("NmbItem", RemoveAccents(concepto).Substring(0, 23));
                 item.Add("QtyItem", "1");
                 item.Add("UnmdItem", "UN");
                 item.Add("PrcItem", montoNeto);
@@ -2209,7 +2211,7 @@ namespace TrigonosEnergyWebAPI.Controllers
                 item.Add("TpoDocRef", 802);
                 item.Add("FolioReferencia", codigoReferencia);
                 item.Add("FechaRef", fechaCarta);
-                item.Add("RazonDIF", RemoveAccents(concepto));
+                item.Add("RazonDIF", RemoveAccents(concepto).Substring(0, 23));
 
 
                 XmlDocument doc = new XmlDocument();
@@ -2455,90 +2457,54 @@ namespace TrigonosEnergyWebAPI.Controllers
 
 
                 doc.Save(filePath);
-
                 byte[] arrayDeBytes = System.IO.File.ReadAllBytes(filePath);
-
                 string codificado = Convert.ToBase64String(arrayDeBytes);
-
                 //Enviar al Facturador.CL
-
                 wsplanoSoapClient client = new wsplanoSoapClient(EndpointConfiguration.wsplanoSoap12);
                 logininfo login = new logininfo();
-
-
                 login.Usuario = UsuarioTest; //"UEVMSUNBTk8=";
-
                 login.Rut = RutTest; //"NzYzMzc1OTktNA=="; //Testing: MS05 //Produccion:NzYzMzc1OTktNA==
-
                 login.Clave = ClaveTest;//"ODRjZTEyNDRhMA=="; //Testing: cGxhbm85MTA5OA== // Produccion:ODRjZTEyNDRhMA==
-
                 login.Puerto = "MQ==";
-
                 login.IncluyeLink = "";
-
                 ProcesarRequest request = new ProcesarRequest();
-
                 request.login = login;
-
                 request.file = codificado;
-
                 request.formato = 2;
-
-
                 ProcesarResponse response = await client.ProcesarAsync(request);
-
                 try
                 {
                     var resultado = response.ProcesarResult;
                     XElement xdocumento = XElement.Parse(resultado);
                     var elementsResult = xdocumento.Elements("Resultado");
                     var responseOK = elementsResult.ToList()[0].Value;
-
                     if (responseOK == "True")
-
                     {
-
                         var s1 = xdocumento.Elements("Detalle").Elements("Documento").Elements("Folio");
-
-
-
                         var list = from items in xdocumento.Elements("Detalle").Elements("Documento")
-
                                    select new
 
                                    {
-
                                        Folioone = items.Value
-
-
-
                                    };
-
-
-
                         var FolioFInal = s1.ToList()[0].Value;
-
-
                         var bdInstruccion = await _instruccionesDefRepository.GetByClienteIDAsync(i);
-
                         bdInstruccion.Estado_emision = 2;
                         bdInstruccion.Folio = int.Parse(FolioFInal.Substring(2,7));
-                        bdInstruccion.Fecha_emision = DateTime.Now.Date
-                            ;
+                        bdInstruccion.Fecha_emision = DateTime.Now.Date;
                         if (!await _instruccionesDefRepository.UpdateeAsync(bdInstruccion))
                         {
                             return StatusCode(500);
                         }
-                        ////Guardado en BD
-
-                        //string query = "UPDATE dbo.BTAM_instrucciones_acreedor set folio=" + FolioFInal + ", emission_dt =" + "'" + Convert.ToDateTime(item.fechaEmision).ToString("dd-MM-yyyy") + "'" + ",status_billed=" + 2 + " where id_instruccion = " + id + "";
-
-
-
-                        //db.ExecuteCommand(query);
-
-
-
+                        //var bdInstruccion = await _logFacturacionRepository.GetByClienteIDAsync(i);
+                        var BDD = _context.Set<REACT_TRGNS_LogsFacturacioncl>()
+                        .Where(e => e.idAcreedor == id && e.idInstruccion == i);
+                        bool tieneDatos = BDD.Any();
+                        if (tieneDatos)
+                        {
+                            _context.Remove(BDD);
+                            _context.SaveChanges();
+                        }                      
                         Response = "Exito";
 
                     }
@@ -2546,35 +2512,45 @@ namespace TrigonosEnergyWebAPI.Controllers
                     else
 
                     {
-
                         elementsResult = xdocumento.Elements("Detalle").Elements("Documento").Elements("Error");
+                        var responseError = elementsResult.ToList()[0].Value/* + " " + "Cliente: " + lista[0].RznSocRecep*/;
+                        facturacionErrores.Add(new { idInstruccion = i, idAcreedor = id,error= RemoveAccents(responseError) });
+                        var BDD = _context.Set<REACT_TRGNS_LogsFacturacioncl>()
+                        .Where(e => e.idAcreedor == id && e.idInstruccion == i);
+                        bool tieneDatos = BDD.Any();
+                        if (!tieneDatos)
+                        {
+                            var newlogs = new REACT_TRGNS_LogsFacturacioncl
+                            {
+                                idInstruccion = i,
+                                idAcreedor = id,
+                                error = responseError
+                            };
+                            if (!await _logFacturacionRepository.SaveBD(newlogs))
+                            {
 
-                        var responseError = elementsResult.ToList()[0].Value + " " + "Cliente: "/* + lista[0].RznSocRecep*/;
-
-                        //return Response = responseError;
-                        throw new Exception(responseError);
-
+                                return BadRequest(new CodeErrorResponse(500, "No existe el usuario y/o el proyecto"));
+                            }
+                        }
+                       
                     }
                 }
-
                 catch (Exception ex)
                 {
                     throw new Exception("ERROR" + response.ToString());
-                    //Response = "ERROR" + response.ToString();
-
-                    //throw;
                 }
 
-             
-
-
-
-
-
-
             }
-            return Ok();
-
+            if (facturacionErrores.Count > 0)
+            
+            {
+                string json = JsonSerializer.Serialize(facturacionErrores, new JsonSerializerOptions { WriteIndented = false, PropertyNamingPolicy = null });
+                return NotFound(new CodeErrorResponse(400, RemoveAccents(json)));
+            }
+            else
+            {
+                return Ok();
+            }           
         }
         //[HttpPost("Agregar")]
         //public async Task<IActionResult> AgregarExcel([FromBody] agregarExcelDto agregarExcel)
@@ -2609,6 +2585,40 @@ namespace TrigonosEnergyWebAPI.Controllers
                 return Ok();
             }
         }
+        //[HttpPost("Agregar")]
+        //public async Task<IActionResult> AgregarExcel([FromBody] agregarExcelDto agregarExcel)
+        //{
 
+        //}
+        [HttpGet("LogsFacturacioncl")]
+        public async Task<ActionResult> LogsFacturacioncl(int id, [FromQuery] LogsFacturacionParams parametros)
+        {
+            var spec = new LogsFacturacionclRelationSpecification(id, parametros);
+            var producto = await _logFacturacionRepository.GetAllInstrucctionByIdAsync(spec);
+            var specCount = new LogsFacturacionclForCountingSpecification(id, parametros);
+            var totalinstrucciones = await _logFacturacionRepository.CountAsync(specCount);
+            var rounded = Math.Ceiling(Convert.ToDecimal(totalinstrucciones / parametros.PageSize));
+            var totalPages = Convert.ToInt32(rounded);
+
+            var data = _mapper.Map<IReadOnlyList<REACT_TRGNS_LogsFacturacioncl>, IReadOnlyList<LogsFacturacionclDto>>(producto);
+            //return Ok(
+            //   data
+            //    );
+
+            return Ok(
+                new Pagination<LogsFacturacionclDto>
+                {
+                    count = totalinstrucciones,
+                    Data = data,
+                    PageCount = totalPages,
+                    PageIndex = parametros.PageIndex,
+                    PageSize = parametros.PageSize,
+
+
+
+                    //    }
+                    //    );
+                });
+        }
     }
 }
